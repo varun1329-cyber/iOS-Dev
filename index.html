@@ -15,7 +15,10 @@
     1. Header: Full-width background, code badge, identity, and Get in Touch.
     2. Intro / Hero: Enlarged non-interactive circular portrait using Varun 1.jpg,
        original animated green status dot, bio, and My Journey button.
-    3. My Toolbox: Compact tool groups, nine clickable icons, and principles.
+    3. My Toolbox: Xcode and Swift/SwiftUI under Build; ten AI/workflow tools
+       sorted by Varun's stated usage. Cursor, Windsurf, and Codex have #1–#3
+       badges. A helper explains the personal usage order below all tools.
+       All twelve tools open the shared details popup. Principles stay together.
     4. My Work: Horizontal, scroll-snap project carousel for EasyList and TripMate.
        Includes clickable position indicators, swipe/trackpad scrolling, and
        keyboard navigation. Project cards have no app-exploration links.
@@ -38,15 +41,15 @@
 
     CONTENT & ASSETS:
     -----------------
-    - Toolbox content originated from VarunPatel.dev.
+    - Toolbox content originated from VarunPatel.dev; usage order supplied by Varun.
+    - Rankings reflect personal usage, not a general recommendation or score.
     - Personal story supplied and approved by Varun Patel.
     - Tool journey reflections remain editable draft copy.
     - My Work content follows the supplied EasyList / TripMate screenshot.
     - App artwork is recreated inline SVG, not external app icon files.
     - Portrait: Varun 1.jpg beside index.html; 176px mobile / 208px desktop.
-      Top-biased crop (center 5%) places the photo lower within the frame.
-      Dragging, selection, and the normal portrait context menu are disabled.
-      These UI restrictions do not prevent downloading a publicly served file.
+      Top-biased crop uses center 5%. Dragging, selection, and the normal
+      portrait context menu are disabled; this is not download protection.
     - Tailwind and toolbox brand icons require internet access.
     ============================================================================
     -->
@@ -105,7 +108,7 @@
             touch-action: manipulation;
         }
 
-        /* Larger, non-interactive portrait; lower crop offset favors the head. */
+        /* Approved larger, non-interactive portrait and top-biased crop. */
         .portrait-frame {
             width: 176px;
             height: 176px;
@@ -260,7 +263,7 @@
             scroll-margin-top: 6rem;
         }
 
-        /* Compact tool buttons with brand icons. */
+        /* Tools retain a compact grid; DOM order matches the personal usage order. */
         .tool-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
@@ -322,6 +325,24 @@
             width: 1.25rem;
             height: 1.25rem;
             object-fit: contain;
+        }
+
+        /* Small, numbered top-three markers without introducing another accent. */
+        .usage-badge {
+            margin-left: auto;
+            flex-shrink: 0;
+            padding: 0.1rem 0.35rem;
+            border-radius: 999px;
+            background: rgba(0, 113, 227, 0.1);
+            color: #005bb5;
+            font-size: 0.5625rem;
+            font-weight: 700;
+            line-height: 1rem;
+        }
+
+        .dark .usage-badge {
+            background: rgba(0, 113, 227, 0.22);
+            color: #8ec5ff;
         }
 
         /* Horizontal project track: native touch/trackpad scrolling and snapping. */
@@ -471,32 +492,15 @@
                 class="group flex items-center space-x-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-lg p-1 transition-transform active:scale-95"
             >
                 <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-apple-blue flex items-center justify-center text-white shadow-md shadow-apple-blue/20 group-hover:scale-105 transition-transform duration-300">
-                    <svg
-                        aria-hidden="true"
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2.5"
-                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                        />
+                    <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                     </svg>
                 </div>
-
                 <div class="flex flex-col">
-                    <span class="text-base sm:text-lg font-bold tracking-tight group-hover:text-apple-blue transition-colors leading-tight">
-                        Varun Patel
-                    </span>
-                    <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">
-                        Independent iOS Developer
-                    </span>
+                    <span class="text-base sm:text-lg font-bold tracking-tight group-hover:text-apple-blue transition-colors leading-tight">Varun Patel</span>
+                    <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">Independent iOS Developer</span>
                 </div>
             </a>
-
             <div class="flex items-center shrink-0">
                 <button
                     id="openEmailModalBtn"
@@ -514,14 +518,10 @@
     <!-- MAIN: Intro, My Toolbox, and My Work in normal document flow. -->
     <main class="flex-grow">
 
-        <!-- INTRO / HERO: Enlarged non-interactive portrait; bio and green dot retained. -->
-        <section
-            aria-labelledby="introTitle"
-            class="hero-section flex items-center justify-center px-4 sm:px-6 py-12 sm:py-20"
-        >
+        <!-- INTRO / HERO: Approved non-interactive portrait, bio, and green dot. -->
+        <section aria-labelledby="introTitle" class="hero-section flex items-center justify-center px-4 sm:px-6 py-12 sm:py-20">
             <div class="max-w-2xl w-full mx-auto text-center flex flex-col items-center">
                 <div class="relative mb-6 sm:mb-8">
-
                     <!-- No link, focus target, hover zoom, or image action. -->
                     <div
                         class="portrait-frame rounded-full ring-4 ring-black/5 dark:ring-white/10 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-neutral-800 dark:to-neutral-900 p-1 shadow-xl flex items-center justify-center overflow-hidden"
@@ -539,7 +539,6 @@
                             fetchpriority="high"
                         >
                     </div>
-
                     <!-- Original green animated dot and positioning unchanged. -->
                     <div
                         class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 flex items-center justify-center bg-white dark:bg-black rounded-full p-1 shadow-md"
@@ -549,13 +548,9 @@
                     </div>
                 </div>
 
-                <h1
-                    id="introTitle"
-                    class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-3 sm:mb-4"
-                >
+                <h1 id="introTitle" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-3 sm:mb-4">
                     Hi, I'm <span class="text-apple-blue">Varun Patel</span>.
                 </h1>
-
                 <p class="text-base sm:text-lg lg:text-xl text-apple-subtextLight dark:text-apple-subtextDark max-w-xl leading-relaxed font-normal">
                     Independent iOS developer passionate about crafting clean,
                     intuitive, and performant native mobile applications using modern
@@ -564,7 +559,6 @@
                     <span class="text-apple-textLight dark:text-apple-textDark font-medium">Xcode</span>
                     tools.
                 </p>
-
                 <button
                     id="openJourneyBtn"
                     type="button"
@@ -580,7 +574,7 @@
             </div>
         </section>
 
-        <!-- MY TOOLBOX: Shared tool container and three-principle container retained. -->
+        <!-- MY TOOLBOX: Build stays separate; AI/workflow tools use personal usage order. -->
         <section
             id="toolbox"
             aria-labelledby="toolboxTitle"
@@ -588,20 +582,17 @@
         >
             <div class="max-w-5xl mx-auto">
                 <div class="mb-5">
-                    <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">
-                        My Toolbox
-                    </p>
+                    <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">My Toolbox</p>
                     <h2 id="toolboxTitle" class="text-xl sm:text-2xl font-bold tracking-tight">
                         Human ideas/vision.
                         <span class="text-apple-blue">AI-assisted execution.</span>
                     </h2>
                     <p class="mt-2 text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">
-                        Using AI as an intelligent learning partner to learn
-                        faster and work smarter.
+                        Using AI as an intelligent learning partner to learn faster and work smarter.
                     </p>
                 </div>
 
-                <!-- All nine tool buttons open the same reusable tool-details window. -->
+                <!-- All twelve tools open the same reusable tool-details window. -->
                 <div class="rounded-2xl bg-apple-cardLight dark:bg-apple-cardDark border border-black/5 dark:border-white/10 p-4 sm:p-5 shadow-sm">
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-5">
                         <div>
@@ -610,68 +601,106 @@
                                 <li>
                                     <button type="button" data-tool="xcode" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo"><img src="https://api.iconify.design/logos/xcode.svg" alt="" width="20" height="20" loading="lazy"></span>
-                                        <span>Xcode</span>
+                                        <span class="min-w-0">Xcode</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" data-tool="swift" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo"><img src="https://api.iconify.design/logos/swift.svg" alt="" width="20" height="20" loading="lazy"></span>
-                                        <span>Swift / SwiftUI</span>
+                                        <span class="min-w-0">Swift / SwiftUI</span>
                                     </button>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="border-t border-black/5 dark:border-white/10 pt-4 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-5 min-w-0">
-                            <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">Think, learn &amp; iterate</h3>
-                            <ul class="tool-grid" aria-label="AI-assisted tools">
+                            <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">
+                                Think, learn &amp; iterate
+                            </h3>
+
+                            <ol
+                                class="tool-grid"
+                                aria-label="AI and workflow tools, most to least used"
+                                aria-describedby="toolUsageHelp"
+                            >
                                 <li>
-                                    <button type="button" data-tool="chatgpt" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/openai-icon.svg" alt="" width="20" height="20" loading="lazy"></span>
-                                        <span>ChatGPT</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" data-tool="perplexity" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/perplexity.svg?color=%2320808d" alt="" width="20" height="20" loading="lazy"></span>
-                                        <span>Perplexity</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" data-tool="claude" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/claude.svg?color=%23d97757" alt="" width="20" height="20" loading="lazy"></span>
-                                        <span>Claude</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" data-tool="copilot" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/githubcopilot.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span>
-                                        <span>GitHub Copilot</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" data-tool="gemini" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/google-gemini.svg" alt="" width="20" height="20" loading="lazy"></span>
-                                        <span>Google Gemini</span>
+                                    <button type="button" data-tool="cursor" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/cursor.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Cursor</span>
+                                        <span class="usage-badge" aria-label="Usage rank 1, top three tools" title="Top 3 — usage rank 1">#1</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" data-tool="windsurf" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/windsurf.svg?color=%23007880" alt="" width="20" height="20" loading="lazy"></span>
-                                        <span>Windsurf</span>
+                                        <span class="min-w-0">Windsurf</span>
+                                        <span class="usage-badge" aria-label="Usage rank 2, top three tools" title="Top 3 — usage rank 2">#2</span>
                                     </button>
                                 </li>
                                 <li>
-                                    <button type="button" data-tool="cursor" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/cursor.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span>
-                                        <span>Cursor</span>
+                                    <button type="button" data-tool="codex" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/openai-icon.svg" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Codex</span>
+                                        <span class="usage-badge" aria-label="Usage rank 3, top three tools" title="Top 3 — usage rank 3">#3</span>
                                     </button>
                                 </li>
-                            </ul>
+                                <li>
+                                    <button type="button" data-tool="perplexity" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/perplexity.svg?color=%2320808d" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Perplexity.ai</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-tool="claude" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/claude.svg?color=%23d97757" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Claude.ai</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-tool="chatgpt" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/openai-icon.svg" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">ChatGPT</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-tool="mscopilot" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/microsoft-copilot.svg" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">MS Copilot</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-tool="gemini" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/google-gemini.svg" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Google Gemini</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-tool="copilot" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/githubcopilot.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">GitHub Copilot</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-tool="github" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/github.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">GitHub</span>
+                                    </button>
+                                </li>
+                            </ol>
                         </div>
                     </div>
+
+                    <!-- Usage note follows every tool and explains the three badges. -->
+                    <p
+                        id="toolUsageHelp"
+                        class="mt-4 border-t border-black/5 dark:border-white/10 pt-3 text-[11px] leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"
+                    >
+                        <span class="font-semibold text-apple-blue">#1–#3: My top three.</span>
+                        AI and workflow tools are sorted from most to least used in my coding journey.
+                    </p>
                 </div>
 
+                <!-- Existing three principles retained in a single shared container. -->
                 <div class="mt-3 rounded-2xl bg-apple-cardLight dark:bg-apple-cardDark border border-black/5 dark:border-white/10 shadow-sm grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-black/5 dark:divide-white/10">
                     <article class="p-4 sm:p-5">
                         <h3 class="text-sm font-semibold tracking-tight"><span aria-hidden="true" class="text-apple-blue mr-2">01</span>Learn by building</h3>
@@ -690,11 +719,7 @@
         </section>
 
         <!-- MY WORK: Horizontal project carousel with a visible bottom position indicator. -->
-        <section
-            id="work"
-            aria-labelledby="workTitle"
-            class="border-t border-black/5 dark:border-white/10 px-4 sm:px-6 py-8 sm:py-10"
-        >
+        <section id="work" aria-labelledby="workTitle" class="border-t border-black/5 dark:border-white/10 px-4 sm:px-6 py-8 sm:py-10">
             <div class="max-w-5xl mx-auto">
                 <div class="max-w-xl mb-5 sm:mb-6">
                     <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">My Work</p>
@@ -702,17 +727,12 @@
                         Small steps.<br><span class="text-apple-blue">Real Apps.</span>
                     </h2>
                     <p class="mt-3 text-sm sm:text-base text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">
-                        Every project is a chance to learn, solve a practical
-                        problem, and make the next version a little better.
+                        Every project is a chance to learn, solve a practical problem,
+                        and make the next version a little better.
                     </p>
                 </div>
 
-                <div
-                    class="max-w-3xl mx-auto"
-                    role="region"
-                    aria-roledescription="carousel"
-                    aria-label="My Work projects"
-                >
+                <div class="max-w-3xl mx-auto" role="region" aria-roledescription="carousel" aria-label="My Work projects">
                     <!-- Focus the track to navigate with Left/Right/Home/End keys. -->
                     <div
                         id="projectCarousel"
@@ -788,28 +808,13 @@
 
                     <!-- Indicators are navigation controls, not app-exploration links. -->
                     <div class="mt-3 flex items-center justify-center gap-1" role="group" aria-label="Choose a project">
-                        <button
-                            type="button"
-                            class="project-dot"
-                            data-project-index="0"
-                            aria-label="Show EasyList, project 1 of 2"
-                            aria-controls="projectCarousel"
-                            aria-current="true"
-                        ><span aria-hidden="true"></span></button>
-                        <button
-                            type="button"
-                            class="project-dot"
-                            data-project-index="1"
-                            aria-label="Show TripMate, project 2 of 2"
-                            aria-controls="projectCarousel"
-                        ><span aria-hidden="true"></span></button>
+                        <button type="button" class="project-dot" data-project-index="0" aria-label="Show EasyList, project 1 of 2" aria-controls="projectCarousel" aria-current="true"><span aria-hidden="true"></span></button>
+                        <button type="button" class="project-dot" data-project-index="1" aria-label="Show TripMate, project 2 of 2" aria-controls="projectCarousel"><span aria-hidden="true"></span></button>
                     </div>
                     <p id="projectScrollHint" class="text-center text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
                         Swipe or scroll sideways to explore · Click a dot to switch projects
                     </p>
-                    <p id="projectPosition" class="sr-only" aria-live="polite" aria-atomic="true">
-                        Project 1 of 2: EasyList
-                    </p>
+                    <p id="projectPosition" class="sr-only" aria-live="polite" aria-atomic="true">Project 1 of 2: EasyList</p>
                 </div>
             </div>
         </section>
@@ -936,7 +941,6 @@
                         <h4 class="mt-1 text-base font-semibold tracking-tight">Continuing to grow as a developer while balancing family, career, and new ideas.</h4>
                     </li>
                 </ol>
-
                 <blockquote class="mt-8 rounded-2xl bg-apple-bgLight dark:bg-black/25 p-5 text-sm sm:text-base font-medium leading-relaxed">
                     You don’t need to know everything to begin.
                     You just need to take the first step.
@@ -972,12 +976,8 @@
     <!-- FOOTER: Approved identity line and technology credit. -->
     <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 text-center">
-            <p class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">
-                @ 2026 - Varun Patel - Independent iOS Developer
-            </p>
-            <p class="mt-2 text-[11px] sm:text-xs text-apple-subtextLight dark:text-apple-subtextDark">
-                Built with HTML, Tailwind CSS &amp; JavaScript.
-            </p>
+            <p class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">@ 2026 - Varun Patel - Independent iOS Developer</p>
+            <p class="mt-2 text-[11px] sm:text-xs text-apple-subtextLight dark:text-apple-subtextDark">Built with HTML, Tailwind CSS &amp; JavaScript.</p>
         </div>
     </footer>
 
@@ -1009,7 +1009,6 @@
 
                 savedOverflow = document.body.style.overflow;
                 returnFocus.set(dialog, trigger);
-
                 dialog.showModal();
                 document.body.style.overflow = 'hidden';
 
@@ -1067,8 +1066,9 @@
                 });
             });
 
-            // 3. Editable tool descriptions and first-person journey reflections.
-            // Personal reflections remain draft copy, not verified usage histories.
+            // 3. Tool descriptions and editable personal reflections.
+            // Usage order and top-three badges were supplied by Varun.
+            // Journey reflections remain draft copy, not verified usage histories.
             const toolDetails = {
                 xcode: {
                     name: "Xcode",
@@ -1082,35 +1082,11 @@
                     about: "Swift is Apple’s programming language. SwiftUI is a framework for building app interfaces by describing their layout and behavior in Swift.",
                     journey: "Swift gives me the language to express an idea, and SwiftUI helps me turn it into a screen. Building one view at a time makes a large app feel like a series of smaller, achievable steps."
                 },
-                chatgpt: {
-                    name: "ChatGPT",
+                cursor: {
+                    name: "Cursor",
                     category: "Think, learn & iterate",
-                    about: "A conversational AI assistant that can explain concepts, discuss ideas, and help work through code.",
-                    journey: "ChatGPT gives me a place to ask beginner questions without hesitation. Breaking unfamiliar concepts into smaller explanations helps me focus on understanding the code, not just copying it."
-                },
-                perplexity: {
-                    name: "Perplexity",
-                    category: "Think, learn & iterate",
-                    about: "An AI-powered research and answer tool that helps explore questions with links to supporting sources.",
-                    journey: "Perplexity helps me connect a coding question with information I can investigate further. Following sources and comparing explanations supports my curiosity and encourages me to check what I learn."
-                },
-                claude: {
-                    name: "Claude",
-                    category: "Think, learn & iterate",
-                    about: "An AI assistant that can discuss ideas, explain code, and help with writing and coding tasks.",
-                    journey: "Claude offers another perspective when I am trying to understand a piece of code. Talking through structure and possible changes helps me think more carefully about how the parts fit together."
-                },
-                copilot: {
-                    name: "GitHub Copilot",
-                    category: "Think, learn & iterate",
-                    about: "An AI coding assistant that works with development tools to suggest code and help explain, edit, and review it.",
-                    journey: "Copilot brings suggestions closer to the code I am working on. Reviewing those suggestions gives me a chance to notice patterns and decide what fits my app rather than accepting every answer automatically."
-                },
-                gemini: {
-                    name: "Google Gemini",
-                    category: "Think, learn & iterate",
-                    about: "Google’s AI assistant, which can help explore ideas, answer questions, and work through coding problems.",
-                    journey: "Gemini gives me another way to explore an idea or ask for an explanation. Seeing a problem approached differently helps me ask better questions and stay open to alternatives."
+                    about: "An AI-powered code editor that can use project context to help explain code, edit files, and work through bugs.",
+                    journey: "Cursor brings the conversation into the project itself. Asking questions alongside the code helps me move between an idea, a proposed change, and a result I can review and test."
                 },
                 windsurf: {
                     name: "Windsurf",
@@ -1118,11 +1094,53 @@
                     about: "An AI-assisted code editor with tools for understanding a project, suggesting code, and making changes across files.",
                     journey: "Windsurf helps me think beyond a single snippet and consider the wider project. Working with changes in context encourages me to connect individual edits with the feature I am trying to build."
                 },
-                cursor: {
-                    name: "Cursor",
+                codex: {
+                    name: "Codex",
                     category: "Think, learn & iterate",
-                    about: "An AI-powered code editor that can use project context to help explain code, edit files, and work through bugs.",
-                    journey: "Cursor brings the conversation into the project itself. Asking questions alongside the code helps me move between an idea, a proposed change, and a result I can review and test."
+                    about: "OpenAI’s coding agent for working with codebases, building features, fixing bugs, and reviewing changes.",
+                    journey: "Codex helps me turn a coding task into changes I can inspect and test. Reviewing the approach and the result gives me another opportunity to understand how my app fits together."
+                },
+                perplexity: {
+                    name: "Perplexity.ai",
+                    category: "Think, learn & iterate",
+                    about: "An AI-powered research and answer tool that helps explore questions with links to supporting sources.",
+                    journey: "Perplexity helps me connect a coding question with information I can investigate further. Following sources and comparing explanations supports my curiosity and encourages me to check what I learn."
+                },
+                claude: {
+                    name: "Claude.ai",
+                    category: "Think, learn & iterate",
+                    about: "An AI assistant that can discuss ideas, explain code, and help with writing and coding tasks.",
+                    journey: "Claude offers another perspective when I am trying to understand a piece of code. Talking through structure and possible changes helps me think more carefully about how the parts fit together."
+                },
+                chatgpt: {
+                    name: "ChatGPT",
+                    category: "Think, learn & iterate",
+                    about: "A conversational AI assistant that can explain concepts, discuss ideas, and help work through code.",
+                    journey: "ChatGPT gives me a place to ask beginner questions without hesitation. Breaking unfamiliar concepts into smaller explanations helps me focus on understanding the code, not just copying it."
+                },
+                mscopilot: {
+                    name: "MS Copilot",
+                    category: "Think, learn & iterate",
+                    about: "Microsoft’s AI assistant for asking questions, brainstorming, writing, and exploring solutions. It is separate from GitHub Copilot.",
+                    journey: "MS Copilot gives me another place to explore an idea or clarify a question. Comparing perspectives helps me think through a problem before deciding what to try in my project."
+                },
+                gemini: {
+                    name: "Google Gemini",
+                    category: "Think, learn & iterate",
+                    about: "Google’s AI assistant, which can help explore ideas, answer questions, and work through coding problems.",
+                    journey: "Gemini gives me another way to explore an idea or ask for an explanation. Seeing a problem approached differently helps me ask better questions and stay open to alternatives."
+                },
+                copilot: {
+                    name: "GitHub Copilot",
+                    category: "Think, learn & iterate",
+                    about: "An AI coding assistant that works with development tools to suggest code and help explain, edit, and review it.",
+                    journey: "Copilot brings suggestions closer to the code I am working on. Reviewing those suggestions gives me a chance to notice patterns and decide what fits my app rather than accepting every answer automatically."
+                },
+                github: {
+                    name: "GitHub",
+                    category: "Think, learn & iterate",
+                    about: "A platform for hosting code repositories, tracking version history, reviewing changes, and collaborating on software.",
+                    journey: "GitHub gives my projects a home and a record of how they evolve. Keeping track of changes helps me revisit earlier decisions and see my progress one version at a time."
                 }
             };
 
