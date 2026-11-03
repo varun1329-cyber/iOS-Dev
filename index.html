@@ -22,8 +22,8 @@
     4. My Work: Horizontal, scroll-snap project carousel for EasyList and TripMate.
        Includes clickable position indicators, swipe/trackpad scrolling, and
        keyboard navigation. Project cards have no app-exploration links.
-    5. Tool Details Dialog: Shared popup with tool descriptions and editable
-       first-person journey reflections.
+    5. Tool Details Dialog: Accurate tool roles with Xcode-focused, editable
+       personal reflections on research, learning, understanding, and coding.
     6. My Journey Dialog: Approved story, highlighted question, and timeline.
     7. Email Dialog: Confirmation before mailto:varun1329@icloud.com.
     8. Footer: Identity line and HTML / Tailwind CSS / JavaScript credit.
@@ -44,7 +44,11 @@
     - Toolbox content originated from VarunPatel.dev; usage order supplied by Varun.
     - Rankings reflect personal usage, not a general recommendation or score.
     - Personal story supplied and approved by Varun Patel.
-    - Tool journey reflections remain editable draft copy.
+    - Tool roles checked against official product information. Journey text is
+      tailored draft copy, not independently verified tool-by-tool usage history.
+    - Chat assistants are not assumed to access local Xcode files automatically.
+    - Claude.ai and Claude Code, MS Copilot and GitHub Copilot, and Git and GitHub
+      are kept distinct. Xcode remains the iOS build/test environment.
     - My Work content follows the supplied EasyList / TripMate screenshot.
     - App artwork is recreated inline SVG, not external app icon files.
     - Portrait: Varun 1.jpg beside index.html; 176px mobile / 208px desktop.
@@ -487,10 +491,7 @@
     <!-- HEADER: Existing full-width branding and email contact action. -->
     <header class="sticky top-0 z-40 w-full bg-apple-bgLight dark:bg-apple-bgDark border-b border-black/5 dark:border-white/10 transition-colors duration-300">
         <div class="w-full px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
-            <a
-                href="#"
-                class="group flex items-center space-x-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-lg p-1 transition-transform active:scale-95"
-            >
+            <a href="#" class="group flex items-center space-x-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-lg p-1 transition-transform active:scale-95">
                 <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-apple-blue flex items-center justify-center text-white shadow-md shadow-apple-blue/20 group-hover:scale-105 transition-transform duration-300">
                     <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
@@ -502,13 +503,7 @@
                 </div>
             </a>
             <div class="flex items-center shrink-0">
-                <button
-                    id="openEmailModalBtn"
-                    type="button"
-                    aria-haspopup="dialog"
-                    aria-controls="emailModal"
-                    class="inline-flex items-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm hover:shadow"
-                >
+                <button id="openEmailModalBtn" type="button" aria-haspopup="dialog" aria-controls="emailModal" class="inline-flex items-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm hover:shadow">
                     Get in Touch
                 </button>
             </div>
@@ -540,10 +535,7 @@
                         >
                     </div>
                     <!-- Original green animated dot and positioning unchanged. -->
-                    <div
-                        class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 flex items-center justify-center bg-white dark:bg-black rounded-full p-1 shadow-md"
-                        title="Developer is Online"
-                    >
+                    <div class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 flex items-center justify-center bg-white dark:bg-black rounded-full p-1 shadow-md" title="Developer is Online">
                         <span class="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-apple-green rounded-full status-dot-pulse block"></span>
                     </div>
                 </div>
@@ -551,6 +543,7 @@
                 <h1 id="introTitle" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-3 sm:mb-4">
                     Hi, I'm <span class="text-apple-blue">Varun Patel</span>.
                 </h1>
+
                 <p class="text-base sm:text-lg lg:text-xl text-apple-subtextLight dark:text-apple-subtextDark max-w-xl leading-relaxed font-normal">
                     Independent iOS developer passionate about crafting clean,
                     intuitive, and performant native mobile applications using modern
@@ -559,13 +552,8 @@
                     <span class="text-apple-textLight dark:text-apple-textDark font-medium">Xcode</span>
                     tools.
                 </p>
-                <button
-                    id="openJourneyBtn"
-                    type="button"
-                    aria-haspopup="dialog"
-                    aria-controls="journeyModal"
-                    class="mt-7 inline-flex items-center gap-2 rounded-full bg-apple-blue px-6 py-3 text-sm font-medium text-white shadow-md shadow-apple-blue/20 hover:bg-blue-600 hover:shadow-lg active:scale-95 transition-all"
-                >
+
+                <button id="openJourneyBtn" type="button" aria-haspopup="dialog" aria-controls="journeyModal" class="mt-7 inline-flex items-center gap-2 rounded-full bg-apple-blue px-6 py-3 text-sm font-medium text-white shadow-md shadow-apple-blue/20 hover:bg-blue-600 hover:shadow-lg active:scale-95 transition-all">
                     <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.5C9 4.5 5.5 4.5 3 6v14c2.5-1.5 6-1.5 9 .5 3-2 6.5-2 9-.5V6c-2.5-1.5-6-1.5-9 .5Zm0 0v14"/>
                     </svg>
@@ -575,11 +563,7 @@
         </section>
 
         <!-- MY TOOLBOX: Build stays separate; AI/workflow tools use personal usage order. -->
-        <section
-            id="toolbox"
-            aria-labelledby="toolboxTitle"
-            class="border-t border-black/5 dark:border-white/10 px-4 sm:px-6 py-8 sm:py-10"
-        >
+        <section id="toolbox" aria-labelledby="toolboxTitle" class="border-t border-black/5 dark:border-white/10 px-4 sm:px-6 py-8 sm:py-10">
             <div class="max-w-5xl mx-auto">
                 <div class="mb-5">
                     <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">My Toolbox</p>
@@ -614,15 +598,9 @@
                         </div>
 
                         <div class="border-t border-black/5 dark:border-white/10 pt-4 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-5 min-w-0">
-                            <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">
-                                Think, learn &amp; iterate
-                            </h3>
+                            <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">Think, learn &amp; iterate</h3>
 
-                            <ol
-                                class="tool-grid"
-                                aria-label="AI and workflow tools, most to least used"
-                                aria-describedby="toolUsageHelp"
-                            >
+                            <ol class="tool-grid" aria-label="AI and workflow tools, most to least used" aria-describedby="toolUsageHelp">
                                 <li>
                                     <button type="button" data-tool="cursor" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/cursor.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span>
@@ -691,10 +669,7 @@
                     </div>
 
                     <!-- Usage note follows every tool and explains the three badges. -->
-                    <p
-                        id="toolUsageHelp"
-                        class="mt-4 border-t border-black/5 dark:border-white/10 pt-3 text-[11px] leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"
-                    >
+                    <p id="toolUsageHelp" class="mt-4 border-t border-black/5 dark:border-white/10 pt-3 text-[11px] leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
                         <span class="font-semibold text-apple-blue">#1–#3: My top three.</span>
                         AI and workflow tools are sorted from most to least used in my coding journey.
                     </p>
@@ -734,13 +709,7 @@
 
                 <div class="max-w-3xl mx-auto" role="region" aria-roledescription="carousel" aria-label="My Work projects">
                     <!-- Focus the track to navigate with Left/Right/Home/End keys. -->
-                    <div
-                        id="projectCarousel"
-                        class="project-carousel rounded-3xl"
-                        tabindex="0"
-                        aria-label="Scrollable projects"
-                        aria-describedby="projectScrollHint"
-                    >
+                    <div id="projectCarousel" class="project-carousel rounded-3xl" tabindex="0" aria-label="Scrollable projects" aria-describedby="projectScrollHint">
                         <article
                             id="easyListProject"
                             role="group"
@@ -820,7 +789,7 @@
         </section>
     </main>
 
-    <!-- TOOL DETAILS DIALOG: Shared popup populated with textContent. -->
+    <!-- TOOL DETAILS DIALOG: Same layout; content now focuses on an Xcode workflow. -->
     <dialog id="toolModal" aria-labelledby="toolModalTitle" class="modal-shell w-full sm:w-[480px]">
         <div class="modal-card journey-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
             <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-5 py-4 text-center">
@@ -941,6 +910,7 @@
                         <h4 class="mt-1 text-base font-semibold tracking-tight">Continuing to grow as a developer while balancing family, career, and new ideas.</h4>
                     </li>
                 </ol>
+
                 <blockquote class="mt-8 rounded-2xl bg-apple-bgLight dark:bg-black/25 p-5 text-sm sm:text-base font-medium leading-relaxed">
                     You don’t need to know everything to begin.
                     You just need to take the first step.
@@ -996,7 +966,7 @@
             applySystemTheme(darkThemeMediaQuery);
             darkThemeMediaQuery.addEventListener('change', applySystemTheme);
 
-            // 2. Shared native dialog controls; no changes to approved content.
+            // 2. Shared native dialog controls; no changes to approved behavior.
             const emailModal = document.getElementById('emailModal');
             const journeyModal = document.getElementById('journeyModal');
             const toolModal = document.getElementById('toolModal');
@@ -1009,6 +979,7 @@
 
                 savedOverflow = document.body.style.overflow;
                 returnFocus.set(dialog, trigger);
+
                 dialog.showModal();
                 document.body.style.overflow = 'hidden';
 
@@ -1066,81 +1037,81 @@
                 });
             });
 
-            // 3. Tool descriptions and editable personal reflections.
-            // Usage order and top-three badges were supplied by Varun.
-            // Journey reflections remain draft copy, not verified usage histories.
+            // 3. Accurate tool roles and Xcode-focused editable personal reflections.
+            // Usage ranking is user-supplied; reflections are tailored draft copy.
+            // Do not assume a chat assistant can see local files unless shared or connected.
             const toolDetails = {
                 xcode: {
                     name: "Xcode",
                     category: "Build",
-                    about: "Apple’s development environment for creating, running, testing, and debugging apps for Apple platforms.",
-                    journey: "Xcode is where my ideas become something I can run. Its previews, simulator, and debugging tools give me a place to connect what I am learning with how an app actually behaves."
+                    about: "Apple’s integrated development environment for building apps for Apple platforms. It brings together a code editor, SwiftUI previews, simulators, debugging tools, testing, and app distribution workflows.",
+                    journey: "Xcode is the place where I bring my iOS project together. I connect Swift and SwiftUI code with previews, build the app, investigate errors, and check behavior in the Simulator or on a device. It turns an idea or an AI suggestion into something I can actually verify."
                 },
                 swift: {
                     name: "Swift / SwiftUI",
                     category: "Build",
-                    about: "Swift is Apple’s programming language. SwiftUI is a framework for building app interfaces by describing their layout and behavior in Swift.",
-                    journey: "Swift gives me the language to express an idea, and SwiftUI helps me turn it into a screen. Building one view at a time makes a large app feel like a series of smaller, achievable steps."
+                    about: "Swift is a general-purpose programming language used to build apps for Apple platforms and other software. SwiftUI is Apple’s declarative framework for describing an app’s interface and how it responds to changing data.",
+                    journey: "Swift helps me express my app’s data and logic, while SwiftUI turns that logic into screens and interactions. Learning views, state, bindings, and navigation helps me understand why an interface changes—not just how to make it look right in an Xcode preview."
                 },
                 cursor: {
                     name: "Cursor",
                     category: "Think, learn & iterate",
-                    about: "An AI-powered code editor that can use project context to help explain code, edit files, and work through bugs.",
-                    journey: "Cursor brings the conversation into the project itself. Asking questions alongside the code helps me move between an idea, a proposed change, and a result I can review and test."
+                    about: "An AI-powered code editor and coding agent that can use the project files you make available to explain a codebase, propose or apply edits, and help investigate bugs.",
+                    journey: "As my most-used AI/workflow tool, Cursor helps me connect a question to the relevant Swift files rather than work with isolated snippets. I use that project context to understand relationships, plan features, and review changes before building and testing the result in Xcode."
                 },
                 windsurf: {
                     name: "Windsurf",
                     category: "Think, learn & iterate",
-                    about: "An AI-assisted code editor with tools for understanding a project, suggesting code, and making changes across files.",
-                    journey: "Windsurf helps me think beyond a single snippet and consider the wider project. Working with changes in context encourages me to connect individual edits with the feature I am trying to build."
+                    about: "An AI-assisted coding workspace for exploring project files, discussing implementation plans, and making related code changes with project context.",
+                    journey: "Windsurf is my next most-used tool for working through an app as a connected project. Its coding assistance supports tracing how files fit together and refining an implementation. Xcode remains where I check that the resulting iOS app builds and behaves as intended."
                 },
                 codex: {
                     name: "Codex",
                     category: "Think, learn & iterate",
-                    about: "OpenAI’s coding agent for working with codebases, building features, fixing bugs, and reviewing changes.",
-                    journey: "Codex helps me turn a coding task into changes I can inspect and test. Reviewing the approach and the result gives me another opportunity to understand how my app fits together."
+                    about: "OpenAI’s software-development agent for understanding codebases, writing and reviewing changes, debugging, and running commands or tests in an appropriately configured environment.",
+                    journey: "Codex is one of my top three tools for turning a clearly described coding task into changes I can inspect. Its role in my workflow is to support implementation, explain the approach, and help investigate errors. I still review the changes and validate the iOS result in Xcode."
                 },
                 perplexity: {
                     name: "Perplexity.ai",
                     category: "Think, learn & iterate",
-                    about: "An AI-powered research and answer tool that helps explore questions with links to supporting sources.",
-                    journey: "Perplexity helps me connect a coding question with information I can investigate further. Following sources and comparing explanations supports my curiosity and encourages me to check what I learn."
+                    about: "An AI-powered search and research tool that gathers information from the web and presents answers with links to sources you can inspect and verify.",
+                    journey: "Perplexity supports the research side of my journey: exploring SwiftUI concepts, finding relevant Apple documentation, and investigating unfamiliar error messages. Following the cited sources helps me check API availability and understand an approach before trying it in my Xcode project."
                 },
                 claude: {
                     name: "Claude.ai",
                     category: "Think, learn & iterate",
-                    about: "An AI assistant that can discuss ideas, explain code, and help with writing and coding tasks.",
-                    journey: "Claude offers another perspective when I am trying to understand a piece of code. Talking through structure and possible changes helps me think more carefully about how the parts fit together."
+                    about: "Anthropic’s conversational AI assistant for reasoning, explaining code, and helping write or revise it using the context you provide. Claude.ai chat is distinct from the Claude Code coding agent.",
+                    journey: "Claude helps me reason through Swift code I share, understand state and data flow, and discuss alternatives when a feature feels complicated. I use those explanations to make a more informed edit, then check the suggested solution against my project and Xcode build results."
                 },
                 chatgpt: {
                     name: "ChatGPT",
                     category: "Think, learn & iterate",
-                    about: "A conversational AI assistant that can explain concepts, discuss ideas, and help work through code.",
-                    journey: "ChatGPT gives me a place to ask beginner questions without hesitation. Breaking unfamiliar concepts into smaller explanations helps me focus on understanding the code, not just copying it."
+                    about: "OpenAI’s conversational AI assistant for discussing ideas, learning concepts, and writing, explaining, or debugging code from the context you share. Codex is its dedicated coding-agent offering.",
+                    journey: "ChatGPT helps me turn beginner questions into manageable learning steps. I can share a Swift snippet or an Xcode error, ask for a plain-language explanation, and work through a smaller example before adapting the idea to my app."
                 },
                 mscopilot: {
                     name: "MS Copilot",
                     category: "Think, learn & iterate",
-                    about: "Microsoft’s AI assistant for asking questions, brainstorming, writing, and exploring solutions. It is separate from GitHub Copilot.",
-                    journey: "MS Copilot gives me another place to explore an idea or clarify a question. Comparing perspectives helps me think through a problem before deciding what to try in my project."
+                    about: "Microsoft’s general-purpose AI assistant for questions, research, brainstorming, writing, and coding discussions. It is a separate product from GitHub Copilot.",
+                    journey: "MS Copilot provides another perspective when I am researching a concept, clarifying a requirement, or discussing a possible solution. I bring the relevant code or error into the conversation, then evaluate any proposed changes in Xcode rather than assuming it has access to my local project."
                 },
                 gemini: {
                     name: "Google Gemini",
                     category: "Think, learn & iterate",
-                    about: "Google’s AI assistant, which can help explore ideas, answer questions, and work through coding problems.",
-                    journey: "Gemini gives me another way to explore an idea or ask for an explanation. Seeing a problem approached differently helps me ask better questions and stay open to alternatives."
+                    about: "Google’s AI assistant for reasoning, research, and working with text and code. It can explain examples, propose changes, and help troubleshoot problems using the information you provide.",
+                    journey: "Gemini helps me compare explanations and explore another way to structure a Swift or SwiftUI solution. Sharing the relevant code and expected behavior gives the discussion context; I then check whether the suggestion fits my app and its supported iOS version."
                 },
                 copilot: {
                     name: "GitHub Copilot",
                     category: "Think, learn & iterate",
-                    about: "An AI coding assistant that works with development tools to suggest code and help explain, edit, and review it.",
-                    journey: "Copilot brings suggestions closer to the code I am working on. Reviewing those suggestions gives me a chance to notice patterns and decide what fits my app rather than accepting every answer automatically."
+                    about: "GitHub’s AI coding assistant and agent for code suggestions, chat, and development tasks. It works across supported editors and other interfaces, including a supported Xcode integration.",
+                    journey: "GitHub Copilot supports the writing stage with suggestions and explanations in a supported coding setup. I treat its output as a starting point for Swift code, review how it fits the surrounding implementation, and use Xcode builds and tests to check the result."
                 },
                 github: {
                     name: "GitHub",
                     category: "Think, learn & iterate",
-                    about: "A platform for hosting code repositories, tracking version history, reviewing changes, and collaborating on software.",
-                    journey: "GitHub gives my projects a home and a record of how they evolve. Keeping track of changes helps me revisit earlier decisions and see my progress one version at a time."
+                    about: "A platform for hosting Git repositories, reviewing code changes, tracking issues, and collaborating on software. Git records version history; GitHub hosts the repository and adds collaboration tools.",
+                    journey: "GitHub helps me organize the project’s history rather than generate the app itself. Committing changes with Git and pushing them to GitHub gives me checkpoints to compare, revisit, and learn from as my Xcode project evolves."
                 }
             };
 
