@@ -77,39 +77,24 @@
 
         /* Prevent horizontal layout shifts and double-tap zoom delay on mobile */
         body {
+            margin: 0;
             overflow-x: hidden;
             touch-action: manipulation;
         }
 
         /* Pulsing online status dot animation */
         @keyframes status-pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 8px rgba(52, 199, 89, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(52, 199, 89, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
         }
-
-        .status-dot-pulse {
-            animation: status-pulse 2s infinite;
-        }
+        .status-dot-pulse { animation: status-pulse 2s infinite; }
 
         /* Apple-style backdrop blur modal animations */
         @keyframes modal-pop {
-            0% {
-                opacity: 0;
-                transform: scale(0.95) translateY(10px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
-
         .animate-modal-pop {
             animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
@@ -121,14 +106,15 @@
     <!-- HEADER SECTION                                                       -->
     <!-- Apple-style translucent header with logo icon & single action CTA   -->
     <!-- ==================================================================== -->
-    <header class="sticky top-0 z-40 backdrop-blur-md bg-white/70 dark:bg-black/70 border-b border-black/5 dark:border-white/10 transition-colors duration-300">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
+    <!-- UPDATE: Full-width solid header matching the page background; original header comment retained above. -->
+    <header class="sticky top-0 z-40 w-full bg-apple-bgLight dark:bg-apple-bgDark border-b border-black/5 dark:border-white/10 transition-colors duration-300">
+        <div class="w-full px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
             
             <!-- Brand Logo: Code Icon + 2-Line Span (Name & Professional Title) -->
             <a href="#" class="group flex items-center space-x-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-lg p-1 transition-transform active:scale-95">
                 
                 <!-- Logo Graphic Icon: Code Bracket / Swift-inspired Badge -->
-                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-apple-blue flex items-center justify-center text-white shadow-md shadow-apple-blue/20 group-hover:scale-105 transition-transform duration-300">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-apple-blue flex items-center justify-center text-white shadow-md shadow-apple-blue/20 group-hover:scale-105 transition-transform duration-300">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                     </svg>
@@ -146,10 +132,8 @@
             </a>
 
             <!-- Right Navigation: Single Action "Get in Touch" Button (No arrows, no toggle button) -->
-            <div class="flex items-center">
-                <button id="openEmailModalBtn" 
-                        type="button"
-                        class="inline-flex items-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-apple-blue dark:focus:ring-offset-black">
+            <div class="flex items-center shrink-0">
+                <button id="openEmailModalBtn" type="button" class="inline-flex items-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-apple-blue dark:focus:ring-offset-black">
                     Get in Touch
                 </button>
             </div>
@@ -161,7 +145,6 @@
     <!-- Responsive centered hero section with developer avatar & bio text    -->
     <!-- ==================================================================== -->
     <main class="flex-grow flex items-center justify-center px-4 sm:px-6 py-12 sm:py-20">
-        
         <div class="max-w-2xl w-full mx-auto text-center flex flex-col items-center">
             
             <!-- Circular Avatar Frame with Developer SVG Placeholder & Status Dot -->
@@ -192,7 +175,6 @@
                 Independent iOS developer passionate about crafting clean, intuitive, and performant native mobile applications using modern <span class="text-apple-textLight dark:text-apple-textDark font-medium">SwiftUI</span> and <span class="text-apple-textLight dark:text-apple-textDark font-medium">Xcode</span> tools.
             </p>
         </div>
-
     </main>
 
     <!-- ==================================================================== -->
@@ -221,14 +203,10 @@
 
             <!-- Action Buttons -->
             <div class="flex items-center space-x-3">
-                <button id="cancelModalBtn" 
-                        type="button"
-                        class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-black/5 dark:bg-white/10 text-apple-textLight dark:text-apple-textDark hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all">
+                <button id="cancelModalBtn" type="button" class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-black/5 dark:bg-white/10 text-apple-textLight dark:text-apple-textDark hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all">
                     Cancel
                 </button>
-                <a id="confirmEmailBtn" 
-                   href="mailto:varun1329@icloud.com" 
-                   class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm text-center inline-block">
+                <a id="confirmEmailBtn" href="mailto:varun1329@icloud.com" class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm text-center inline-block">
                     Send Email
                 </a>
             </div>
