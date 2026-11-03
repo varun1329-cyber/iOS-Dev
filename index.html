@@ -13,7 +13,8 @@
     CURRENT PAGE ARCHITECTURE:
     --------------------------
     1. Header: Full-width background, code badge, identity, and Get in Touch.
-    2. Intro / Hero: Avatar, decorative status dot, bio, and My Journey button.
+    2. Intro / Hero: Larger circular portrait using Varun 1.jpg, decorative
+       animated green status dot, bio, and My Journey button.
     3. My Toolbox: Compact tool groups, nine clickable icons, and principles.
     4. My Work: Horizontal, scroll-snap project carousel for EasyList and TripMate.
        Includes clickable position indicators, swipe/trackpad scrolling, and
@@ -41,6 +42,8 @@
     - Tool journey reflections remain editable draft copy.
     - My Work content follows the supplied EasyList / TripMate screenshot.
     - App artwork is recreated inline SVG, not external app icon files.
+    - Portrait: Varun 1.jpg in the same folder as index.html.
+      Upper-center crop is controlled by object-position: center 20%.
     - Tailwind and toolbox brand icons require internet access.
     ============================================================================
     -->
@@ -97,6 +100,16 @@
             margin: 0;
             overflow-x: hidden;
             touch-action: manipulation;
+        }
+
+        /* Portrait fills the larger circle; favor the upper area of the photo. */
+        .hero-portrait {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+            border-radius: 50%;
         }
 
         /* Decorative pulse, not a live availability service. */
@@ -477,24 +490,28 @@
     <!-- MAIN: Intro, My Toolbox, and My Work in normal document flow. -->
     <main class="flex-grow">
 
-        <!-- INTRO / HERO: Approved avatar, bio, and My Journey action. -->
+        <!-- INTRO / HERO: Larger local portrait; approved bio and green dot retained. -->
         <section
             aria-labelledby="introTitle"
             class="hero-section flex items-center justify-center px-4 sm:px-6 py-12 sm:py-20"
         >
             <div class="max-w-2xl w-full mx-auto text-center flex flex-col items-center">
                 <div class="relative mb-6 sm:mb-8 group">
-                    <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full ring-4 ring-black/5 dark:ring-white/10 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-neutral-800 dark:to-neutral-900 p-1 shadow-xl flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
-                        <svg
-                            aria-hidden="true"
-                            class="w-20 h-20 sm:w-28 sm:h-28 text-slate-400 dark:text-neutral-500 mt-2"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
+
+                    <!-- 144px mobile / 176px desktop frame. File is beside index.html. -->
+                    <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-full ring-4 ring-black/5 dark:ring-white/10 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-neutral-800 dark:to-neutral-900 p-1 shadow-xl flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
+                        <img
+                            src="./Varun%201.jpg"
+                            alt="Portrait of Varun Patel"
+                            width="176"
+                            height="176"
+                            class="hero-portrait"
+                            decoding="async"
+                            fetchpriority="high"
                         >
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                        </svg>
                     </div>
 
+                    <!-- Original green animated dot and positioning unchanged. -->
                     <div
                         class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 flex items-center justify-center bg-white dark:bg-black rounded-full p-1 shadow-md"
                         title="Developer is Online"
@@ -556,7 +573,6 @@
                     <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">
                         My Toolbox
                     </p>
-
                     <h2
                         id="toolboxTitle"
                         class="text-xl sm:text-2xl font-bold tracking-tight"
@@ -564,7 +580,6 @@
                         Human ideas/vision.
                         <span class="text-apple-blue">AI-assisted execution.</span>
                     </h2>
-
                     <p class="mt-2 text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">
                         Using AI as an intelligent learning partner to learn
                         faster and work smarter.
@@ -578,7 +593,6 @@
                             <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">
                                 Build
                             </h3>
-
                             <ul class="tool-grid" aria-label="Development tools">
                                 <li>
                                     <button type="button" data-tool="xcode" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
@@ -588,7 +602,6 @@
                                         <span>Xcode</span>
                                     </button>
                                 </li>
-
                                 <li>
                                     <button type="button" data-tool="swift" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo">
@@ -604,7 +617,6 @@
                             <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">
                                 Think, learn &amp; iterate
                             </h3>
-
                             <ul class="tool-grid" aria-label="AI-assisted tools">
                                 <li>
                                     <button type="button" data-tool="chatgpt" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
@@ -614,7 +626,6 @@
                                         <span>ChatGPT</span>
                                     </button>
                                 </li>
-
                                 <li>
                                     <button type="button" data-tool="perplexity" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo">
@@ -623,7 +634,6 @@
                                         <span>Perplexity</span>
                                     </button>
                                 </li>
-
                                 <li>
                                     <button type="button" data-tool="claude" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo">
@@ -632,7 +642,6 @@
                                         <span>Claude</span>
                                     </button>
                                 </li>
-
                                 <li>
                                     <button type="button" data-tool="copilot" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo">
@@ -641,7 +650,6 @@
                                         <span>GitHub Copilot</span>
                                     </button>
                                 </li>
-
                                 <li>
                                     <button type="button" data-tool="gemini" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo">
@@ -650,7 +658,6 @@
                                         <span>Google Gemini</span>
                                     </button>
                                 </li>
-
                                 <li>
                                     <button type="button" data-tool="windsurf" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo">
@@ -659,7 +666,6 @@
                                         <span>Windsurf</span>
                                     </button>
                                 </li>
-
                                 <li>
                                     <button type="button" data-tool="cursor" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
                                         <span class="tool-logo">
@@ -683,7 +689,6 @@
                             then refine what I learn.
                         </p>
                     </article>
-
                     <article class="p-4 sm:p-5">
                         <h3 class="text-sm font-semibold tracking-tight">
                             <span aria-hidden="true" class="text-apple-blue mr-2">02</span>Solve real problems
@@ -693,7 +698,6 @@
                             that feel useful, not complicated.
                         </p>
                     </article>
-
                     <article class="p-4 sm:p-5">
                         <h3 class="text-sm font-semibold tracking-tight">
                             <span aria-hidden="true" class="text-apple-blue mr-2">03</span>Improve every iteration
@@ -718,7 +722,6 @@
                     <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">
                         My Work
                     </p>
-
                     <h2
                         id="workTitle"
                         class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight"
@@ -726,7 +729,6 @@
                         Small steps.<br>
                         <span class="text-apple-blue">Real Apps.</span>
                     </h2>
-
                     <p class="mt-3 text-sm sm:text-base text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">
                         Every project is a chance to learn, solve a practical
                         problem, and make the next version a little better.
@@ -754,52 +756,32 @@
                             aria-label="1 of 2: EasyList"
                             class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm"
                         >
-                            <div
-                                class="project-art project-art-easy"
-                                aria-hidden="true"
-                            >
+                            <div class="project-art project-art-easy" aria-hidden="true">
                                 <div class="project-icon border-[4px] border-[#1d1d1f] bg-[#0785ff] text-[#17212c]">
-                                    <svg
-                                        class="w-8 h-8"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        viewBox="0 0 24 24"
-                                    >
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <rect x="5" y="3" width="14" height="18" rx="3"/>
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M8.5 8h5m-5 4h7m-7 4h5m2-11 2.5 2.5L22 3"
-                                        />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.5 8h5m-5 4h7m-7 4h5m2-11 2.5 2.5L22 3"/>
                                     </svg>
                                 </div>
-
                                 <span class="absolute bottom-5 left-5 sm:left-6 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#536b83]">
-                                    One Focused List - Zero Clutter
+                                    Less mental clutter
                                 </span>
                             </div>
 
                             <div class="flex flex-col flex-grow p-5 sm:p-6">
                                 <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
                                     <span class="inline-flex items-center gap-2 font-medium">
-                                        <span
-                                            aria-hidden="true"
-                                            class="h-1.5 w-1.5 rounded-full bg-apple-green"
-                                        ></span>
+                                        <span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>
                                         Personal project
                                     </span>
                                     <span>01 / 02</span>
                                 </div>
-
-                                <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight">
-                                    EasyList
-                                </h3>
-
+                                <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight">EasyList</h3>
                                 <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                                    Create list with quick/smart typed or hands-free voice input, duplicate prevention, progress tracking and one tap cleanup actions.
+                                    A simple, practical approach to keeping lists organized.
+                                    Built around the idea that everyday planning should feel
+                                    clear, quick, and effortless.
                                 </p>
-
                                 <ul
                                     aria-label="EasyList technologies and category"
                                     class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark"
@@ -808,7 +790,6 @@
                                     <li class="project-tag">SwiftUI</li>
                                     <li class="project-tag">Productivity</li>
                                 </ul>
-
                                 <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold">
                                     My first app-building chapter
                                 </p>
@@ -822,29 +803,13 @@
                             aria-label="2 of 2: TripMate"
                             class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm"
                         >
-                            <div
-                                class="project-art project-art-trip"
-                                aria-hidden="true"
-                            >
+                            <div class="project-art project-art-trip" aria-hidden="true">
                                 <div class="project-icon border border-[#c9ddf7] bg-[#eef4ff] text-[#0071e3]">
-                                    <svg
-                                        class="w-9 h-9"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linejoin="round"
-                                            d="m5 3 2 1 2-1 3 1 3-1 2 1 2-1v18l-2-1-2 1-3-1-3 1-2-1-2 1V3Z"
-                                        />
-                                        <path
-                                            stroke-linecap="round"
-                                            d="M9 8h6m-6 4h6m-6 4h4"
-                                        />
+                                    <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linejoin="round" d="m5 3 2 1 2-1 3 1 3-1 2 1 2-1v18l-2-1-2 1-3-1-3 1-2-1-2 1V3Z"/>
+                                        <path stroke-linecap="round" d="M9 8h6m-6 4h6m-6 4h4"/>
                                     </svg>
                                 </div>
-
                                 <span class="absolute bottom-5 left-5 sm:left-6 right-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#506f6e]">
                                     Your expense mate for the trips
                                 </span>
@@ -853,23 +818,15 @@
                             <div class="flex flex-col flex-grow p-5 sm:p-6">
                                 <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
                                     <span class="inline-flex items-center gap-2 font-medium">
-                                        <span
-                                            aria-hidden="true"
-                                            class="h-1.5 w-1.5 rounded-full bg-apple-green"
-                                        ></span>
+                                        <span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>
                                         Personal project
                                     </span>
                                     <span>02 / 02</span>
                                 </div>
-
-                                <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight">
-                                    TripMate
-                                </h3>
-
+                                <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight">TripMate</h3>
                                 <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                                    Every Trip needs a smart &quot;Expense&quot; Mate. Plan trips and track expenses across multiple currencies. It converts expenses to your home currency for clear budgeting and insights.
+                                    Every Trip needs a Smart &quot;Expense&quot; Mate.
                                 </p>
-
                                 <ul
                                     aria-label="TripMate technologies and category"
                                     class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark"
@@ -878,7 +835,6 @@
                                     <li class="project-tag">SwiftUI</li>
                                     <li class="project-tag">Travel</li>
                                 </ul>
-
                                 <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold">
                                     Built around real-life needs
                                 </p>
@@ -902,7 +858,6 @@
                         >
                             <span aria-hidden="true"></span>
                         </button>
-
                         <button
                             type="button"
                             class="project-dot"
@@ -920,7 +875,6 @@
                     >
                         Swipe or scroll sideways to explore · Click a dot to switch projects
                     </p>
-
                     <p
                         id="projectPosition"
                         class="sr-only"
@@ -948,41 +902,22 @@
             <div class="journey-scroll min-h-0 p-6">
                 <div class="flex items-center gap-3 mb-5">
                     <span class="h-12 w-12 rounded-xl bg-white border border-black/5 flex items-center justify-center shrink-0">
-                        <img
-                            id="toolModalIcon"
-                            alt=""
-                            width="30"
-                            height="30"
-                            class="w-[30px] h-[30px] object-contain"
-                        >
+                        <img id="toolModalIcon" alt="" width="30" height="30" class="w-[30px] h-[30px] object-contain">
                     </span>
-
                     <div>
-                        <p
-                            id="toolModalCategory"
-                            class="mb-1 text-[10px] font-semibold uppercase tracking-widest text-apple-blue"
-                        ></p>
-                        <h2
-                            id="toolModalTitle"
-                            class="text-xl font-bold tracking-tight"
-                        ></h2>
+                        <p id="toolModalCategory" class="mb-1 text-[10px] font-semibold uppercase tracking-widest text-apple-blue"></p>
+                        <h2 id="toolModalTitle" class="text-xl font-bold tracking-tight"></h2>
                     </div>
                 </div>
 
                 <h3 class="text-xs font-semibold mb-2">What it is</h3>
-                <p
-                    id="toolModalAbout"
-                    class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"
-                ></p>
+                <p id="toolModalAbout" class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"></p>
 
                 <div class="mt-5 rounded-xl bg-apple-bgLight dark:bg-black/25 p-4">
                     <h3 class="text-xs font-semibold text-apple-blue mb-2">
                         How it supports my journey
                     </h3>
-                    <p
-                        id="toolModalJourney"
-                        class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"
-                    ></p>
+                    <p id="toolModalJourney" class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"></p>
                 </div>
             </div>
 
@@ -1015,7 +950,6 @@
                 <div class="inline-flex rounded-full bg-apple-blue/10 px-3 py-1 text-[11px] font-medium text-apple-blue mb-4">
                     A little about the person behind the code
                 </div>
-
                 <h3 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
                     <span class="text-apple-blue">My Story</span>
                 </h3>
@@ -1027,7 +961,6 @@
                         own apps. For a long time, that dream felt out of reach
                         because I had never written a line of code.
                     </p>
-
                     <p>
                         Exploring ChatGPT, Perplexity, Claude, and Google
                         Gemini helped me see a different starting point.
@@ -1036,13 +969,11 @@
                         What inspired me was not the possibility of skipping
                         the learning—it was the possibility of finally beginning.
                     </p>
-
                     <p>
                         That curiosity sparked the question that inspired my
                         first step:
                         <mark class="curiosity-highlight">What if I could learn as I build?</mark>
                     </p>
-
                     <p>
                         With a new MacBook Air and a willingness to start
                         from scratch, I turned that question into action.
@@ -1052,7 +983,6 @@
                         learning a purpose, and the journey led to EasyList
                         and TripMate.
                     </p>
-
                     <p>
                         Today, I share a happy life with my beautiful wife,
                         Smruti, and our two children—our handsome son, Jenil,
@@ -1060,7 +990,6 @@
                         and my career, I’m making room for a dream that once
                         felt distant.
                     </p>
-
                     <p>
                         If there is something you have been waiting to try,
                         I hope my story encourages you to give it a chance.
@@ -1072,14 +1001,12 @@
                 </div>
 
                 <h3 class="mt-8 text-lg font-semibold tracking-tight">My Timeline</h3>
-
                 <ol class="mt-7 space-y-6">
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">1984</p>
                         <h4 class="mt-1 text-base font-semibold tracking-tight">Born in India.</h4>
                     </li>
-
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2005</p>
@@ -1087,7 +1014,6 @@
                             Moved to the USA in pursuit of the American Dream.
                         </h4>
                     </li>
-
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2009</p>
@@ -1095,7 +1021,6 @@
                             Earned my master’s degree in Computer Science.
                         </h4>
                     </li>
-
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2011</p>
@@ -1103,7 +1028,6 @@
                             Began my career in IT Release Management.
                         </h4>
                     </li>
-
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2025</p>
@@ -1112,7 +1036,6 @@
                             building my first iOS apps.
                         </h4>
                     </li>
-
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">Today</p>
@@ -1153,36 +1076,18 @@
     >
         <div class="modal-card bg-white/90 dark:bg-apple-cardDark/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-6 sm:p-7 w-full shadow-2xl text-center">
             <div class="w-12 h-12 rounded-full bg-apple-blue/10 text-apple-blue mx-auto flex items-center justify-center mb-4">
-                <svg
-                    aria-hidden="true"
-                    class="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
+                <svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
             </div>
-
-            <h3 id="emailModalTitle" class="text-lg font-bold mb-1">
-                Contact Developer
-            </h3>
-
+            <h3 id="emailModalTitle" class="text-lg font-bold mb-1">Contact Developer</h3>
             <p
                 id="emailModalDescription"
                 class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark mb-5 leading-normal"
             >
                 Would you like to open your native mail client to send an email to
-                <span class="font-semibold text-apple-textLight dark:text-apple-textDark">
-                    varun1329@icloud.com
-                </span>?
+                <span class="font-semibold text-apple-textLight dark:text-apple-textDark">varun1329@icloud.com</span>?
             </p>
-
             <div class="flex items-center space-x-3">
                 <button
                     id="cancelModalBtn"
@@ -1191,7 +1096,6 @@
                 >
                     Cancel
                 </button>
-
                 <a
                     id="confirmEmailBtn"
                     href="mailto:varun1329@icloud.com"
@@ -1243,7 +1147,6 @@
 
                 savedOverflow = document.body.style.overflow;
                 returnFocus.set(dialog, trigger);
-
                 dialog.showModal();
                 document.body.style.overflow = 'hidden';
 
@@ -1272,7 +1175,6 @@
                     ) {
                         dialog.close();
                     }
-
                     pointerStartedOutside = false;
                 });
             });
