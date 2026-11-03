@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <!--
+    ============================================================================
+    PROJECT: Varun Patel - Independent iOS Developer Portfolio
+    FILE: EasyList.html
+    AUTHOR: Varun Patel
+    ROLE: Independent iOS Developer
+    DESIGN SYSTEM: Apple-inspired minimalism with automatic light/dark themes
+    TECH STACK: HTML5, Tailwind CSS (CDN), custom CSS, vanilla JavaScript, SVG
+
+    PAGE ARCHITECTURE:
+    ------------------
+    1. Header: Light/Dark theme-aware app logos (3.png / 4.png), bold App Title (EasyList),
+       and top-right Home button targeting index.html#easyListProject.
+    2. Hero Section: Overview, key feature tags, and quick stats.
+    3. Technical Architecture & Data Layer: Models (Item, ListModel, EasyListDataStore),
+       JSON persistence details, and voice/speech framework breakdown.
+    4. Duplicate Normalization & Algorithm: Detailed 5-step stemming logic.
+    5. Footer: Developer credit and consistency navigation.
+    ============================================================================
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>EasyList - Project Documentation & Architecture</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        apple: {
+                            bgDark: '#000000',
+                            cardDark: '#1c1c1e',
+                            textDark: '#f5f5f7',
+                            subtextDark: '#86868b',
+                            bgLight: '#f5f5f7',
+                            cardLight: '#ffffff',
+                            textLight: '#1d1d1f',
+                            subtextLight: '#6e6e73',
+                            blue: '#0071e3',
+                            green: '#34c759'
+                        }
+                    },
+                    fontFamily: {
+                        sans: [
+                            '-apple-system',
+                            'BlinkMacSystemFont',
+                            '"SF Pro Display"',
+                            '"SF Pro Text"',
+                            '"Helvetica Neue"',
+                            'Helvetica',
+                            'Arial',
+                            'sans-serif'
+                        ]
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        :focus-visible {
+            outline: 2px solid #0071e3;
+            outline-offset: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-apple-bgLight dark:bg-apple-bgDark text-apple-textLight dark:text-apple-textDark transition-colors duration-300 font-sans min-h-screen flex flex-col justify-between antialiased selection:bg-apple-blue selection:text-white">
+
+    <!-- HEADER: Theme-aware logo (3.png / 4.png), bold title, and Home navigation -->
+    <header class="sticky top-0 z-40 w-full bg-apple-bgLight/90 dark:bg-apple-bgDark/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 transition-colors duration-300">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-[#0785ff] flex items-center justify-center overflow-hidden shadow-sm">
+                    <!-- Light mode image 3.png -->
+                    <img 
+                        src="./3.png" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';" 
+                        alt="EasyList Light Icon" 
+                        class="w-full h-full object-contain block dark:hidden"
+                    >
+                    <!-- Dark mode image 4.png -->
+                    <img 
+                        src="./4.png" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';" 
+                        alt="EasyList Dark Icon" 
+                        class="w-full h-full object-contain hidden dark:block"
+                    >
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-base sm:text-lg font-bold tracking-tight leading-tight">EasyList</span>
+                    <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">Technical Documentation</span>
+                </div>
+            </div>
+
+            <div class="flex items-center shrink-0">
+                <a href="index.html#easyListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    <span>Home</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN DOCUMENTATION CONTENT -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
+
+        <!-- SECTION 1: HERO OVERVIEW -->
+        <section class="space-y-4">
+            <div class="inline-flex items-center gap-2 rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-semibold text-apple-blue">
+                <span>SwiftUI App Architecture</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">EasyList Documentation</h1>
+            <p class="text-base sm:text-lg text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed max-w-3xl">
+                EasyList is a focused, single-list iOS application built with SwiftUI[cite: 3]. Designed for fast hands-free voice item entry, duplicate detection, progress tracking, and on-device JSON persistence[cite: 3].
+            </p>
+        </section>
+
+        <!-- SECTION 2: TECHNICAL STACK -->
+        <section class="rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark p-6 shadow-sm space-y-4">
+            <h2 class="text-xl font-bold tracking-tight">Technical Stack Summary</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
+                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">Language</p>
+                    <p class="text-sm font-medium mt-1">Swift 5.9+</p>
+                </div>
+                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
+                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">UI Framework</p>
+                    <p class="text-sm font-medium mt-1">SwiftUI</p>
+                </div>
+                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
+                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">Persistence</p>
+                    <p class="text-sm font-medium mt-1">On-Device JSON</p>
+                </div>
+                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
+                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">Speech Engine</p>
+                    <p class="text-sm font-medium mt-1">Speech &amp; AVFoundation</p>
+                </div>
+                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
+                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">State Pattern</p>
+                    <p class="text-sm font-medium mt-1">@StateObject / MainActor</p>
+                </div>
+                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
+                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">Target Platform</p>
+                    <p class="text-sm font-medium mt-1">iOS 17.0+</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DUPLICATE STEMMING ALGORITHM -->
+        <section class="rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark p-6 shadow-sm space-y-4">
+            <h2 class="text-xl font-bold tracking-tight">Duplicate Stemming &amp; Normalization Algorithm</h2>
+            <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">
+                To prevent accidental duplicates when typing or speaking, <code class="text-apple-blue font-mono">ListDetailView.normalizedItemName(_:)</code> applies a 5-step normalization pass[cite: 3]:
+            </p>
+            <ol class="list-decimal list-inside text-sm space-y-2 text-apple-subtextLight dark:text-apple-subtextDark">
+                <li>Trim surrounding whitespace and newlines[cite: 3].</li>
+                <li>Convert string to lowercase[cite: 3].</li>
+                <li>Convert words ending in <code class="text-apple-blue font-mono">ies</code> to <code class="text-apple-blue font-mono">y</code> (e.g., "candies" &rarr; "candy")[cite: 3].</li>
+                <li>Remove <code class="text-apple-blue font-mono">es</code> suffix for words longer than 2 characters (e.g., "boxes" &rarr; "box")[cite: 3].</li>
+                <li>Remove trailing <code class="text-apple-blue font-mono">s</code> for words longer than 1 character (e.g., "shoes" &rarr; "shoe", "milks" &rarr; "milk")[cite: 3].</li>
+            </ol>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <p class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">@ 2026 - Varun Patel - Independent iOS Developer</p>
+            <p class="mt-2 text-[11px] sm:text-xs text-apple-subtextLight dark:text-apple-subtextDark">EasyList Technical Documentation Page</p>
+        </div>
+    </footer>
+
+</body>
+</html>
