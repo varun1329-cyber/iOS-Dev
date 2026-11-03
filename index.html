@@ -60,11 +60,20 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif']
+                        sans: [
+                            '-apple-system',
+                            'BlinkMacSystemFont',
+                            '"SF Pro Display"',
+                            '"SF Pro Text"',
+                            '"Helvetica Neue"',
+                            'Helvetica',
+                            'Arial',
+                            'sans-serif'
+                        ]
                     }
                 }
             }
-        }
+        };
     </script>
 
     <!-- Inline Custom Styles & Keyframe Animations -->
@@ -84,22 +93,125 @@
 
         /* Pulsing online status dot animation */
         @keyframes status-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7); }
-            70% { box-shadow: 0 0 0 8px rgba(52, 199, 89, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(52, 199, 89, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
+            }
         }
-        .status-dot-pulse { animation: status-pulse 2s infinite; }
+
+        .status-dot-pulse {
+            animation: status-pulse 2s infinite;
+        }
 
         /* Apple-style backdrop blur modal animations */
         @keyframes modal-pop {
-            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
+
         .animate-modal-pop {
             animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
+        /* NEW: Native dialog backdrop and app-window layout. */
+        dialog.modal-shell {
+            border: 0;
+            padding: 1rem;
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+            background: transparent;
+            color: inherit;
+            overflow: visible;
+        }
+
+        dialog.modal-shell::backdrop {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .dark dialog.modal-shell::backdrop {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        dialog.modal-shell[open] > .modal-card {
+            animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .journey-window {
+            max-height: calc(100vh - 2rem);
+            max-height: calc(100dvh - 2rem);
+        }
+
+        .journey-scroll {
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 14px;
+            bottom: -24px;
+            width: 1px;
+            background: rgba(0, 113, 227, 0.2);
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #0071e3;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        :focus-visible {
+            outline: 2px solid #0071e3;
+            outline-offset: 4px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
     </style>
 </head>
+
 <body class="bg-apple-bgLight dark:bg-apple-bgDark text-apple-textLight dark:text-apple-textDark transition-colors duration-300 font-sans min-h-screen flex flex-col justify-between antialiased selection:bg-apple-blue selection:text-white">
 
     <!-- ==================================================================== -->
@@ -109,20 +221,34 @@
     <!-- UPDATE: Full-width solid header matching the page background; original header comment retained above. -->
     <header class="sticky top-0 z-40 w-full bg-apple-bgLight dark:bg-apple-bgDark border-b border-black/5 dark:border-white/10 transition-colors duration-300">
         <div class="w-full px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
-            
+
             <!-- Brand Logo: Code Icon + 2-Line Span (Name & Professional Title) -->
-            <a href="#" class="group flex items-center space-x-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-lg p-1 transition-transform active:scale-95">
-                
+            <a
+                href="#"
+                class="group flex items-center space-x-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-lg p-1 transition-transform active:scale-95"
+            >
+
                 <!-- Logo Graphic Icon: Code Bracket / Swift-inspired Badge -->
                 <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-apple-blue flex items-center justify-center text-white shadow-md shadow-apple-blue/20 group-hover:scale-105 transition-transform duration-300">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    <svg
+                        aria-hidden="true"
+                        class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2.5"
+                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                        />
                     </svg>
                 </div>
 
                 <!-- 2-Line Text Span -->
                 <div class="flex flex-col">
-                    <span class="text-base sm:text-lg font-bold tracking-tight text-apple-textLight dark:text-apple-textDark group-hover:text-apple-blue dark:group-hover:text-apple-blue transition-colors leading-tight">
+                    <span class="text-base sm:text-lg font-bold tracking-tight group-hover:text-apple-blue transition-colors leading-tight">
                         Varun Patel
                     </span>
                     <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">
@@ -133,7 +259,13 @@
 
             <!-- Right Navigation: Single Action "Get in Touch" Button (No arrows, no toggle button) -->
             <div class="flex items-center shrink-0">
-                <button id="openEmailModalBtn" type="button" class="inline-flex items-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-apple-blue dark:focus:ring-offset-black">
+                <button
+                    id="openEmailModalBtn"
+                    type="button"
+                    aria-haspopup="dialog"
+                    aria-controls="emailModal"
+                    class="inline-flex items-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm hover:shadow"
+                >
                     Get in Touch
                 </button>
             </div>
@@ -146,72 +278,332 @@
     <!-- ==================================================================== -->
     <main class="flex-grow flex items-center justify-center px-4 sm:px-6 py-12 sm:py-20">
         <div class="max-w-2xl w-full mx-auto text-center flex flex-col items-center">
-            
+
             <!-- Circular Avatar Frame with Developer SVG Placeholder & Status Dot -->
             <div class="relative mb-6 sm:mb-8 group">
-                
+
                 <!-- Circular Outer Avatar Ring -->
                 <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full ring-4 ring-black/5 dark:ring-white/10 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-neutral-800 dark:to-neutral-900 p-1 shadow-xl flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
-                    
+
                     <!-- SVG Avatar Illustration (Working on Computer Placeholder) -->
-                    <svg class="w-20 h-20 sm:w-28 sm:h-28 text-slate-400 dark:text-neutral-500 mt-2" fill="currentColor" viewBox="0 0 24 24">
+                    <svg
+                        aria-hidden="true"
+                        class="w-20 h-20 sm:w-28 sm:h-28 text-slate-400 dark:text-neutral-500 mt-2"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                    >
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                 </div>
 
                 <!-- Green Pulsing Online Developer Indicator -->
-                <div class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 flex items-center justify-center bg-white dark:bg-black rounded-full p-1 shadow-md" title="Developer is Online">
+                <div
+                    class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 flex items-center justify-center bg-white dark:bg-black rounded-full p-1 shadow-md"
+                    title="Developer is Online"
+                >
                     <span class="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-apple-green rounded-full status-dot-pulse block"></span>
                 </div>
             </div>
 
             <!-- Intro Bio Heading -->
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-apple-textLight dark:text-apple-textDark mb-3 sm:mb-4">
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-3 sm:mb-4">
                 Hi, I'm <span class="text-apple-blue">Varun Patel</span>.
             </h1>
 
             <!-- Concise Personal Intro Bio -->
             <p class="text-base sm:text-lg lg:text-xl text-apple-subtextLight dark:text-apple-subtextDark max-w-xl leading-relaxed font-normal">
-                Independent iOS developer passionate about crafting clean, intuitive, and performant native mobile applications using modern <span class="text-apple-textLight dark:text-apple-textDark font-medium">SwiftUI</span> and <span class="text-apple-textLight dark:text-apple-textDark font-medium">Xcode</span> tools.
+                Independent iOS developer passionate about crafting clean,
+                intuitive, and performant native mobile applications using modern
+                <span class="text-apple-textLight dark:text-apple-textDark font-medium">SwiftUI</span>
+                and
+                <span class="text-apple-textLight dark:text-apple-textDark font-medium">Xcode</span>
+                tools.
             </p>
+
+            <!-- NEW: Hero action opens the app-style personal journey window. -->
+            <button
+                id="openJourneyBtn"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="journeyModal"
+                class="mt-7 inline-flex items-center gap-2 rounded-full bg-apple-blue px-6 py-3 text-sm font-medium text-white shadow-md shadow-apple-blue/20 hover:bg-blue-600 hover:shadow-lg active:scale-95 transition-all"
+            >
+                <svg
+                    aria-hidden="true"
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 6.5C9 4.5 5.5 4.5 3 6v14c2.5-1.5 6-1.5 9 .5 3-2 6.5-2 9-.5V6c-2.5-1.5-6-1.5-9 .5Zm0 0v14"
+                    />
+                </svg>
+                My Journey
+            </button>
         </div>
     </main>
+
+    <!-- ==================================================================== -->
+    <!-- NEW: APP-STYLE MY JOURNEY WINDOW                                      -->
+    <!-- Fictional sample story only. Replace the story content below later.  -->
+    <!-- ==================================================================== -->
+    <dialog
+        id="journeyModal"
+        aria-labelledby="journeyTitle"
+        class="modal-shell w-full sm:w-[700px]"
+    >
+        <div class="modal-card journey-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
+
+            <!-- App title bar: red closes; yellow and green are decorative. -->
+            <div class="shrink-0 flex items-center justify-between gap-3 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-4 sm:px-5 py-4">
+                <div class="flex items-center gap-2 w-16">
+                    <button
+                        type="button"
+                        data-close="journeyModal"
+                        aria-label="Close My Journey"
+                        class="group flex h-5 w-5 items-center justify-center rounded-full bg-[#ff5f57] hover:brightness-90 transition"
+                    >
+                        <svg
+                            aria-hidden="true"
+                            class="h-3 w-3 text-black/60"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.4"
+                        >
+                            <path d="m3 3 6 6M9 3l-6 6"/>
+                        </svg>
+                    </button>
+
+                    <span
+                        aria-hidden="true"
+                        class="h-3 w-3 rounded-full bg-[#febc2e]"
+                    ></span>
+
+                    <span
+                        aria-hidden="true"
+                        class="h-3 w-3 rounded-full bg-[#28c840]"
+                    ></span>
+                </div>
+
+                <h2 id="journeyTitle" class="text-sm font-semibold tracking-tight">
+                    My Journey
+                </h2>
+
+                <span
+                    class="w-16 text-right text-[10px] text-apple-subtextLight dark:text-apple-subtextDark"
+                    aria-hidden="true"
+                >
+                    Varun Patel
+                </span>
+            </div>
+
+            <!-- Scrollable story body; title bar and bottom toolbar stay visible. -->
+            <div class="journey-scroll min-h-0 px-6 sm:px-10 py-7 sm:py-9">
+                <div class="inline-flex rounded-full bg-apple-blue/10 px-3 py-1 text-[11px] font-medium text-apple-blue mb-4">
+                    A little about the person behind the code
+                </div>
+
+                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
+                    Small ideas.<br>
+                    <span class="text-apple-blue">A meaningful journey.</span>
+                </h3>
+
+                <p class="mt-4 text-sm sm:text-base leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
+                    I have always been drawn to the moment when something
+                    complicated starts to feel simple. For me, building apps
+                    became a way to create more of those moments.
+                </p>
+
+                <!-- EDIT YOUR STORY HERE: All biographical details below are fictional placeholders. -->
+                <p class="mt-5 rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-800 dark:text-amber-200">
+                    Sample story: This biography is fictional placeholder
+                    content and will be replaced with my real journey.
+                </p>
+
+                <ol class="mt-7 space-y-6">
+                    <li class="timeline-item">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">
+                            Chapter 01 · Curiosity
+                        </p>
+
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">
+                            It started with a simple question.
+                        </h4>
+
+                        <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
+                            Why did some apps feel effortless while others made
+                            everyday tasks harder? I began sketching screens in
+                            a notebook, imagining small tools that could make a
+                            busy day a little easier. I did not have all the
+                            answers, but I had a reason to start.
+                        </p>
+                    </li>
+
+                    <li class="timeline-item">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">
+                            Chapter 02 · Learning
+                        </p>
+
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">
+                            One screen. One bug. One breakthrough.
+                        </h4>
+
+                        <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
+                            My first experiment was a tiny daily-planning app.
+                            The early versions were rough: buttons landed in
+                            the wrong places, data disappeared, and layouts
+                            broke. Learning Swift and SwiftUI taught me to
+                            enjoy the process of making something a little
+                            better each day.
+                        </p>
+                    </li>
+
+                    <li class="timeline-item">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">
+                            Chapter 03 · Perspective
+                        </p>
+
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">
+                            Less clutter. More intention.
+                        </h4>
+
+                        <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
+                            When I shared a prototype with a few friends,
+                            their feedback changed my approach. They cared
+                            less about how many features I had built and more
+                            about whether the app helped them. I started
+                            removing distractions, refining the details, and
+                            designing around real needs.
+                        </p>
+                    </li>
+
+                    <li class="timeline-item">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">
+                            Chapter 04 · Looking ahead
+                        </p>
+
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">
+                            Still curious. Still building.
+                        </h4>
+
+                        <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
+                            Today, my imaginary next chapter is a collection
+                            of thoughtful native apps: small enough to feel
+                            approachable and useful enough to become part of
+                            someone's routine. The goal is not to build
+                            everything. It is to build something worth
+                            coming back to.
+                        </p>
+                    </li>
+                </ol>
+
+                <blockquote class="mt-8 rounded-2xl bg-apple-bgLight dark:bg-black/25 p-5 text-sm sm:text-base font-medium leading-relaxed">
+                    “Make it useful. Make it feel natural. Keep making it better.”
+
+                    <span class="mt-2 block text-xs font-normal text-apple-subtextLight dark:text-apple-subtextDark">
+                        — A guiding thought for this sample journey
+                    </span>
+                </blockquote>
+            </div>
+
+            <!-- App-style bottom toolbar. -->
+            <div class="shrink-0 flex items-center justify-between gap-3 border-t border-black/5 dark:border-white/10 px-5 sm:px-6 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
+                <span class="text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
+                    The story is still being written.
+                </span>
+
+                <button
+                    type="button"
+                    data-close="journeyModal"
+                    class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all"
+                >
+                    Done
+                </button>
+            </div>
+        </div>
+    </dialog>
 
     <!-- ==================================================================== -->
     <!-- APPLE-STYLE EMAIL CONFIRMATION MODAL POPUP                           -->
     <!-- Interactive modal asking confirmation before emailing developer     -->
     <!-- ==================================================================== -->
-    <div id="emailModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40 dark:bg-black/70 backdrop-blur-sm hidden transition-opacity duration-300">
-        
+    <!-- UPDATE: Native dialog provides keyboard focus containment and Escape dismissal. -->
+    <dialog
+        id="emailModal"
+        aria-labelledby="emailModalTitle"
+        aria-describedby="emailModalDescription"
+        class="modal-shell w-full sm:w-[416px]"
+    >
+
         <!-- Modal Card Dialog -->
-        <div class="bg-white/90 dark:bg-apple-cardDark/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-6 sm:p-7 max-w-sm w-full shadow-2xl text-center transform animate-modal-pop">
-            
+        <div class="modal-card bg-white/90 dark:bg-apple-cardDark/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-6 sm:p-7 w-full shadow-2xl text-center">
+
             <!-- Apple Mail Icon Badge -->
             <div class="w-12 h-12 rounded-full bg-apple-blue/10 text-apple-blue mx-auto flex items-center justify-center mb-4">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                <svg
+                    aria-hidden="true"
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
                 </svg>
             </div>
 
             <!-- Modal Heading & Description -->
-            <h3 class="text-lg font-bold text-apple-textLight dark:text-apple-textDark mb-1">
+            <h3 id="emailModalTitle" class="text-lg font-bold mb-1">
                 Contact Developer
             </h3>
-            <p class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark mb-5 leading-normal">
-                Would you like to open your native mail client to send an email to <span class="font-semibold text-apple-textLight dark:text-apple-textDark">varun1329@icloud.com</span>?
+
+            <p
+                id="emailModalDescription"
+                class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark mb-5 leading-normal"
+            >
+                Would you like to open your native mail client to send an email to
+                <span class="font-semibold text-apple-textLight dark:text-apple-textDark">
+                    varun1329@icloud.com
+                </span>?
             </p>
 
             <!-- Action Buttons -->
             <div class="flex items-center space-x-3">
-                <button id="cancelModalBtn" type="button" class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-black/5 dark:bg-white/10 text-apple-textLight dark:text-apple-textDark hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all">
+                <button
+                    id="cancelModalBtn"
+                    type="button"
+                    class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all"
+                >
                     Cancel
                 </button>
-                <a id="confirmEmailBtn" href="mailto:varun1329@icloud.com" class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm text-center inline-block">
+
+                <a
+                    id="confirmEmailBtn"
+                    href="mailto:varun1329@icloud.com"
+                    class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm text-center inline-block"
+                >
                     Send Email
                 </a>
             </div>
         </div>
-    </div>
+    </dialog>
 
     <!-- ==================================================================== -->
     <!-- FOOTER SECTION                                                       -->
@@ -232,20 +624,17 @@
     <!-- ==================================================================== -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
+
             // ----------------------------------------------------------------
             // 1. AUTOMATIC SYSTEM THEME DETECTION & LIVE SYNC
             // ----------------------------------------------------------------
             const htmlElement = document.documentElement;
-            const darkThemeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            const darkThemeMediaQuery =
+                window.matchMedia('(prefers-color-scheme: dark)');
 
             // Function to apply light/dark class based on system settings
             const applySystemTheme = (e) => {
-                if (e.matches) {
-                    htmlElement.classList.add('dark');
-                } else {
-                    htmlElement.classList.remove('dark');
-                }
+                htmlElement.classList.toggle('dark', e.matches);
             };
 
             // Apply theme on initial load
@@ -254,35 +643,92 @@
             // Listen live for changes in system color scheme preference
             darkThemeMediaQuery.addEventListener('change', applySystemTheme);
 
-
             // ----------------------------------------------------------------
             // 2. EMAIL CONFIRMATION MODAL DIALOG CONTROLLER
             // ----------------------------------------------------------------
-            const openEmailModalBtn = document.getElementById('openEmailModalBtn');
-            const cancelModalBtn = document.getElementById('cancelModalBtn');
-            const confirmEmailBtn = document.getElementById('confirmEmailBtn');
-            const emailModal = document.getElementById('emailModal');
+            const openEmailModalBtn =
+                document.getElementById('openEmailModalBtn');
+            const cancelModalBtn =
+                document.getElementById('cancelModalBtn');
+            const confirmEmailBtn =
+                document.getElementById('confirmEmailBtn');
+            const emailModal =
+                document.getElementById('emailModal');
+            const journeyModal =
+                document.getElementById('journeyModal');
+
+            let savedOverflow = '';
+            const returnFocus = new WeakMap();
+
+            // NEW: Shared dialog helpers lock page scrolling and restore focus.
+            function openDialog(dialog, trigger) {
+                if (dialog.open) return;
+
+                savedOverflow = document.body.style.overflow;
+                returnFocus.set(dialog, trigger);
+
+                dialog.showModal();
+                document.body.style.overflow = 'hidden';
+
+                const story = dialog.querySelector('.journey-scroll');
+                if (story) story.scrollTop = 0;
+            }
+
+            [emailModal, journeyModal].forEach(dialog => {
+                dialog.addEventListener('close', () => {
+                    document.body.style.overflow = savedOverflow;
+                    returnFocus.get(dialog)?.focus();
+                });
+            });
 
             // Open Modal
             openEmailModalBtn.addEventListener('click', () => {
-                emailModal.classList.remove('hidden');
+                openDialog(emailModal, openEmailModalBtn);
             });
 
             // Close Modal on Cancel
             cancelModalBtn.addEventListener('click', () => {
-                emailModal.classList.add('hidden');
+                emailModal.close();
             });
 
             // Close Modal on Confirm Action
             confirmEmailBtn.addEventListener('click', () => {
-                emailModal.classList.add('hidden');
+                emailModal.close();
             });
 
             // Close Modal when clicking on overlay backdrop
-            emailModal.addEventListener('click', (e) => {
-                if (e.target === emailModal) {
-                    emailModal.classList.add('hidden');
-                }
+            // UPDATE: Apply backdrop dismissal to both native dialog windows.
+            [emailModal, journeyModal].forEach(dialog => {
+                let pointerStartedOutside = false;
+
+                dialog.addEventListener('pointerdown', event => {
+                    pointerStartedOutside = event.target === dialog;
+                });
+
+                dialog.addEventListener('click', event => {
+                    if (
+                        event.target === dialog &&
+                        pointerStartedOutside
+                    ) {
+                        dialog.close();
+                    }
+
+                    pointerStartedOutside = false;
+                });
+            });
+
+            // NEW: Journey window opener and its close controls.
+            const openJourneyBtn =
+                document.getElementById('openJourneyBtn');
+
+            openJourneyBtn.addEventListener('click', () => {
+                openDialog(journeyModal, openJourneyBtn);
+            });
+
+            document.querySelectorAll('[data-close]').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.getElementById(button.dataset.close).close();
+                });
             });
         });
     </script>
