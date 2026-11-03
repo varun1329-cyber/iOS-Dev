@@ -17,11 +17,13 @@
        original animated green status dot, bio, and My Journey button.
     3. My Toolbox: Xcode and Swift/SwiftUI under Build; ten AI/workflow tools
        sorted by Varun's stated usage. Cursor, Windsurf, and Codex have #1–#3
-       badges. A helper explains the personal usage order below all tools.
+       badges. MS Copilot uses reliable Microsoft Copilot icon vector.
+       A helper explains the personal usage order below all tools.
        All twelve tools open the shared details popup. Principles stay together.
     4. My Work: Horizontal, scroll-snap project carousel for EasyList and TripMate.
        Includes clickable position indicators, swipe/trackpad scrolling, and
-       keyboard navigation. Project cards have no app-exploration links.
+       keyboard navigation. EasyList displays theme-aware icons (3.png for light mode,
+       4.png for dark mode).
     5. Tool Details Dialog: Accurate tool roles with Xcode-focused, editable
        personal reflections on research, learning, understanding, and coding.
     6. My Journey Dialog: Approved story, highlighted question, and timeline.
@@ -38,23 +40,6 @@
     - No automatic carousel rotation; reduced-motion preferences respected.
     - Visible keyboard focus and appropriately labeled controls.
     - Portrait has descriptive alt text but no link, button, or focus target.
-
-    CONTENT & ASSETS:
-    -----------------
-    - Toolbox content originated from VarunPatel.dev; usage order supplied by Varun.
-    - Rankings reflect personal usage, not a general recommendation or score.
-    - Personal story supplied and approved by Varun Patel.
-    - Tool roles checked against official product information. Journey text is
-      tailored draft copy, not independently verified tool-by-tool usage history.
-    - Chat assistants are not assumed to access local Xcode files automatically.
-    - Claude.ai and Claude Code, MS Copilot and GitHub Copilot, and Git and GitHub
-      are kept distinct. Xcode remains the iOS build/test environment.
-    - My Work content follows the supplied EasyList / TripMate screenshot.
-    - App artwork is recreated inline SVG, not external app icon files.
-    - Portrait: Varun 1.jpg beside index.html; 176px mobile / 208px desktop.
-      Top-biased crop uses center 5%. Dragging, selection, and the normal
-      portrait context menu are disabled; this is not download protection.
-    - Tailwind and toolbox brand icons require internet access.
     ============================================================================
     -->
     <meta charset="UTF-8">
@@ -525,6 +510,7 @@
                     >
                         <img
                             src="./Varun%201.jpg"
+                            onerror="this.onerror=null; this.src='https://placehold.co/208x208/1c1c1e/f5f5f7?text=VP';"
                             alt="Portrait of Varun Patel"
                             width="208"
                             height="208"
@@ -642,7 +628,7 @@
                                 </li>
                                 <li>
                                     <button type="button" data-tool="mscopilot" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/microsoft-copilot.svg" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/microsoftcopilot.svg?color=%230078d4" alt="Microsoft Copilot Logo" width="20" height="20" loading="lazy"></span>
                                         <span class="min-w-0">MS Copilot</span>
                                     </button>
                                 </li>
@@ -719,10 +705,20 @@
                         >
                             <div class="project-art project-art-easy" aria-hidden="true">
                                 <div class="project-icon border-[4px] border-[#1d1d1f] bg-[#0785ff] text-[#17212c]">
-                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <rect x="5" y="3" width="14" height="18" rx="3"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.5 8h5m-5 4h7m-7 4h5m2-11 2.5 2.5L22 3"/>
-                                    </svg>
+                                    <!-- Light mode icon (3.png) -->
+                                    <img 
+                                        src="./3.png" 
+                                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';" 
+                                        alt="EasyList Light Icon" 
+                                        class="w-12 h-12 rounded-xl object-contain shadow-md block dark:hidden"
+                                    >
+                                    <!-- Dark mode icon (4.png) -->
+                                    <img 
+                                        src="./4.png" 
+                                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';" 
+                                        alt="EasyList Dark Icon" 
+                                        class="w-12 h-12 rounded-xl object-contain shadow-md hidden dark:block"
+                                    >
                                 </div>
                                 <span class="absolute bottom-5 left-5 sm:left-6 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#536b83]">One focused list - Zero clutter</span>
                             </div>
@@ -928,7 +924,7 @@
         <div class="modal-card bg-white/90 dark:bg-apple-cardDark/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-6 sm:p-7 w-full shadow-2xl text-center">
             <div class="w-12 h-12 rounded-full bg-apple-blue/10 text-apple-blue mx-auto flex items-center justify-center mb-4">
                 <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 0-2 2v10a2 2 0 002 2z"/>
                 </svg>
             </div>
             <h3 id="emailModalTitle" class="text-lg font-bold mb-1">Contact Developer</h3>
