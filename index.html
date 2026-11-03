@@ -221,6 +221,7 @@
         }
 
         /* UPDATE: Compact shared toolbox card; tool tiles are informational. */
+        /* NEW: Tiles are now buttons that open an accessible tool-details dialog. */
         .tool-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
@@ -244,6 +245,31 @@
         .dark .tool-tile {
             border-color: rgba(255, 255, 255, 0.07);
             background: rgba(255, 255, 255, 0.04);
+        }
+
+        button.tool-tile {
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            color: inherit;
+            cursor: pointer;
+            transition:
+                background-color 180ms,
+                border-color 180ms,
+                transform 180ms;
+        }
+
+        button.tool-tile:hover {
+            background: rgba(0, 113, 227, 0.08);
+            border-color: rgba(0, 113, 227, 0.3);
+        }
+
+        .dark button.tool-tile:hover {
+            background: rgba(0, 113, 227, 0.15);
+        }
+
+        button.tool-tile:active {
+            transform: scale(0.98);
         }
 
         .tool-logo {
@@ -467,36 +493,53 @@
                 <!-- Brand icons are loaded from Iconify; visible names remain if images fail. -->
                 <div class="rounded-2xl bg-apple-cardLight dark:bg-apple-cardDark border border-black/5 dark:border-white/10 p-4 sm:p-5 shadow-sm">
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-5">
+
                         <div>
                             <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">
                                 Build
                             </h3>
 
                             <ul class="tool-grid" aria-label="Development tools">
-                                <li class="tool-tile">
-                                    <span class="tool-logo">
-                                        <img
-                                            src="https://api.iconify.design/logos/xcode.svg"
-                                            alt=""
-                                            width="20"
-                                            height="20"
-                                            loading="lazy"
-                                        >
-                                    </span>
-                                    <span>Xcode</span>
+                                <li>
+                                    <button
+                                        type="button"
+                                        data-tool="xcode"
+                                        aria-haspopup="dialog"
+                                        aria-controls="toolModal"
+                                        class="tool-tile"
+                                    >
+                                        <span class="tool-logo">
+                                            <img
+                                                src="https://api.iconify.design/logos/xcode.svg"
+                                                alt=""
+                                                width="20"
+                                                height="20"
+                                                loading="lazy"
+                                            >
+                                        </span>
+                                        <span>Xcode</span>
+                                    </button>
                                 </li>
 
-                                <li class="tool-tile">
-                                    <span class="tool-logo">
-                                        <img
-                                            src="https://api.iconify.design/logos/swift.svg"
-                                            alt=""
-                                            width="20"
-                                            height="20"
-                                            loading="lazy"
-                                        >
-                                    </span>
-                                    <span>Swift / SwiftUI</span>
+                                <li>
+                                    <button
+                                        type="button"
+                                        data-tool="swift"
+                                        aria-haspopup="dialog"
+                                        aria-controls="toolModal"
+                                        class="tool-tile"
+                                    >
+                                        <span class="tool-logo">
+                                            <img
+                                                src="https://api.iconify.design/logos/swift.svg"
+                                                alt=""
+                                                width="20"
+                                                height="20"
+                                                loading="lazy"
+                                            >
+                                        </span>
+                                        <span>Swift / SwiftUI</span>
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -507,95 +550,151 @@
                             </h3>
 
                             <ul class="tool-grid" aria-label="AI-assisted tools">
-                                <li class="tool-tile">
-                                    <span class="tool-logo">
-                                        <img
-                                            src="https://api.iconify.design/logos/openai-icon.svg"
-                                            alt=""
-                                            width="20"
-                                            height="20"
-                                            loading="lazy"
-                                        >
-                                    </span>
-                                    <span>ChatGPT</span>
+                                <li>
+                                    <button
+                                        type="button"
+                                        data-tool="chatgpt"
+                                        aria-haspopup="dialog"
+                                        aria-controls="toolModal"
+                                        class="tool-tile"
+                                    >
+                                        <span class="tool-logo">
+                                            <img
+                                                src="https://api.iconify.design/logos/openai-icon.svg"
+                                                alt=""
+                                                width="20"
+                                                height="20"
+                                                loading="lazy"
+                                            >
+                                        </span>
+                                        <span>ChatGPT</span>
+                                    </button>
                                 </li>
 
-                                <li class="tool-tile">
-                                    <span class="tool-logo">
-                                        <img
-                                            src="https://api.iconify.design/simple-icons/perplexity.svg?color=%2320808d"
-                                            alt=""
-                                            width="20"
-                                            height="20"
-                                            loading="lazy"
-                                        >
-                                    </span>
-                                    <span>Perplexity</span>
+                                <li>
+                                    <button
+                                        type="button"
+                                        data-tool="perplexity"
+                                        aria-haspopup="dialog"
+                                        aria-controls="toolModal"
+                                        class="tool-tile"
+                                    >
+                                        <span class="tool-logo">
+                                            <img
+                                                src="https://api.iconify.design/simple-icons/perplexity.svg?color=%2320808d"
+                                                alt=""
+                                                width="20"
+                                                height="20"
+                                                loading="lazy"
+                                            >
+                                        </span>
+                                        <span>Perplexity</span>
+                                    </button>
                                 </li>
 
-                                <li class="tool-tile">
-                                    <span class="tool-logo">
-                                        <img
-                                            src="https://api.iconify.design/simple-icons/claude.svg?color=%23d97757"
-                                            alt=""
-                                            width="20"
-                                            height="20"
-                                            loading="lazy"
-                                        >
-                                    </span>
-                                    <span>Claude</span>
+                                <li>
+                                    <button
+                                        type="button"
+                                        data-tool="claude"
+                                        aria-haspopup="dialog"
+                                        aria-controls="toolModal"
+                                        class="tool-tile"
+                                    >
+                                        <span class="tool-logo">
+                                            <img
+                                                src="https://api.iconify.design/simple-icons/claude.svg?color=%23d97757"
+                                                alt=""
+                                                width="20"
+                                                height="20"
+                                                loading="lazy"
+                                            >
+                                        </span>
+                                        <span>Claude</span>
+                                    </button>
                                 </li>
 
-                                <li class="tool-tile">
-                                    <span class="tool-logo">
-                                        <img
-                                            src="https://api.iconify.design/simple-icons/githubcopilot.svg?color=%23242424"
-                                            alt=""
-                                            width="20"
-                                            height="20"
-                                            loading="lazy"
-                                        >
-                                    </span>
-                                    <span>GitHub Copilot</span>
+                                <li>
+                                    <button
+                                        type="button"
+                                        data-tool="copilot"
+                                        aria-haspopup="dialog"
+                                        aria-controls="toolModal"
+                                        class="tool-tile"
+                                    >
+                                        <span class="tool-logo">
+                                            <img
+                                                src="https://api.iconify.design/simple-icons/githubcopilot.svg?color=%23242424"
+                                                alt=""
+                                                width="20"
+                                                height="20"
+                                                loading="lazy"
+                                            >
+                                        </span>
+                                        <span>GitHub Copilot</span>
+                                    </button>
                                 </li>
 
-                                <li class="tool-tile">
-                                    <span class="tool-logo">
-                                        <img
-                                            src="https://api.iconify.design/logos/google-gemini.svg"
-                                            alt=""
-                                            width="20"
-                                            height="20"
-                                            loading="lazy"
-                                        >
-                                    </span>
-                                    <span>Google Gemini</span>
+                                <li>
+                                    <button
+                                        type="button"
+                                        data-tool="gemini"
+                                        aria-haspopup="dialog"
+                                        aria-controls="toolModal"
+                                        class="tool-tile"
+                                    >
+                                        <span class="tool-logo">
+                                            <img
+                                                src="https://api.iconify.design/logos/google-gemini.svg"
+                                                alt=""
+                                                width="20"
+                                                height="20"
+                                                loading="lazy"
+                                            >
+                                        </span>
+                                        <span>Google Gemini</span>
+                                    </button>
                                 </li>
 
-                                <li class="tool-tile">
-                                    <span class="tool-logo">
-                                        <img
-                                            src="https://api.iconify.design/simple-icons/windsurf.svg?color=%23007880"
-                                            alt=""
-                                            width="20"
-                                            height="20"
-                                            loading="lazy"
-                                        >
-                                    </span>
-                                    <span>Windsurf</span>
+                                <li>
+                                    <button
+                                        type="button"
+                                        data-tool="windsurf"
+                                        aria-haspopup="dialog"
+                                        aria-controls="toolModal"
+                                        class="tool-tile"
+                                    >
+                                        <span class="tool-logo">
+                                            <img
+                                                src="https://api.iconify.design/simple-icons/windsurf.svg?color=%23007880"
+                                                alt=""
+                                                width="20"
+                                                height="20"
+                                                loading="lazy"
+                                            >
+                                        </span>
+                                        <span>Windsurf</span>
+                                    </button>
                                 </li>
 
-                                <li class="tool-tile">
-                                    <span class="tool-logo">
-                                        <img
-                                            src="https://api.iconify.design/simple-icons/cursor.svg?color=%23242424"
-                                            alt=""
-                                            width="20"
-                                            height="20"
-                                            loading="lazy"
-                                        >
-                                    </span>
-                                    <span>Cursor</span>
+                                <li>
+                                    <button
+                                        type="button"
+                                        data-tool="cursor"
+                                        aria-haspopup="dialog"
+                                        aria-controls="toolModal"
+                                        class="tool-tile"
+                                    >
+                                        <span class="tool-logo">
+                                            <img
+                                                src="https://api.iconify.design/simple-icons/cursor.svg?color=%23242424"
+                                                alt=""
+                                                width="20"
+                                                height="20"
+                                                loading="lazy"
+                                            >
+                                        </span>
+                                        <span>Cursor</span>
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -609,6 +708,7 @@
                         <h3 class="text-sm font-semibold tracking-tight">
                             <span aria-hidden="true" class="text-apple-blue mr-2">01</span>Learn by building
                         </h3>
+
                         <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
                             I turn new concepts into working experiments,
                             then refine what I learn.
@@ -619,6 +719,7 @@
                         <h3 class="text-sm font-semibold tracking-tight">
                             <span aria-hidden="true" class="text-apple-blue mr-2">02</span>Solve real problems
                         </h3>
+
                         <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
                             I start with everyday needs and aim for apps
                             that feel useful, not complicated.
@@ -629,6 +730,7 @@
                         <h3 class="text-sm font-semibold tracking-tight">
                             <span aria-hidden="true" class="text-apple-blue mr-2">03</span>Improve every iteration
                         </h3>
+
                         <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
                             Better structure, thoughtful details, and a
                             smoother experience—one step at a time.
@@ -638,6 +740,80 @@
             </div>
         </section>
     </main>
+
+    <!-- ==================================================================== -->
+    <!-- NEW: SHARED TOOL DETAILS POPUP                                        -->
+    <!-- Small app-style window reused by all nine tool buttons.              -->
+    <!-- ==================================================================== -->
+    <dialog
+        id="toolModal"
+        aria-labelledby="toolModalTitle"
+        class="modal-shell w-full sm:w-[480px]"
+    >
+        <div class="modal-card journey-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
+            <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-5 py-4 text-center">
+                <p class="text-xs font-semibold tracking-tight">
+                    My Toolbox
+                </p>
+            </div>
+
+            <div class="journey-scroll min-h-0 p-6">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="h-12 w-12 rounded-xl bg-white border border-black/5 flex items-center justify-center shrink-0">
+                        <img
+                            id="toolModalIcon"
+                            alt=""
+                            width="30"
+                            height="30"
+                            class="w-[30px] h-[30px] object-contain"
+                        >
+                    </span>
+
+                    <div>
+                        <p
+                            id="toolModalCategory"
+                            class="mb-1 text-[10px] font-semibold uppercase tracking-widest text-apple-blue"
+                        ></p>
+
+                        <h2
+                            id="toolModalTitle"
+                            class="text-xl font-bold tracking-tight"
+                        ></h2>
+                    </div>
+                </div>
+
+                <h3 class="text-xs font-semibold mb-2">
+                    What it is
+                </h3>
+
+                <p
+                    id="toolModalAbout"
+                    class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"
+                ></p>
+
+                <div class="mt-5 rounded-xl bg-apple-bgLight dark:bg-black/25 p-4">
+                    <h3 class="text-xs font-semibold text-apple-blue mb-2">
+                        How it supports my journey
+                    </h3>
+
+                    <p
+                        id="toolModalJourney"
+                        class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"
+                    ></p>
+                </div>
+            </div>
+
+            <div class="shrink-0 flex justify-end border-t border-black/5 dark:border-white/10 px-5 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
+                <button
+                    type="button"
+                    data-close="toolModal"
+                    class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all"
+                >
+                    Done
+                </button>
+            </div>
+        </div>
+    </dialog>
 
     <!-- ==================================================================== -->
     <!-- NEW: APP-STYLE MY JOURNEY WINDOW                                      -->
@@ -731,7 +907,9 @@
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">1984</p>
-                        <h4 class="mt-1 text-base font-semibold tracking-tight">Born in India.</h4>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">
+                            Born in India.
+                        </h4>
                     </li>
 
                     <li class="timeline-item">
@@ -925,13 +1103,16 @@
                 document.getElementById('emailModal');
             const journeyModal =
                 document.getElementById('journeyModal');
+            const toolModal =
+                document.getElementById('toolModal');
 
+            const dialogs = [emailModal, journeyModal, toolModal];
             let savedOverflow = '';
             const returnFocus = new WeakMap();
 
             // NEW: Shared dialog helpers lock page scrolling and restore focus.
             function openDialog(dialog, trigger) {
-                if (dialog.open) return;
+                if (dialogs.some(item => item.open)) return;
 
                 savedOverflow = document.body.style.overflow;
                 returnFocus.set(dialog, trigger);
@@ -943,10 +1124,12 @@
                 if (story) story.scrollTop = 0;
             }
 
-            [emailModal, journeyModal].forEach(dialog => {
+            dialogs.forEach(dialog => {
                 dialog.addEventListener('close', () => {
                     document.body.style.overflow = savedOverflow;
-                    returnFocus.get(dialog)?.focus();
+                    returnFocus.get(dialog)?.focus({
+                        preventScroll: true
+                    });
                 });
             });
 
@@ -956,14 +1139,19 @@
             });
 
             // Close Modal on Cancel
-            cancelModalBtn.addEventListener('click', () => emailModal.close());
+            cancelModalBtn.addEventListener('click', () => {
+                emailModal.close();
+            });
 
             // Close Modal on Confirm Action
-            confirmEmailBtn.addEventListener('click', () => emailModal.close());
+            confirmEmailBtn.addEventListener('click', () => {
+                emailModal.close();
+            });
 
             // Close Modal when clicking on overlay backdrop
             // UPDATE: Apply backdrop dismissal to both native dialog windows.
-            [emailModal, journeyModal].forEach(dialog => {
+            // NEW: The same behavior now also applies to the tool-details window.
+            dialogs.forEach(dialog => {
                 let pointerStartedOutside = false;
 
                 dialog.addEventListener('pointerdown', event => {
@@ -993,6 +1181,94 @@
             document.querySelectorAll('[data-close]').forEach(button => {
                 button.addEventListener('click', () => {
                     document.getElementById(button.dataset.close).close();
+                });
+            });
+
+            // ----------------------------------------------------------------
+            // 3. TOOL DETAILS CONTENT & SHARED POPUP CONTROLLER
+            // ----------------------------------------------------------------
+            // EDIT HERE: Personal journey reflections are suggested first-person
+            // draft copy, not independently verified tool-specific experiences.
+            const toolDetails = {
+                xcode: {
+                    name: "Xcode",
+                    category: "Build",
+                    about: "Apple’s development environment for creating, running, testing, and debugging apps for Apple platforms.",
+                    journey: "Xcode is where my ideas become something I can run. Its previews, simulator, and debugging tools give me a place to connect what I am learning with how an app actually behaves."
+                },
+                swift: {
+                    name: "Swift / SwiftUI",
+                    category: "Build",
+                    about: "Swift is Apple’s programming language. SwiftUI is a framework for building app interfaces by describing their layout and behavior in Swift.",
+                    journey: "Swift gives me the language to express an idea, and SwiftUI helps me turn it into a screen. Building one view at a time makes a large app feel like a series of smaller, achievable steps."
+                },
+                chatgpt: {
+                    name: "ChatGPT",
+                    category: "Think, learn & iterate",
+                    about: "A conversational AI assistant that can explain concepts, discuss ideas, and help work through code.",
+                    journey: "ChatGPT gives me a place to ask beginner questions without hesitation. Breaking unfamiliar concepts into smaller explanations helps me focus on understanding the code, not just copying it."
+                },
+                perplexity: {
+                    name: "Perplexity",
+                    category: "Think, learn & iterate",
+                    about: "An AI-powered research and answer tool that helps explore questions with links to supporting sources.",
+                    journey: "Perplexity helps me connect a coding question with information I can investigate further. Following sources and comparing explanations supports my curiosity and encourages me to check what I learn."
+                },
+                claude: {
+                    name: "Claude",
+                    category: "Think, learn & iterate",
+                    about: "An AI assistant that can discuss ideas, explain code, and help with writing and coding tasks.",
+                    journey: "Claude offers another perspective when I am trying to understand a piece of code. Talking through structure and possible changes helps me think more carefully about how the parts fit together."
+                },
+                copilot: {
+                    name: "GitHub Copilot",
+                    category: "Think, learn & iterate",
+                    about: "An AI coding assistant that works with development tools to suggest code and help explain, edit, and review it.",
+                    journey: "Copilot brings suggestions closer to the code I am working on. Reviewing those suggestions gives me a chance to notice patterns and decide what fits my app rather than accepting every answer automatically."
+                },
+                gemini: {
+                    name: "Google Gemini",
+                    category: "Think, learn & iterate",
+                    about: "Google’s AI assistant, which can help explore ideas, answer questions, and work through coding problems.",
+                    journey: "Gemini gives me another way to explore an idea or ask for an explanation. Seeing a problem approached differently helps me ask better questions and stay open to alternatives."
+                },
+                windsurf: {
+                    name: "Windsurf",
+                    category: "Think, learn & iterate",
+                    about: "An AI-assisted code editor with tools for understanding a project, suggesting code, and making changes across files.",
+                    journey: "Windsurf helps me think beyond a single snippet and consider the wider project. Working with changes in context encourages me to connect individual edits with the feature I am trying to build."
+                },
+                cursor: {
+                    name: "Cursor",
+                    category: "Think, learn & iterate",
+                    about: "An AI-powered code editor that can use project context to help explain code, edit files, and work through bugs.",
+                    journey: "Cursor brings the conversation into the project itself. Asking questions alongside the code helps me move between an idea, a proposed change, and a result I can review and test."
+                }
+            };
+
+            const toolTitle =
+                document.getElementById('toolModalTitle');
+            const toolCategory =
+                document.getElementById('toolModalCategory');
+            const toolAbout =
+                document.getElementById('toolModalAbout');
+            const toolJourney =
+                document.getElementById('toolModalJourney');
+            const toolIcon =
+                document.getElementById('toolModalIcon');
+
+            document.querySelectorAll('[data-tool]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const tool = toolDetails[button.dataset.tool];
+                    if (!tool) return;
+
+                    toolTitle.textContent = tool.name;
+                    toolCategory.textContent = tool.category;
+                    toolAbout.textContent = tool.about;
+                    toolJourney.textContent = tool.journey;
+                    toolIcon.src = button.querySelector('img').src;
+
+                    openDialog(toolModal, button);
                 });
             });
         });
