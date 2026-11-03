@@ -1,50 +1,48 @@
-<!-- =========================================================================
-     FILE INFORMATION & DESIGN ARCHITECTURE HEADER
-     =========================================================================
-     File Name: index.html
-     Author: Varun Patel (Independent iOS Developer)
-     Contact: varun1329@icloud.com
-     Year: 2026
-     
-     PURPOSE:
-     Single-file personal portfolio and web presence for Varun Patel, an 
-     Independent iOS Developer specializing in SwiftUI, SwiftData, and Apple 
-     platform software development.
-
-     DESIGN & ARCHITECTURE OVERVIEW:
-     - Aesthetics: Inspired by Apple's minimalist web UI (frosted glass blur,
-       subtle gradients, precise typography, responsive fluid layouts).
-     - Styling Engine: Tailwind CSS (via CDN) with custom Apple-inspired palette & extended dark mode utilities.
-     - Dark/Light Theme: Class-based toggling (`.dark`) synchronized with system
-       preferences (`prefers-color-scheme`) and persistent via `localStorage`.
-     - Layout Structure:
-         1. Header: Sticky frosted glass navigation with code icon + 2-line brand mark (Varun Patel / 
-            Independent iOS Developer), theme switcher, and single 'Get in Touch' CTA.
-         2. Confirmation Modal: Apple HIG-inspired modal popup confirming intent to launch
-            the native mail client to contact varun1329@icloud.com.
-         3. Main Intro: Centered bio section featuring a large circular avatar frame with an 
-            animated green online badge, clean bio text, and modern typography.
-         4. Footer: Clean, minimalist copyright metadata string.
-     
-     RESPONSIVE DESIGN:
-     - Mobile First layout with fluid typography and tap target optimization.
-     - Handles mobile viewports down to 320px with zero horizontal scroll.
-     ========================================================================= -->
-
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="dark">
 <head>
+    <!--
+    ============================================================================
+    PROJECT: Varun Patel - Independent iOS Developer Portfolio
+    FILE: index.html
+    AUTHOR: Varun Patel
+    ROLE: Independent iOS Developer
+    DESIGN SYSTEM: Apple Human Interface Guidelines (HIG) inspired minimalism
+    TECH STACK: HTML5, Tailwind CSS (CDN), Vanilla JS, SVG Icons
+    
+    ARCHITECTURE OVERVIEW:
+    ----------------------
+    1. Header / Navigation:
+       - Apple-style blurred navigation bar with logo icon & 2-line span title.
+       - Clean "Get in Touch" primary CTA button (opens confirmation modal).
+       - Automatic OS-level Light/Dark mode detection without cluttering UI buttons.
+    2. Hero / Intro Section:
+       - Large circular avatar frame with developer/MacBook vector illustration.
+       - Animated glowing status indicator badge ("Available / Online").
+       - Direct, punchy personal bio outlining iOS development focus & tools.
+    3. Apple-Style Email Confirmation Modal:
+       - Interactive glassmorphic modal popping up on "Get in Touch" click.
+       - Prompting user confirmation before launching mail client to varun1329@icloud.com.
+    4. Footer:
+       - Minimalistic copyright footer string (@ 2026 - Varun Patel - Independent iOS Developer).
+
+    RESPONSIVE DESIGN & ACCESSIBILITY:
+    ----------------------------------
+    - Mobile-first flexbox implementation optimized for handhelds to 4K displays.
+    - Touch-safe interactions, dynamic font scaling, and high-contrast styling.
+    ============================================================================
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Varun Patel — Independent iOS Developer</title>
+    <title>Varun Patel - Independent iOS Developer</title>
 
-    <!-- Tailwind CSS Engine CDN -->
+    <!-- Tailwind CSS for utility-first responsive styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Tailwind Configuration for Apple Color Palette & Dark Mode -->
     <script>
         tailwind.config = {
-            darkMode: 'class', // Enables manual class-based dark mode control
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -58,34 +56,32 @@
                             textLight: '#1d1d1f',
                             subtextLight: '#6e6e73',
                             blue: '#0071e3',
-                            blueHover: '#0077ed',
                             green: '#34c759'
                         }
                     },
                     fontFamily: {
-                        // Native Apple font stack with fallback to Inter
-                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Inter"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif']
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif']
                     }
                 }
             }
         }
     </script>
 
-    <!-- Embedded Utility Styles & Animations -->
+    <!-- Inline Custom Styles & Keyframe Animations -->
     <style>
-        /* Smooth scrolling and standard mobile touch optimization */
+        /* Smooth scrolling behavior across modern browsers */
         html {
             scroll-behavior: smooth;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Prevent mobile swipe overflows and double-tap zoom delay */
+        /* Prevent horizontal layout shifts and double-tap zoom delay on mobile */
         body {
             overflow-x: hidden;
             touch-action: manipulation;
         }
 
-        /* Pulsing status indicator keyframes for online badge */
+        /* Pulsing online status dot animation */
         @keyframes status-pulse {
             0% {
                 box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7);
@@ -102,115 +98,96 @@
             animation: status-pulse 2s infinite;
         }
 
-        /* Modal backdrop animation */
-        @keyframes modal-fade {
-            from {
+        /* Apple-style backdrop blur modal animations */
+        @keyframes modal-pop {
+            0% {
                 opacity: 0;
-                transform: scale(0.95);
+                transform: scale(0.95) translateY(10px);
             }
-            to {
+            100% {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1) translateY(0);
             }
         }
 
-        .modal-animate {
-            animation: modal-fade 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .animate-modal-pop {
+            animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
     </style>
 </head>
 <body class="bg-apple-bgLight dark:bg-apple-bgDark text-apple-textLight dark:text-apple-textDark transition-colors duration-300 font-sans min-h-screen flex flex-col justify-between antialiased selection:bg-apple-blue selection:text-white">
 
-    <!-- =====================================================================
-         NAVIGATION / HEADER SECTION
-         Features logo icon + 2-line logo text, theme switcher, and modal CTA button.
-         ===================================================================== -->
+    <!-- ==================================================================== -->
+    <!-- HEADER SECTION                                                       -->
+    <!-- Apple-style translucent header with logo icon & single action CTA   -->
+    <!-- ==================================================================== -->
     <header class="sticky top-0 z-40 backdrop-blur-md bg-white/70 dark:bg-black/70 border-b border-black/5 dark:border-white/10 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
             
-            <!-- Logo Icon + 2-Line Brand / Logo Span -->
+            <!-- Brand Logo: Code Icon + 2-Line Span (Name & Professional Title) -->
             <a href="#" class="group flex items-center space-x-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-lg p-1 transition-transform active:scale-95">
                 
-                <!-- Code Brackets Logo Icon -->
-                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-apple-blue/10 dark:bg-apple-blue/20 text-apple-blue flex items-center justify-center transition-transform group-hover:scale-105">
-                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <!-- Logo Graphic Icon: Code Bracket / Swift-inspired Badge -->
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-apple-blue flex items-center justify-center text-white shadow-md shadow-apple-blue/20 group-hover:scale-105 transition-transform duration-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                     </svg>
                 </div>
 
-                <!-- 2-Line Name & Title Span -->
+                <!-- 2-Line Text Span -->
                 <div class="flex flex-col">
-                    <span class="text-base sm:text-lg font-bold tracking-tight text-apple-textLight dark:text-apple-textDark group-hover:text-apple-blue dark:group-hover:text-apple-blue transition-colors">
+                    <span class="text-base sm:text-lg font-bold tracking-tight text-apple-textLight dark:text-apple-textDark group-hover:text-apple-blue dark:group-hover:text-apple-blue transition-colors leading-tight">
                         Varun Patel
                     </span>
-                    <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark tracking-wide -mt-0.5">
+                    <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">
                         Independent iOS Developer
                     </span>
                 </div>
             </a>
 
-            <!-- Right Nav Controls (Theme Toggle + Modal Email Action) -->
-            <div class="flex items-center space-x-2 sm:space-x-4">
-                
-                <!-- Action Button Triggering Modal -->
-                <button id="openModalBtn" 
+            <!-- Right Navigation: Single Action "Get in Touch" Button (No arrows, no toggle button) -->
+            <div class="flex items-center">
+                <button id="openEmailModalBtn" 
                         type="button"
-                        class="inline-flex items-center px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-apple-blueHover active:scale-95 transition-all shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-apple-blue dark:focus:ring-offset-black">
-                    <span>Get in Touch</span>
-                    <svg class="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                    </svg>
-                </button>
-
-                <!-- Dark/Light Theme Switcher Button -->
-                <button id="themeToggleBtn" 
-                        aria-label="Toggle Color Theme"
-                        class="p-2 sm:p-2.5 rounded-full bg-black/5 dark:bg-white/10 text-apple-textLight dark:text-apple-textDark hover:bg-black/10 dark:hover:bg-white/20 active:scale-90 transition-all focus:outline-none focus:ring-2 focus:ring-apple-blue">
-                    <!-- Sun Icon (visible in Dark Mode) -->
-                    <svg id="sunIcon" class="w-4 h-4 sm:w-5 sm:h-5 hidden dark:block text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                    </svg>
-                    <!-- Moon Icon (visible in Light Mode) -->
-                    <svg id="moonIcon" class="w-4 h-4 sm:w-5 sm:h-5 block dark:hidden text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-                    </svg>
+                        class="inline-flex items-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-apple-blue dark:focus:ring-offset-black">
+                    Get in Touch
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- =====================================================================
-         MAIN CONTENT AREA: INTRO SECTION
-         Centrally aligned hero container featuring avatar frame, status, and bio.
-         ===================================================================== -->
+    <!-- ==================================================================== -->
+    <!-- MAIN CONTENT AREA: INTRO SECTION ONLY                                -->
+    <!-- Responsive centered hero section with developer avatar & bio text    -->
+    <!-- ==================================================================== -->
     <main class="flex-grow flex items-center justify-center px-4 sm:px-6 py-12 sm:py-20">
         
         <div class="max-w-2xl w-full mx-auto text-center flex flex-col items-center">
             
-            <!-- Circular Avatar Frame with Placeholder Developer SVG & Animated Online Dot -->
+            <!-- Circular Avatar Frame with Developer SVG Placeholder & Status Dot -->
             <div class="relative mb-6 sm:mb-8 group">
                 
-                <!-- Main Avatar Circle Container -->
+                <!-- Circular Outer Avatar Ring -->
                 <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full ring-4 ring-black/5 dark:ring-white/10 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-neutral-800 dark:to-neutral-900 p-1 shadow-xl flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
                     
-                    <!-- Placeholder SVG: Developer working on computer -->
+                    <!-- SVG Avatar Illustration (Working on Computer Placeholder) -->
                     <svg class="w-20 h-20 sm:w-28 sm:h-28 text-slate-400 dark:text-neutral-500 mt-2" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                 </div>
 
-                <!-- Green Animated Online Status Dot -->
-                <div class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 flex items-center justify-center bg-white dark:bg-black rounded-full p-1 shadow-md">
+                <!-- Green Pulsing Online Developer Indicator -->
+                <div class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 flex items-center justify-center bg-white dark:bg-black rounded-full p-1 shadow-md" title="Developer is Online">
                     <span class="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-apple-green rounded-full status-dot-pulse block"></span>
                 </div>
             </div>
 
-            <!-- Intro Heading -->
+            <!-- Intro Bio Heading -->
             <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-apple-textLight dark:text-apple-textDark mb-3 sm:mb-4">
                 Hi, I'm <span class="text-apple-blue">Varun Patel</span>.
             </h1>
 
-            <!-- Concise Intro Bio Text -->
+            <!-- Concise Personal Intro Bio -->
             <p class="text-base sm:text-lg lg:text-xl text-apple-subtextLight dark:text-apple-subtextDark max-w-xl leading-relaxed font-normal">
                 Independent iOS developer passionate about crafting clean, intuitive, and performant native mobile applications using modern <span class="text-apple-textLight dark:text-apple-textDark font-medium">SwiftUI</span> and <span class="text-apple-textLight dark:text-apple-textDark font-medium">Xcode</span> tools.
             </p>
@@ -218,50 +195,50 @@
 
     </main>
 
-    <!-- =====================================================================
-         APPLE-STYLE CONFIRMATION MODAL POPUP
-         Dialog overlay asking confirmation to open native mail app.
-         ===================================================================== -->
-    <div id="emailModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden transition-opacity duration-200">
+    <!-- ==================================================================== -->
+    <!-- APPLE-STYLE EMAIL CONFIRMATION MODAL POPUP                           -->
+    <!-- Interactive modal asking confirmation before emailing developer     -->
+    <!-- ==================================================================== -->
+    <div id="emailModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40 dark:bg-black/70 backdrop-blur-sm hidden transition-opacity duration-300">
         
-        <!-- Modal Card -->
-        <div class="bg-white/90 dark:bg-apple-cardDark/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-6 sm:p-7 max-w-sm w-full shadow-2xl modal-animate text-center flex flex-col items-center">
+        <!-- Modal Card Dialog -->
+        <div class="bg-white/90 dark:bg-apple-cardDark/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-6 sm:p-7 max-w-sm w-full shadow-2xl text-center transform animate-modal-pop">
             
-            <!-- Mail Icon Header -->
-            <div class="w-12 h-12 rounded-full bg-apple-blue/10 text-apple-blue flex items-center justify-center mb-4">
+            <!-- Apple Mail Icon Badge -->
+            <div class="w-12 h-12 rounded-full bg-apple-blue/10 text-apple-blue mx-auto flex items-center justify-center mb-4">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
             </div>
 
-            <!-- Modal Title & Message -->
-            <h3 class="text-lg font-bold text-apple-textLight dark:text-apple-textDark mb-2">
-                Send an Email?
+            <!-- Modal Heading & Description -->
+            <h3 class="text-lg font-bold text-apple-textLight dark:text-apple-textDark mb-1">
+                Contact Developer
             </h3>
-            <p class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark mb-6 leading-relaxed">
-                Would you like to open your native mail app to send an email to <span class="font-semibold text-apple-textLight dark:text-apple-textDark">varun1329@icloud.com</span>?
+            <p class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark mb-5 leading-normal">
+                Would you like to open your native mail client to send an email to <span class="font-semibold text-apple-textLight dark:text-apple-textDark">varun1329@icloud.com</span>?
             </p>
 
             <!-- Action Buttons -->
-            <div class="flex items-center justify-end space-x-3 w-full">
+            <div class="flex items-center space-x-3">
                 <button id="cancelModalBtn" 
-                        type="button" 
-                        class="w-1/2 py-2 sm:py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium bg-black/5 dark:bg-white/10 text-apple-textLight dark:text-apple-textDark hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all">
+                        type="button"
+                        class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-black/5 dark:bg-white/10 text-apple-textLight dark:text-apple-textDark hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all">
                     Cancel
                 </button>
-                <button id="confirmEmailBtn" 
-                        type="button" 
-                        class="w-1/2 py-2 sm:py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-apple-blueHover active:scale-95 transition-all shadow-md">
+                <a id="confirmEmailBtn" 
+                   href="mailto:varun1329@icloud.com" 
+                   class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm text-center inline-block">
                     Send Email
-                </button>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- =====================================================================
-         FOOTER SECTION
-         Displays strict requested copyright text.
-         ===================================================================== -->
+    <!-- ==================================================================== -->
+    <!-- FOOTER SECTION                                                       -->
+    <!-- Simple footer with exact user requested copyright text string        -->
+    <!-- ==================================================================== -->
     <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 text-center">
             <p class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">
@@ -270,57 +247,64 @@
         </div>
     </footer>
 
-    <!-- =====================================================================
-         JAVASCRIPT CONTROLLER: THEME & MODAL MANAGEMENT
-         ===================================================================== -->
+    <!-- ==================================================================== -->
+    <!-- JAVASCRIPT LOGIC                                                     -->
+    <!-- 1. Automatic OS Device Light/Dark Theme Listener                    -->
+    <!-- 2. Apple-Style Modal Popup Logic                                     -->
+    <!-- ==================================================================== -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Theme Elements
-            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            
+            // ----------------------------------------------------------------
+            // 1. AUTOMATIC SYSTEM THEME DETECTION & LIVE SYNC
+            // ----------------------------------------------------------------
             const htmlElement = document.documentElement;
+            const darkThemeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-            // Modal Elements
-            const openModalBtn = document.getElementById('openModalBtn');
+            // Function to apply light/dark class based on system settings
+            const applySystemTheme = (e) => {
+                if (e.matches) {
+                    htmlElement.classList.add('dark');
+                } else {
+                    htmlElement.classList.remove('dark');
+                }
+            };
+
+            // Apply theme on initial load
+            applySystemTheme(darkThemeMediaQuery);
+
+            // Listen live for changes in system color scheme preference
+            darkThemeMediaQuery.addEventListener('change', applySystemTheme);
+
+
+            // ----------------------------------------------------------------
+            // 2. EMAIL CONFIRMATION MODAL DIALOG CONTROLLER
+            // ----------------------------------------------------------------
+            const openEmailModalBtn = document.getElementById('openEmailModalBtn');
             const cancelModalBtn = document.getElementById('cancelModalBtn');
             const confirmEmailBtn = document.getElementById('confirmEmailBtn');
             const emailModal = document.getElementById('emailModal');
 
-            // 1. Theme Initialization & Storage Logic
-            const savedTheme = localStorage.getItem('theme');
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
-                htmlElement.classList.add('dark');
-            } else {
-                htmlElement.classList.remove('dark');
-            }
-
-            themeToggleBtn.addEventListener('click', () => {
-                if (htmlElement.classList.contains('dark')) {
-                    htmlElement.classList.remove('dark');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    htmlElement.classList.add('dark');
-                    localStorage.setItem('theme', 'dark');
-                }
+            // Open Modal
+            openEmailModalBtn.addEventListener('click', () => {
+                emailModal.classList.remove('hidden');
             });
 
-            // 2. Apple-style Email Modal Logic
-            const showModal = () => emailModal.classList.remove('hidden');
-            const hideModal = () => emailModal.classList.add('hidden');
-
-            openModalBtn.addEventListener('click', showModal);
-            cancelModalBtn.addEventListener('click', hideModal);
-
-            // Close modal if backdrop is clicked
-            emailModal.addEventListener('click', (e) => {
-                if (e.target === emailModal) hideModal();
+            // Close Modal on Cancel
+            cancelModalBtn.addEventListener('click', () => {
+                emailModal.classList.add('hidden');
             });
 
-            // Confirm Email Action
+            // Close Modal on Confirm Action
             confirmEmailBtn.addEventListener('click', () => {
-                hideModal();
-                window.location.href = 'mailto:varun1329@icloud.com';
+                emailModal.classList.add('hidden');
+            });
+
+            // Close Modal when clicking on overlay backdrop
+            emailModal.addEventListener('click', (e) => {
+                if (e.target === emailModal) {
+                    emailModal.classList.add('hidden');
+                }
             });
         });
     </script>
