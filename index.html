@@ -547,7 +547,7 @@
                 </div>
 
                 <h1 id="introTitle" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-3 sm:mb-4">
-                    Hi, I'm <span class="text-apple-blue">Varun Patel</span>
+                    Hi, I'm <span class="text-apple-blue">Varun Patel</span>.
                 </h1>
 
                 <p class="text-base sm:text-lg lg:text-xl text-apple-subtextLight dark:text-apple-subtextDark max-w-xl leading-relaxed font-normal">
@@ -775,41 +775,51 @@
                             role="group"
                             aria-roledescription="slide"
                             aria-label="1 of 2: EasyList"
-                            class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm"
+                            class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm hover:border-apple-blue/50 dark:hover:border-apple-blue/50 transition-colors group"
                         >
-                            <div class="project-art project-art-easy" aria-hidden="true">
-                                <div class="project-icon border-[4px] border-[#1d1d1f] bg-[#0785ff] text-[#17212c]">
-                                    <!-- Light mode image 3.png -->
-                                    <img 
-                                        src="./3.png" 
-                                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';" 
-                                        alt="EasyList Light Icon" 
-                                        class="w-12 h-12 rounded-xl object-contain shadow-md block dark:hidden"
-                                    >
-                                    <!-- Dark mode image 4.png -->
-                                    <img 
-                                        src="./4.png" 
-                                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';" 
-                                        alt="EasyList Dark Icon" 
-                                        class="w-12 h-12 rounded-xl object-contain shadow-md hidden dark:block"
-                                    >
+                            <a href="EasyList.html" class="flex flex-col flex-grow focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-3xl" aria-label="View EasyList details page">
+                                <div class="project-art project-art-easy" aria-hidden="true">
+                                    <div class="project-icon border-[4px] border-[#1d1d1f] bg-[#0785ff] text-[#17212c] group-hover:scale-105 transition-transform duration-300">
+                                        <!-- Light mode image 3.png -->
+                                        <img 
+                                            src="./3.png" 
+                                            onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';" 
+                                            alt="EasyList Light Icon" 
+                                            class="w-12 h-12 rounded-xl object-contain shadow-md block dark:hidden"
+                                        >
+                                        <!-- Dark mode image 4.png -->
+                                        <img 
+                                            src="./4.png" 
+                                            onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';" 
+                                            alt="EasyList Dark Icon" 
+                                            class="w-12 h-12 rounded-xl object-contain shadow-md hidden dark:block"
+                                        >
+                                    </div>
+                                    <span class="absolute bottom-5 left-5 sm:left-6 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#536b83]">One focused list - Zero clutter</span>
                                 </div>
-                                <span class="absolute bottom-5 left-5 sm:left-6 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#536b83]">One focused list - Zero clutter</span>
-                            </div>
-                            <div class="flex flex-col flex-grow p-5 sm:p-6">
-                                <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
-                                    <span class="inline-flex items-center gap-2 font-medium"><span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span>
-                                    <span>01 / 02</span>
+                                <div class="flex flex-col flex-grow p-5 sm:p-6">
+                                    <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
+                                        <span class="inline-flex items-center gap-2 font-medium"><span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span>
+                                        <span>01 / 02</span>
+                                    </div>
+                                    <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight group-hover:text-apple-blue transition-colors flex items-center justify-between">
+                                        EasyList
+                                        <svg class="w-5 h-5 text-apple-subtextLight dark:text-apple-subtextDark group-hover:text-apple-blue group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                                        </svg>
+                                    </h3>
+                                    <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">Create list with quick/smart hands-free voice inputs, duplicate prevention, progress tracking and one tap cleanup actions.</p>
+                                    <ul aria-label="EasyList technologies and category" class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark">
+                                        <li class="project-tag">iOS</li>
+                                        <li class="project-tag">SwiftUI</li>
+                                        <li class="project-tag">Productivity</li>
+                                    </ul>
+                                    <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold flex items-center justify-between text-apple-textLight dark:text-apple-textDark">
+                                        <span>My first app-building chapter</span>
+                                        <span class="text-xs text-apple-blue font-medium">Explore Project &rarr;</span>
+                                    </p>
                                 </div>
-                                <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight">EasyList</h3>
-                                <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">Create list with quick/smart hands-free voice inputs, duplicate prevention, progress tracking and one tap cleanup actions.</p>
-                                <ul aria-label="EasyList technologies and category" class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark">
-                                    <li class="project-tag">iOS</li>
-                                    <li class="project-tag">SwiftUI</li>
-                                    <li class="project-tag">Productivity</li>
-                                </ul>
-                                <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold">My first app-building chapter</p>
-                            </div>
+                            </a>
                         </article>
 
                         <article
