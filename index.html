@@ -13,8 +13,8 @@
     CURRENT PAGE ARCHITECTURE:
     --------------------------
     1. Header: Full-width background, code badge, identity, and Get in Touch.
-    2. Intro / Hero: Larger circular portrait using Varun 1.jpg, decorative
-       animated green status dot, bio, and My Journey button.
+    2. Intro / Hero: Enlarged non-interactive circular portrait using Varun 1.jpg,
+       original animated green status dot, bio, and My Journey button.
     3. My Toolbox: Compact tool groups, nine clickable icons, and principles.
     4. My Work: Horizontal, scroll-snap project carousel for EasyList and TripMate.
        Includes clickable position indicators, swipe/trackpad scrolling, and
@@ -34,6 +34,7 @@
       position text, clickable indicators, and Left/Right/Home/End keys.
     - No automatic carousel rotation; reduced-motion preferences respected.
     - Visible keyboard focus and appropriately labeled controls.
+    - Portrait has descriptive alt text but no link, button, or focus target.
 
     CONTENT & ASSETS:
     -----------------
@@ -42,8 +43,10 @@
     - Tool journey reflections remain editable draft copy.
     - My Work content follows the supplied EasyList / TripMate screenshot.
     - App artwork is recreated inline SVG, not external app icon files.
-    - Portrait: Varun 1.jpg in the same folder as index.html.
-      Upper-center crop is controlled by object-position: center 20%.
+    - Portrait: Varun 1.jpg beside index.html; 176px mobile / 208px desktop.
+      Top-biased crop (center 5%) places the photo lower within the frame.
+      Dragging, selection, and the normal portrait context menu are disabled.
+      These UI restrictions do not prevent downloading a publicly served file.
     - Tailwind and toolbox brand icons require internet access.
     ============================================================================
     -->
@@ -102,14 +105,35 @@
             touch-action: manipulation;
         }
 
-        /* Portrait fills the larger circle; favor the upper area of the photo. */
+        /* Larger, non-interactive portrait; lower crop offset favors the head. */
+        .portrait-frame {
+            width: 176px;
+            height: 176px;
+            cursor: default;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
         .hero-portrait {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 20%;
+            object-position: center 5%;
             display: block;
             border-radius: 50%;
+            pointer-events: none;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-touch-callout: none;
+        }
+
+        @media (min-width: 640px) {
+            .portrait-frame {
+                width: 208px;
+                height: 208px;
+            }
         }
 
         /* Decorative pulse, not a live availability service. */
@@ -490,22 +514,27 @@
     <!-- MAIN: Intro, My Toolbox, and My Work in normal document flow. -->
     <main class="flex-grow">
 
-        <!-- INTRO / HERO: Larger local portrait; approved bio and green dot retained. -->
+        <!-- INTRO / HERO: Enlarged non-interactive portrait; bio and green dot retained. -->
         <section
             aria-labelledby="introTitle"
             class="hero-section flex items-center justify-center px-4 sm:px-6 py-12 sm:py-20"
         >
             <div class="max-w-2xl w-full mx-auto text-center flex flex-col items-center">
-                <div class="relative mb-6 sm:mb-8 group">
+                <div class="relative mb-6 sm:mb-8">
 
-                    <!-- 144px mobile / 176px desktop frame. File is beside index.html. -->
-                    <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-full ring-4 ring-black/5 dark:ring-white/10 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-neutral-800 dark:to-neutral-900 p-1 shadow-xl flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
+                    <!-- No link, focus target, hover zoom, or image action. -->
+                    <div
+                        class="portrait-frame rounded-full ring-4 ring-black/5 dark:ring-white/10 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-neutral-800 dark:to-neutral-900 p-1 shadow-xl flex items-center justify-center overflow-hidden"
+                        oncontextmenu="return false;"
+                        ondragstart="return false;"
+                    >
                         <img
                             src="./Varun%201.jpg"
                             alt="Portrait of Varun Patel"
-                            width="176"
-                            height="176"
+                            width="208"
+                            height="208"
                             class="hero-portrait"
+                            draggable="false"
                             decoding="async"
                             fetchpriority="high"
                         >
@@ -543,19 +572,8 @@
                     aria-controls="journeyModal"
                     class="mt-7 inline-flex items-center gap-2 rounded-full bg-apple-blue px-6 py-3 text-sm font-medium text-white shadow-md shadow-apple-blue/20 hover:bg-blue-600 hover:shadow-lg active:scale-95 transition-all"
                 >
-                    <svg
-                        aria-hidden="true"
-                        class="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 6.5C9 4.5 5.5 4.5 3 6v14c2.5-1.5 6-1.5 9 .5 3-2 6.5-2 9-.5V6c-2.5-1.5-6-1.5-9 .5Zm0 0v14"
-                        />
+                    <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.5C9 4.5 5.5 4.5 3 6v14c2.5-1.5 6-1.5 9 .5 3-2 6.5-2 9-.5V6c-2.5-1.5-6-1.5-9 .5Zm0 0v14"/>
                     </svg>
                     My Journey
                 </button>
@@ -573,10 +591,7 @@
                     <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">
                         My Toolbox
                     </p>
-                    <h2
-                        id="toolboxTitle"
-                        class="text-xl sm:text-2xl font-bold tracking-tight"
-                    >
+                    <h2 id="toolboxTitle" class="text-xl sm:text-2xl font-bold tracking-tight">
                         Human ideas/vision.
                         <span class="text-apple-blue">AI-assisted execution.</span>
                     </h2>
@@ -590,23 +605,17 @@
                 <div class="rounded-2xl bg-apple-cardLight dark:bg-apple-cardDark border border-black/5 dark:border-white/10 p-4 sm:p-5 shadow-sm">
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-5">
                         <div>
-                            <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">
-                                Build
-                            </h3>
+                            <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">Build</h3>
                             <ul class="tool-grid" aria-label="Development tools">
                                 <li>
                                     <button type="button" data-tool="xcode" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo">
-                                            <img src="https://api.iconify.design/logos/xcode.svg" alt="" width="20" height="20" loading="lazy">
-                                        </span>
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/xcode.svg" alt="" width="20" height="20" loading="lazy"></span>
                                         <span>Xcode</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" data-tool="swift" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo">
-                                            <img src="https://api.iconify.design/logos/swift.svg" alt="" width="20" height="20" loading="lazy">
-                                        </span>
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/swift.svg" alt="" width="20" height="20" loading="lazy"></span>
                                         <span>Swift / SwiftUI</span>
                                     </button>
                                 </li>
@@ -614,63 +623,47 @@
                         </div>
 
                         <div class="border-t border-black/5 dark:border-white/10 pt-4 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-5 min-w-0">
-                            <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">
-                                Think, learn &amp; iterate
-                            </h3>
+                            <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">Think, learn &amp; iterate</h3>
                             <ul class="tool-grid" aria-label="AI-assisted tools">
                                 <li>
                                     <button type="button" data-tool="chatgpt" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo">
-                                            <img src="https://api.iconify.design/logos/openai-icon.svg" alt="" width="20" height="20" loading="lazy">
-                                        </span>
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/openai-icon.svg" alt="" width="20" height="20" loading="lazy"></span>
                                         <span>ChatGPT</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" data-tool="perplexity" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo">
-                                            <img src="https://api.iconify.design/simple-icons/perplexity.svg?color=%2320808d" alt="" width="20" height="20" loading="lazy">
-                                        </span>
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/perplexity.svg?color=%2320808d" alt="" width="20" height="20" loading="lazy"></span>
                                         <span>Perplexity</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" data-tool="claude" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo">
-                                            <img src="https://api.iconify.design/simple-icons/claude.svg?color=%23d97757" alt="" width="20" height="20" loading="lazy">
-                                        </span>
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/claude.svg?color=%23d97757" alt="" width="20" height="20" loading="lazy"></span>
                                         <span>Claude</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" data-tool="copilot" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo">
-                                            <img src="https://api.iconify.design/simple-icons/githubcopilot.svg?color=%23242424" alt="" width="20" height="20" loading="lazy">
-                                        </span>
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/githubcopilot.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span>
                                         <span>GitHub Copilot</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" data-tool="gemini" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo">
-                                            <img src="https://api.iconify.design/logos/google-gemini.svg" alt="" width="20" height="20" loading="lazy">
-                                        </span>
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/google-gemini.svg" alt="" width="20" height="20" loading="lazy"></span>
                                         <span>Google Gemini</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" data-tool="windsurf" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo">
-                                            <img src="https://api.iconify.design/simple-icons/windsurf.svg?color=%23007880" alt="" width="20" height="20" loading="lazy">
-                                        </span>
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/windsurf.svg?color=%23007880" alt="" width="20" height="20" loading="lazy"></span>
                                         <span>Windsurf</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" data-tool="cursor" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
-                                        <span class="tool-logo">
-                                            <img src="https://api.iconify.design/simple-icons/cursor.svg?color=%23242424" alt="" width="20" height="20" loading="lazy">
-                                        </span>
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/cursor.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span>
                                         <span>Cursor</span>
                                     </button>
                                 </li>
@@ -681,31 +674,16 @@
 
                 <div class="mt-3 rounded-2xl bg-apple-cardLight dark:bg-apple-cardDark border border-black/5 dark:border-white/10 shadow-sm grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-black/5 dark:divide-white/10">
                     <article class="p-4 sm:p-5">
-                        <h3 class="text-sm font-semibold tracking-tight">
-                            <span aria-hidden="true" class="text-apple-blue mr-2">01</span>Learn by building
-                        </h3>
-                        <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                            I turn new concepts into working experiments,
-                            then refine what I learn.
-                        </p>
+                        <h3 class="text-sm font-semibold tracking-tight"><span aria-hidden="true" class="text-apple-blue mr-2">01</span>Learn by building</h3>
+                        <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">I turn new concepts into working experiments, then refine what I learn.</p>
                     </article>
                     <article class="p-4 sm:p-5">
-                        <h3 class="text-sm font-semibold tracking-tight">
-                            <span aria-hidden="true" class="text-apple-blue mr-2">02</span>Solve real problems
-                        </h3>
-                        <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                            I start with everyday needs and aim for apps
-                            that feel useful, not complicated.
-                        </p>
+                        <h3 class="text-sm font-semibold tracking-tight"><span aria-hidden="true" class="text-apple-blue mr-2">02</span>Solve real problems</h3>
+                        <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">I start with everyday needs and aim for apps that feel useful, not complicated.</p>
                     </article>
                     <article class="p-4 sm:p-5">
-                        <h3 class="text-sm font-semibold tracking-tight">
-                            <span aria-hidden="true" class="text-apple-blue mr-2">03</span>Improve every iteration
-                        </h3>
-                        <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                            Better structure, thoughtful details, and a
-                            smoother experience—one step at a time.
-                        </p>
+                        <h3 class="text-sm font-semibold tracking-tight"><span aria-hidden="true" class="text-apple-blue mr-2">03</span>Improve every iteration</h3>
+                        <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">Better structure, thoughtful details, and a smoother experience—one step at a time.</p>
                     </article>
                 </div>
             </div>
@@ -719,15 +697,9 @@
         >
             <div class="max-w-5xl mx-auto">
                 <div class="max-w-xl mb-5 sm:mb-6">
-                    <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">
-                        My Work
-                    </p>
-                    <h2
-                        id="workTitle"
-                        class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight"
-                    >
-                        Small steps.<br>
-                        <span class="text-apple-blue">Real Apps.</span>
+                    <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">My Work</p>
+                    <h2 id="workTitle" class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
+                        Small steps.<br><span class="text-apple-blue">Real Apps.</span>
                     </h2>
                     <p class="mt-3 text-sm sm:text-base text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">
                         Every project is a chance to learn, solve a practical
@@ -763,36 +735,21 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.5 8h5m-5 4h7m-7 4h5m2-11 2.5 2.5L22 3"/>
                                     </svg>
                                 </div>
-                                <span class="absolute bottom-5 left-5 sm:left-6 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#536b83]">
-                                    Less mental clutter
-                                </span>
+                                <span class="absolute bottom-5 left-5 sm:left-6 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#536b83]">Less mental clutter</span>
                             </div>
-
                             <div class="flex flex-col flex-grow p-5 sm:p-6">
                                 <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
-                                    <span class="inline-flex items-center gap-2 font-medium">
-                                        <span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>
-                                        Personal project
-                                    </span>
+                                    <span class="inline-flex items-center gap-2 font-medium"><span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span>
                                     <span>01 / 02</span>
                                 </div>
                                 <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight">EasyList</h3>
-                                <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                                    A simple, practical approach to keeping lists organized.
-                                    Built around the idea that everyday planning should feel
-                                    clear, quick, and effortless.
-                                </p>
-                                <ul
-                                    aria-label="EasyList technologies and category"
-                                    class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark"
-                                >
+                                <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">A simple, practical approach to keeping lists organized. Built around the idea that everyday planning should feel clear, quick, and effortless.</p>
+                                <ul aria-label="EasyList technologies and category" class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark">
                                     <li class="project-tag">iOS</li>
                                     <li class="project-tag">SwiftUI</li>
                                     <li class="project-tag">Productivity</li>
                                 </ul>
-                                <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold">
-                                    My first app-building chapter
-                                </p>
+                                <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold">My first app-building chapter</p>
                             </div>
                         </article>
 
@@ -810,44 +767,27 @@
                                         <path stroke-linecap="round" d="M9 8h6m-6 4h6m-6 4h4"/>
                                     </svg>
                                 </div>
-                                <span class="absolute bottom-5 left-5 sm:left-6 right-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#506f6e]">
-                                    Your expense mate for the trips
-                                </span>
+                                <span class="absolute bottom-5 left-5 sm:left-6 right-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#506f6e]">Your expense mate for the trips</span>
                             </div>
-
                             <div class="flex flex-col flex-grow p-5 sm:p-6">
                                 <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
-                                    <span class="inline-flex items-center gap-2 font-medium">
-                                        <span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>
-                                        Personal project
-                                    </span>
+                                    <span class="inline-flex items-center gap-2 font-medium"><span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span>
                                     <span>02 / 02</span>
                                 </div>
                                 <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight">TripMate</h3>
-                                <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                                    Every Trip needs a Smart &quot;Expense&quot; Mate.
-                                </p>
-                                <ul
-                                    aria-label="TripMate technologies and category"
-                                    class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark"
-                                >
+                                <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">Every Trip needs a Smart &quot;Expense&quot; Mate.</p>
+                                <ul aria-label="TripMate technologies and category" class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark">
                                     <li class="project-tag">iOS</li>
                                     <li class="project-tag">SwiftUI</li>
                                     <li class="project-tag">Travel</li>
                                 </ul>
-                                <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold">
-                                    Built around real-life needs
-                                </p>
+                                <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold">Built around real-life needs</p>
                             </div>
                         </article>
                     </div>
 
                     <!-- Indicators are navigation controls, not app-exploration links. -->
-                    <div
-                        class="mt-3 flex items-center justify-center gap-1"
-                        role="group"
-                        aria-label="Choose a project"
-                    >
+                    <div class="mt-3 flex items-center justify-center gap-1" role="group" aria-label="Choose a project">
                         <button
                             type="button"
                             class="project-dot"
@@ -855,32 +795,19 @@
                             aria-label="Show EasyList, project 1 of 2"
                             aria-controls="projectCarousel"
                             aria-current="true"
-                        >
-                            <span aria-hidden="true"></span>
-                        </button>
+                        ><span aria-hidden="true"></span></button>
                         <button
                             type="button"
                             class="project-dot"
                             data-project-index="1"
                             aria-label="Show TripMate, project 2 of 2"
                             aria-controls="projectCarousel"
-                        >
-                            <span aria-hidden="true"></span>
-                        </button>
+                        ><span aria-hidden="true"></span></button>
                     </div>
-
-                    <p
-                        id="projectScrollHint"
-                        class="text-center text-[11px] text-apple-subtextLight dark:text-apple-subtextDark"
-                    >
+                    <p id="projectScrollHint" class="text-center text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
                         Swipe or scroll sideways to explore · Click a dot to switch projects
                     </p>
-                    <p
-                        id="projectPosition"
-                        class="sr-only"
-                        aria-live="polite"
-                        aria-atomic="true"
-                    >
+                    <p id="projectPosition" class="sr-only" aria-live="polite" aria-atomic="true">
                         Project 1 of 2: EasyList
                     </p>
                 </div>
@@ -889,16 +816,11 @@
     </main>
 
     <!-- TOOL DETAILS DIALOG: Shared popup populated with textContent. -->
-    <dialog
-        id="toolModal"
-        aria-labelledby="toolModalTitle"
-        class="modal-shell w-full sm:w-[480px]"
-    >
+    <dialog id="toolModal" aria-labelledby="toolModalTitle" class="modal-shell w-full sm:w-[480px]">
         <div class="modal-card journey-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
             <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-5 py-4 text-center">
                 <p class="text-xs font-semibold tracking-tight">My Toolbox</p>
             </div>
-
             <div class="journey-scroll min-h-0 p-6">
                 <div class="flex items-center gap-3 mb-5">
                     <span class="h-12 w-12 rounded-xl bg-white border border-black/5 flex items-center justify-center shrink-0">
@@ -909,43 +831,25 @@
                         <h2 id="toolModalTitle" class="text-xl font-bold tracking-tight"></h2>
                     </div>
                 </div>
-
                 <h3 class="text-xs font-semibold mb-2">What it is</h3>
                 <p id="toolModalAbout" class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"></p>
-
                 <div class="mt-5 rounded-xl bg-apple-bgLight dark:bg-black/25 p-4">
-                    <h3 class="text-xs font-semibold text-apple-blue mb-2">
-                        How it supports my journey
-                    </h3>
+                    <h3 class="text-xs font-semibold text-apple-blue mb-2">How it supports my journey</h3>
                     <p id="toolModalJourney" class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"></p>
                 </div>
             </div>
-
             <div class="shrink-0 flex justify-end border-t border-black/5 dark:border-white/10 px-5 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
-                <button
-                    type="button"
-                    data-close="toolModal"
-                    class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all"
-                >
-                    Done
-                </button>
+                <button type="button" data-close="toolModal" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Done</button>
             </div>
         </div>
     </dialog>
 
     <!-- MY JOURNEY DIALOG: Approved story, highlighted question, and timeline. -->
-    <dialog
-        id="journeyModal"
-        aria-labelledby="journeyTitle"
-        class="modal-shell w-full sm:w-[700px]"
-    >
+    <dialog id="journeyModal" aria-labelledby="journeyTitle" class="modal-shell w-full sm:w-[700px]">
         <div class="modal-card journey-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
             <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-4 sm:px-5 py-4 text-center">
-                <h2 id="journeyTitle" class="text-sm font-semibold tracking-tight">
-                    Varun Patel
-                </h2>
+                <h2 id="journeyTitle" class="text-sm font-semibold tracking-tight">Varun Patel</h2>
             </div>
-
             <div class="journey-scroll min-h-0 px-6 sm:px-10 py-7 sm:py-9">
                 <div class="inline-flex rounded-full bg-apple-blue/10 px-3 py-1 text-[11px] font-medium text-apple-blue mb-4">
                     A little about the person behind the code
@@ -953,7 +857,6 @@
                 <h3 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
                     <span class="text-apple-blue">My Story</span>
                 </h3>
-
                 <div class="mt-4 space-y-4 text-sm sm:text-base leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
                     <p>
                         I’m <strong class="font-semibold text-apple-textLight dark:text-apple-textDark">Varun Patel</strong>,
@@ -1010,39 +913,27 @@
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2005</p>
-                        <h4 class="mt-1 text-base font-semibold tracking-tight">
-                            Moved to the USA in pursuit of the American Dream.
-                        </h4>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Moved to the USA in pursuit of the American Dream.</h4>
                     </li>
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2009</p>
-                        <h4 class="mt-1 text-base font-semibold tracking-tight">
-                            Earned my master’s degree in Computer Science.
-                        </h4>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Earned my master’s degree in Computer Science.</h4>
                     </li>
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2011</p>
-                        <h4 class="mt-1 text-base font-semibold tracking-tight">
-                            Began my career in IT Release Management.
-                        </h4>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Began my career in IT Release Management.</h4>
                     </li>
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2025</p>
-                        <h4 class="mt-1 text-base font-semibold tracking-tight">
-                            Began learning to code with AI tools and
-                            building my first iOS apps.
-                        </h4>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Began learning to code with AI tools and building my first iOS apps.</h4>
                     </li>
                     <li class="timeline-item">
                         <span class="timeline-dot" aria-hidden="true"></span>
                         <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">Today</p>
-                        <h4 class="mt-1 text-base font-semibold tracking-tight">
-                            Continuing to grow as a developer while balancing
-                            family, career, and new ideas.
-                        </h4>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Continuing to grow as a developer while balancing family, career, and new ideas.</h4>
                     </li>
                 </ol>
 
@@ -1051,58 +942,29 @@
                     You just need to take the first step.
                 </blockquote>
             </div>
-
             <div class="shrink-0 flex items-center justify-between gap-3 border-t border-black/5 dark:border-white/10 px-5 sm:px-6 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
-                <span class="text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
-                    The story is still being written.
-                </span>
-                <button
-                    type="button"
-                    data-close="journeyModal"
-                    class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all"
-                >
-                    Done
-                </button>
+                <span class="text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">The story is still being written.</span>
+                <button type="button" data-close="journeyModal" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Done</button>
             </div>
         </div>
     </dialog>
 
     <!-- EMAIL DIALOG: Existing mail-client confirmation; no backend form. -->
-    <dialog
-        id="emailModal"
-        aria-labelledby="emailModalTitle"
-        aria-describedby="emailModalDescription"
-        class="modal-shell w-full sm:w-[416px]"
-    >
+    <dialog id="emailModal" aria-labelledby="emailModalTitle" aria-describedby="emailModalDescription" class="modal-shell w-full sm:w-[416px]">
         <div class="modal-card bg-white/90 dark:bg-apple-cardDark/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-6 sm:p-7 w-full shadow-2xl text-center">
             <div class="w-12 h-12 rounded-full bg-apple-blue/10 text-apple-blue mx-auto flex items-center justify-center mb-4">
-                <svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
             </div>
             <h3 id="emailModalTitle" class="text-lg font-bold mb-1">Contact Developer</h3>
-            <p
-                id="emailModalDescription"
-                class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark mb-5 leading-normal"
-            >
+            <p id="emailModalDescription" class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark mb-5 leading-normal">
                 Would you like to open your native mail client to send an email to
                 <span class="font-semibold text-apple-textLight dark:text-apple-textDark">varun1329@icloud.com</span>?
             </p>
             <div class="flex items-center space-x-3">
-                <button
-                    id="cancelModalBtn"
-                    type="button"
-                    class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all"
-                >
-                    Cancel
-                </button>
-                <a
-                    id="confirmEmailBtn"
-                    href="mailto:varun1329@icloud.com"
-                    class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm text-center inline-block"
-                >
-                    Send Email
-                </a>
+                <button id="cancelModalBtn" type="button" class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all">Cancel</button>
+                <a id="confirmEmailBtn" href="mailto:varun1329@icloud.com" class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm text-center inline-block">Send Email</a>
             </div>
         </div>
     </dialog>
@@ -1147,6 +1009,7 @@
 
                 savedOverflow = document.body.style.overflow;
                 returnFocus.set(dialog, trigger);
+
                 dialog.showModal();
                 document.body.style.overflow = 'hidden';
 
@@ -1263,16 +1126,11 @@
                 }
             };
 
-            const toolTitle =
-                document.getElementById('toolModalTitle');
-            const toolCategory =
-                document.getElementById('toolModalCategory');
-            const toolAbout =
-                document.getElementById('toolModalAbout');
-            const toolJourney =
-                document.getElementById('toolModalJourney');
-            const toolIcon =
-                document.getElementById('toolModalIcon');
+            const toolTitle = document.getElementById('toolModalTitle');
+            const toolCategory = document.getElementById('toolModalCategory');
+            const toolAbout = document.getElementById('toolModalAbout');
+            const toolJourney = document.getElementById('toolModalJourney');
+            const toolIcon = document.getElementById('toolModalIcon');
 
             document.querySelectorAll('[data-tool]').forEach(button => {
                 button.addEventListener('click', () => {
