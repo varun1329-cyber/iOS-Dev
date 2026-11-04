@@ -14,10 +14,11 @@
     ------------------
     1. Header: Light/Dark theme-aware app logos (3.png / 4.png), bold App Title (EasyList),
        and top-right Home button targeting index.html#easyListProject.
-    2. Hero Section: Overview, key feature tags, and quick stats.
+    2. Hero Section: Overview, key feature tags, and responsive iPhone mockup 
+       running "App Usage Video.mov" with IntersectionObserver auto-playback.
     3. Technical Architecture & Data Layer: Models (Item, ListModel, EasyListDataStore),
        JSON persistence details, and voice/speech framework breakdown.
-    4.Footer: Developer credit and consistency navigation.
+    4. Footer: Developer credit and consistency navigation.
     ============================================================================
     -->
     <meta charset="UTF-8">
@@ -78,6 +79,66 @@
             outline: 2px solid #0071e3;
             outline-offset: 4px;
         }
+
+        /* Responsive iPhone Mockup Styling */
+        .iphone-frame {
+            position: relative;
+            width: 280px;
+            height: 570px;
+            margin: 0 auto;
+            background: #111;
+            border-radius: 46px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 
+                        0 0 0 10px #2a2a2c, 
+                        0 0 0 12px #1c1c1e;
+            overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+            .iphone-frame {
+                width: 310px;
+                height: 630px;
+                border-radius: 52px;
+                box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5), 
+                            0 0 0 12px #2a2a2c, 
+                            0 0 0 14px #1c1c1e;
+            }
+        }
+
+        /* Dynamic Island / Notch */
+        .iphone-notch {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 25px;
+            background-color: #000000;
+            border-radius: 20px;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+        }
+
+        .iphone-notch::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: #0f172a;
+            border-radius: 50%;
+            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Screen Video Fit */
+        .iphone-screen {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 36px;
+            background-color: #000;
+        }
     </style>
 </head>
 
@@ -105,12 +166,11 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="text-base sm:text-lg font-bold tracking-tight leading-tight">EasyList</span>
-               
                 </div>
             </div>
 
             <div class="flex items-center shrink-0">
-                <a href="index.html#easyListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm">
+                <a href="index.html#easyListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm" aria-label="Return to Home">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
@@ -120,16 +180,36 @@
     </header>
 
     <!-- MAIN DOCUMENTATION CONTENT -->
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
 
-        <!-- SECTION 1: HERO OVERVIEW -->
-        <section class="space-y-0">
-            <div class="inline-flex items-center gap-2 rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-semibold text-apple-blue">
+        <!-- SECTION 1: HERO OVERVIEW WITH IPHONE MOCKUP -->
+        <section class="space-y-8">
+            <div class="space-y-3">
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">EasyList</h1>
+                <p class="text-base sm:text-lg text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed max-w-3xl">
+                    EasyList is a single focused list iOS application built with SwiftUI. Designed for fast hands-free voice item entry, duplicate detection, progress tracking, one tap clean up and on-device JSON persistence.
+                </p>
             </div>
-            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">EasyList</h1>
-            <p class="text-base sm:text-lg text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed max-w-3xl">
-                EasyList is a singel focused list iOS application built with SwiftUI. Designed for fast hands-free voice item entry, duplicate detection, progress tracking, one tap clean up and on-device JSON persistence.
-            </p>
+
+            <!-- Responsive iPhone Mockup Frame -->
+            <div class="pt-4 flex justify-center">
+                <div class="iphone-frame">
+                    <div class="iphone-notch"></div>
+                    <video 
+                        id="appUsageVideo" 
+                        class="iphone-screen" 
+                        muted 
+                        loop 
+                        playsinline
+                        preload="metadata"
+                        aria-label="EasyList App Demonstration Video"
+                    >
+                        <source src="App%20Usage%20Video.mov" type="video/mp4">
+                        <source src="App Usage Video.mov" type="video/quicktime">
+                        Your browser does not support HTML5 video playback.
+                    </video>
+                </div>
+            </div>
         </section>
 
         <!-- SECTION 2: TECHNICAL STACK -->
@@ -158,12 +238,11 @@
                 </div>
                 <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
                     <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">Target Platform</p>
-                    <p class="text-sm font-medium mt-1">iOS 27.0+</p>
+                    <p class="text-sm font-medium mt-1">iOS 17.0+</p>
                 </div>
             </div>
         </section>
 
- 
     </main>
 
     <!-- FOOTER -->
@@ -173,5 +252,35 @@
         </div>
     </footer>
 
+    <!-- INTERSECTION OBSERVER SCRIPT FOR AUTO PLAYBACK -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('appUsageVideo');
+            if (!video) return;
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5 // Play when 50% of the video/phone mockup is visible
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                console.log('Autoplay deferred or prevented by browser:', error);
+                            });
+                        }
+                    } else {
+                        video.pause();
+                    }
+                });
+            }, observerOptions);
+
+            observer.observe(video);
+        });
+    </script>
 </body>
 </html>
