@@ -16,7 +16,7 @@
        and top-right Home button targeting index.html#easyListProject.
     2. Hero Section: Overview and iPhone Air mock screen framing App Usage Video.mov.
     3. Core Features: Smart Item Entry, Hands-free Voice Input, Progress Tracking, Clean Up.
-    4. Footer: Developer copyright
+    4. Footer: Developer copyright and Privacy Policy
     ============================================================================
     -->
     <meta charset="UTF-8">
@@ -271,9 +271,69 @@
     <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <p class="text-center text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">&copy; 2026 Varun Patel - Independent iOS Developer</p>
-
+            <button id="openPrivacyBtn" type="button" class="mt-2 text-xs sm:text-sm text-apple-blue underline hover:text-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded transition-colors">Privacy Policy</button>
         </div>
     </footer>
 
+<dialog id="privacyModal" aria-labelledby="privacyModalTitle" class="modal-shell w-full max-w-md">
+  <div class="modal-card flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
+    <div class="shrink-0 border-b border-black/5 dark:border-white/10 px-5 py-4 text-center bg-black/[0.02] dark:bg-white/5">
+      <h3 id="privacyModalTitle" class="text-base font-bold tracking-tight">Privacy Policy</h3>
+    </div>
+    <div class="p-6 text-sm leading-relaxed text-apple-textLight dark:text-apple-textDark space-y-4">
+      <p>Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our app.</p>
+      <p><strong>EasyList</strong> collects and stores only basic shopping list items locally on your device.</p>
+      <p>This includes:</p>
+      <ul class="list-decimal list-inside space-y-1 ml-4">
+        <li>Item names</li>
+        <li>Item creation timestamp</li>
+        <li>Item completion status</li>
+        <li>Total Count of items</li>
+        <li>Total Count of completed items</li>
+      </ul>
+      <p>No personal information, contacts, location data, or usage tracking is collected or shared.</p>
+      <p>All of the above item data are saved locally on your device in a JSON file within the app's documents directory. Your data is not transmitted to any external servers or third parties.</p>
+      <p>You have full control over your data: you can add or delete items at any time, and the app updates the stored data accordingly.</p>
+    </div>
+    <div class="shrink-0 flex justify-end border-t border-black/5 dark:border-white/10 px-5 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
+      <button type="button" id="closePrivacyBtn" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Close</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const privacyBtn = document.getElementById('openPrivacyBtn');
+    const privacyModal = document.getElementById('privacyModal');
+    const closePrivacyBtn = document.getElementById('closePrivacyBtn');
+    let savedOverflow = '';
+    function openDialog(dialog, trigger) {
+      savedOverflow = document.body.style.overflow;
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+      if(trigger) trigger.blur();
+    }
+    function closeDialog(dialog) {
+      dialog.close();
+      document.body.style.overflow = savedOverflow;
+    }
+    privacyBtn.addEventListener('click', () => openDialog(privacyModal, privacyBtn));
+    closePrivacyBtn.addEventListener('click', () => closeDialog(privacyModal));
+    privacyModal.addEventListener('close', () => {
+      privacyBtn.focus({preventScroll:true});
+    });
+    // Allow click outside dialog to close
+    let pointerStartedOutside = false;
+    privacyModal.addEventListener('pointerdown', e => {
+      pointerStartedOutside = e.target === privacyModal;
+    });
+    privacyModal.addEventListener('click', e => {
+      if (e.target === privacyModal && pointerStartedOutside) {
+        closeDialog(privacyModal);
+      }
+      pointerStartedOutside = false;
+    });
+  });
+</script>
 </body>
 </html>
