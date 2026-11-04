@@ -21,7 +21,7 @@
     -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>EasyList - iOS App Showcase & Architecture</title>
+    <title>EasyList - iOS App Showcase &amp; Architecture</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -73,9 +73,53 @@
             touch-action: manipulation;
         }
 
-        :focus-visible {
-            outline: 2px solid #0071e3;
-            outline-offset: 4px;
+        /* Match the portfolio's shared dialog entrance and blurred backdrop. */
+        @keyframes modal-pop {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        dialog.modal-shell {
+            border: 0;
+            padding: 1rem;
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+            background: transparent;
+            color: inherit;
+            overflow: visible;
+        }
+
+        dialog.modal-shell::backdrop {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .dark dialog.modal-shell::backdrop {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        dialog.modal-shell[open] > .modal-card {
+            animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .privacy-window {
+            max-height: calc(100vh - 2rem);
+            max-height: calc(100dvh - 2rem);
+        }
+
+        .privacy-scroll {
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
         }
 
         /* iPhone Air Mock Screen Frame */
@@ -119,6 +163,11 @@
             border-radius: 12px;
             z-index: 10;
         }
+
+        :focus-visible {
+            outline: 2px solid #0071e3;
+            outline-offset: 4px;
+        }
     </style>
 </head>
 
@@ -129,14 +178,14 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
             <div class="flex items-center space-x-3">
                 <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-[#0785ff] flex items-center justify-center overflow-hidden shadow-sm">
-                    <!-- Light mode image 3.png[cite: 2] -->
+                    <!-- Light mode image 3.png -->
                     <img
                         src="./3.png"
                         onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';"
                         alt="EasyList Light Icon"
                         class="w-full h-full object-contain block dark:hidden"
                     >
-                    <!-- Dark mode image 4.png[cite: 2] -->
+                    <!-- Dark mode image 4.png -->
                     <img
                         src="./4.png"
                         onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';"
@@ -177,7 +226,6 @@
                     <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-apple-blue"></span> 100% On-Device Storage</span>
                 </div>
             </div>
-        </section>
 
             <!-- iPhone Air Mock Screen Video Container -->
             <div class="flex justify-center">
@@ -262,78 +310,89 @@
 
             </div>
         </section>
-
-        
-
     </main>
 
     <!-- FOOTER -->
     <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <p class="text-center text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">&copy; 2026 Varun Patel - Independent iOS Developer</p>
-            <button id="openPrivacyBtn" type="button" class="mt-2 text-xs sm:text-sm text-apple-blue underline hover:text-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded transition-colors">Privacy Policy</button>
+            <button id="openPrivacyBtn" type="button" aria-haspopup="dialog" aria-controls="privacyModal" class="mt-2 text-xs sm:text-sm text-apple-blue underline hover:text-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded transition-colors">Privacy Policy</button>
         </div>
     </footer>
 
-<dialog id="privacyModal" aria-labelledby="privacyModalTitle" class="modal-shell w-full max-w-md">
-  <div class="modal-card flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
-    <div class="shrink-0 border-b border-black/5 dark:border-white/10 px-5 py-4 text-center bg-black/[0.02] dark:bg-white/5">
-      <h3 id="privacyModalTitle" class="text-base font-bold tracking-tight">Privacy Policy</h3>
-    </div>
-    <div class="p-6 text-sm leading-relaxed text-apple-textLight dark:text-apple-textDark space-y-4">
-      <p>Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our app.</p>
-      <p><strong>EasyList</strong> collects and stores only basic shopping list items locally on your device.</p>
-      <p>This includes:</p>
-      <ul class="list-decimal list-inside space-y-1 ml-4">
-        <li>Item names</li>
-        <li>Item creation timestamp</li>
-        <li>Item completion status</li>
-        <li>Total Count of items</li>
-        <li>Total Count of completed items</li>
-      </ul>
-      <p>No personal information, contacts, location data, or usage tracking is collected or shared.</p>
-      <p>All of the above item data are saved locally on your device in a JSON file within the app's documents directory. Your data is not transmitted to any external servers or third parties.</p>
-      <p>You have full control over your data: you can add or delete items at any time, and the app updates the stored data accordingly.</p>
-    </div>
-    <div class="shrink-0 flex justify-end border-t border-black/5 dark:border-white/10 px-5 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
-      <button type="button" id="closePrivacyBtn" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Close</button>
-    </div>
-  </div>
-</dialog>
+    <!-- PRIVACY POLICY DIALOG: Styled to match the portfolio's My Journey window. -->
+    <dialog id="privacyModal" aria-labelledby="privacyModalTitle" class="modal-shell w-full sm:w-[700px]">
+        <div class="modal-card privacy-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
+            <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-4 sm:px-5 py-4 text-center">
+                <h2 id="privacyModalTitle" class="text-sm font-semibold tracking-tight">EasyList Privacy</h2>
+            </div>
+            <div class="privacy-scroll min-h-0 px-6 sm:px-10 py-7 sm:py-9">
+                <div class="inline-flex rounded-full bg-apple-blue/10 px-3 py-1 text-[11px] font-medium text-apple-blue mb-4">
+                    Your data, your choice
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
+                    <span class="text-apple-blue">Privacy Policy</span>
+                </h3>
+                <div class="mt-4 space-y-4 text-sm sm:text-base leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
+                    <p>Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our app.</p>
+                    <p><strong class="font-semibold text-apple-textLight dark:text-apple-textDark">EasyList</strong> collects and stores only basic shopping list items locally on your device.</p>
+                    <p>This includes:</p>
+                    <ul class="list-decimal list-inside space-y-1 ml-4">
+                        <li>Item names</li>
+                        <li>Item creation timestamp</li>
+                        <li>Item completion status</li>
+                        <li>Total Count of items</li>
+                        <li>Total Count of completed items</li>
+                    </ul>
+                    <p>No personal information, contacts, location data, or usage tracking is collected or shared.</p>
+                    <p>All of the above item data are saved locally on your device in a JSON file within the app's documents directory. Your data is not transmitted to any external servers or third parties.</p>
+                    <p>You have full control over your data: you can add or delete items at any time, and the app updates the stored data accordingly.</p>
+                </div>
+            </div>
+            <div class="shrink-0 flex items-center justify-between gap-3 border-t border-black/5 dark:border-white/10 px-5 sm:px-6 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
+                <span class="text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">Your list stays on your device.</span>
+                <button type="button" id="closePrivacyBtn" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Done</button>
+            </div>
+        </div>
+    </dialog>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const privacyBtn = document.getElementById('openPrivacyBtn');
-    const privacyModal = document.getElementById('privacyModal');
-    const closePrivacyBtn = document.getElementById('closePrivacyBtn');
-    let savedOverflow = '';
-    function openDialog(dialog, trigger) {
-      savedOverflow = document.body.style.overflow;
-      dialog.showModal();
-      document.body.style.overflow = 'hidden';
-      if(trigger) trigger.blur();
-    }
-    function closeDialog(dialog) {
-      dialog.close();
-      document.body.style.overflow = savedOverflow;
-    }
-    privacyBtn.addEventListener('click', () => openDialog(privacyModal, privacyBtn));
-    closePrivacyBtn.addEventListener('click', () => closeDialog(privacyModal));
-    privacyModal.addEventListener('close', () => {
-      privacyBtn.focus({preventScroll:true});
-    });
-    // Allow click outside dialog to close
-    let pointerStartedOutside = false;
-    privacyModal.addEventListener('pointerdown', e => {
-      pointerStartedOutside = e.target === privacyModal;
-    });
-    privacyModal.addEventListener('click', e => {
-      if (e.target === privacyModal && pointerStartedOutside) {
-        closeDialog(privacyModal);
-      }
-      pointerStartedOutside = false;
-    });
-  });
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const privacyBtn = document.getElementById('openPrivacyBtn');
+            const privacyModal = document.getElementById('privacyModal');
+            const closePrivacyBtn = document.getElementById('closePrivacyBtn');
+            let savedOverflow = '';
+
+            function openDialog(dialog, trigger) {
+                savedOverflow = document.body.style.overflow;
+                dialog.showModal();
+                document.body.style.overflow = 'hidden';
+                if (trigger) trigger.blur();
+            }
+
+            function closeDialog(dialog) {
+                if (dialog.open) dialog.close();
+            }
+
+            privacyBtn.addEventListener('click', () => openDialog(privacyModal, privacyBtn));
+            closePrivacyBtn.addEventListener('click', () => closeDialog(privacyModal));
+            privacyModal.addEventListener('close', () => {
+                document.body.style.overflow = savedOverflow;
+                privacyBtn.focus({ preventScroll: true });
+            });
+
+            // Allow a pointer gesture that begins on the backdrop to close the dialog.
+            let pointerStartedOutside = false;
+            privacyModal.addEventListener('pointerdown', event => {
+                pointerStartedOutside = event.target === privacyModal;
+            });
+            privacyModal.addEventListener('click', event => {
+                if (event.target === privacyModal && pointerStartedOutside) {
+                    closeDialog(privacyModal);
+                }
+                pointerStartedOutside = false;
+            });
+        });
+    </script>
 </body>
 </html>
