@@ -14,16 +14,16 @@
     ------------------
     1. Header: Light/Dark theme-aware app logos (3.png / 4.png), bold App Title (EasyList),
        and top-right Home button targeting index.html#easyListProject.
-    2. Hero Section: Overview, key feature tags, and responsive iPhone Air mockup 
-       running "App Usage Video.mov" with IntersectionObserver auto-playback.
-    3. Technical Architecture & Data Layer: Models (Item, ListModel, EasyListDataStore),
-       JSON persistence details, and voice/speech framework breakdown.
-    4. Footer: Developer credit and consistency navigation.
+    2. Hero Section: Overview and iPhone Air mock screen framing App Usage Video.mov.
+    3. Core Features: Smart Item Entry, Hands-free Voice Input, Progress Tracking, Clean Up.
+    4. Data Management: Usage Metrics, Clear Data controls, Rating Feedback.
+    5. Privacy & Technical Architecture: 100% on-device isolation and JSON persistence.
+    6. Footer: Developer copyright and portfolio navigation.
     ============================================================================
     -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>EasyList - Project Documentation & Architecture</title>
+    <title>EasyList - iOS App Showcase & Architecture</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -80,195 +80,173 @@
             outline-offset: 4px;
         }
 
-        /* iPhone Air Mockup Frame */
+        /* iPhone Air Mock Screen Frame */
         .iphone-air-frame {
             position: relative;
-            width: 290px;
-            height: 595px;
+            max-width: 320px;
+            width: 100%;
             margin: 0 auto;
-            background: #121214;
-            border-radius: 48px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45), 
-                        0 0 0 8px #262629, 
-                        0 0 0 10px #1a1a1c;
+            background: #111;
+            border-radius: 44px;
+            padding: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+
+        .iphone-screen {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9 / 19.5;
+            background: #000;
+            border-radius: 36px;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        @media (min-width: 640px) {
-            .iphone-air-frame {
-                width: 320px;
-                height: 655px;
-                border-radius: 54px;
-                box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.55), 
-                            0 0 0 10px #262629, 
-                            0 0 0 12px #1a1a1c;
-            }
-        }
-
-        /* Sleek Dynamic Island */
-        .iphone-air-notch {
-            position: absolute;
-            top: 14px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 96px;
-            height: 26px;
-            background-color: #000000;
-            border-radius: 20px;
-            z-index: 20;
-        }
-
-        /* Edge-to-edge video screen */
-        .iphone-air-screen {
+        .iphone-screen video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 38px;
-            background-color: #000;
-            display: block;
+        }
+
+        .iphone-notch {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 24px;
+            background: #111;
+            border-radius: 12px;
+            z-index: 10;
         }
     </style>
 </head>
 
 <body class="bg-apple-bgLight dark:bg-apple-bgDark text-apple-textLight dark:text-apple-textDark transition-colors duration-300 font-sans min-h-screen flex flex-col justify-between antialiased selection:bg-apple-blue selection:text-white">
 
-    <!-- HEADER: Theme-aware logo (3.png / 4.png), bold title, and Home navigation -->
+    <!-- HEADER -->
     <header class="sticky top-0 z-40 w-full bg-apple-bgLight/90 dark:bg-apple-bgDark/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
             <div class="flex items-center space-x-3">
                 <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-[#0785ff] flex items-center justify-center overflow-hidden shadow-sm">
-                    <!-- Light mode image 3.png -->
-                    <img 
-                        src="./3.png" 
-                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';" 
-                        alt="EasyList Light Icon" 
+                    <!-- Light mode image 3.png[cite: 2] -->
+                    <img
+                        src="./3.png"
+                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';"
+                        alt="EasyList Light Icon"
                         class="w-full h-full object-contain block dark:hidden"
                     >
-                    <!-- Dark mode image 4.png -->
-                    <img 
-                        src="./4.png" 
-                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';" 
-                        alt="EasyList Dark Icon" 
+                    <!-- Dark mode image 4.png[cite: 2] -->
+                    <img
+                        src="./4.png"
+                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';"
+                        alt="EasyList Dark Icon"
                         class="w-full h-full object-contain hidden dark:block"
                     >
                 </div>
                 <div class="flex flex-col">
                     <span class="text-base sm:text-lg font-bold tracking-tight leading-tight">EasyList</span>
+                    <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">iOS App Showcase</span>
                 </div>
             </div>
 
             <div class="flex items-center shrink-0">
-                <a href="index.html#easyListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm" aria-label="Return to Home">
+                <a href="index.html#easyListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
+                    <span>Home</span>
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- MAIN DOCUMENTATION CONTENT -->
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-16">
 
-        <!-- SECTION 1: HERO OVERVIEW WITH IPHONE AIR MOCKUP -->
-        <section class="space-y-8">
-            <div class="space-y-3">
-                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">EasyList</h1>
-                <p class="text-base sm:text-lg text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed max-w-3xl">
-                    EasyList is a single focused list iOS application built with SwiftUI. Designed for fast hands-free voice item entry, duplicate detection, progress tracking, one tap clean up and on-device JSON persistence.
+        <!-- HERO SECTION WITH IPHONE AIR MOCK SCREEN -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div class="space-y-4 text-left">
+                <div class="flex flex-col items-start gap-2">
+                    <div class="inline-flex items-center gap-2 rounded-full bg-apple-blue/10 px-0 py-1 text-l font-semibold text-apple-blue">
+                        <span>One focused list - Zero Clutter</span>
+                    </div>
+                </div>
+                <p class="text-base sm:text-lg text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">
+                    EasyList is a single focused list iOS application built with SwiftUI. Designed for fast hands-free voice item entry, duplicate detection, progress tracking, one tap clean up, and on-device JSON persistence.
                 </p>
+                <div class="pt-2 flex items-center gap-4 text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-apple-green"></span> iOS 27.0+</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-apple-blue"></span> 100% On-Device</span>
+                </div>
             </div>
+        </section>
 
-            <!-- iPhone Air Mockup Frame with Edge-to-Edge Video -->
-            <div class="pt-4 flex justify-center">
+            <!-- iPhone Air Mock Screen Video Container -->
+            <div class="flex justify-center">
                 <div class="iphone-air-frame">
-                    <div class="iphone-air-notch"></div>
-                    <video 
-                        id="appUsageVideo" 
-                        class="iphone-air-screen" 
-                        muted 
-                        loop 
-                        playsinline
-                        preload="metadata"
-                        aria-label="EasyList App Demonstration Video"
-                    >
-                        <source src="App%20Usage%20Video.mov" type="video/mp4">
-                        <source src="App Usage Video.mov" type="video/quicktime">
-                        Your browser does not support HTML5 video playback.
-                    </video>
+                    <div class="iphone-notch"></div>
+                    <div class="iphone-screen">
+                        <video
+                            autoplay
+                            muted
+                            loop
+                            playsinline
+                            preload="auto"
+                            aria-label="EasyList app usage demonstration"
+                        >
+                            <source src="./App%20Usage%20Video.mov" type="video/quicktime">
+                            <source src="./App%20Usage%20Video.mov" type="video/mp4">
+                            Your browser does not support video playback.
+                        </video>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 2: TECHNICAL STACK -->
-        <section class="rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark p-6 shadow-sm space-y-4">
-            <h2 class="text-xl font-bold tracking-tight">Technical Stack Summary</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
-                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">Language</p>
-                    <p class="text-sm font-medium mt-1">Swift 5.9+</p>
+        <!-- SECTION 2: CORE FEATURES -->
+        <section class="space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Core Features</h2>
+                <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark">Everything you need for clean, fast, and organized list management.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="p-6 rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm space-y-2">
+                    <h3 class="font-bold text-base">Smart Item Entry</h3>
+                    <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Type and press return to add items[cite: 4]. The app smartly auto-capitalizes, sorts alphabetically, and prevents duplicates[cite: 4].</p>
                 </div>
-                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
-                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">UI Framework</p>
-                    <p class="text-sm font-medium mt-1">SwiftUI</p>
+                <div class="p-6 rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm space-y-2">
+                    <h3 class="font-bold text-base">Use Your Voice [Hands-Free]</h3>
+                    <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Use the microphone to add items hands-free using integrated Apple speech recognition[cite: 3, 4].</p>
                 </div>
-                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
-                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">Persistence</p>
-                    <p class="text-sm font-medium mt-1">On-Device JSON</p>
+                <div class="p-6 rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm space-y-2">
+                    <h3 class="font-bold text-base">Live Progress Tracking</h3>
+                    <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Tap any item to toggle its completed status, and watch the progress bar update in real time[cite: 4].</p>
                 </div>
-                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
-                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">Speech Engine</p>
-                    <p class="text-sm font-medium mt-1">Speech &amp; AVFoundation</p>
-                </div>
-                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
-                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">State Pattern</p>
-                    <p class="text-sm font-medium mt-1">@StateObject / MainActor</p>
-                </div>
-                <div class="p-3 rounded-xl bg-apple-bgLight dark:bg-black/30 border border-black/5 dark:border-white/5">
-                    <p class="text-xs text-apple-subtextLight dark:text-apple-subtextDark uppercase font-semibold">Target Platform</p>
-                    <p class="text-sm font-medium mt-1">iOS 17.0+</p>
+                <div class="p-6 rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm space-y-2">
+                    <h3 class="font-bold text-base">Easy Clean Up</h3>
+                    <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Clear completed items or reset the entire checklist instantly with one-tap confirmation actions[cite: 4].</p>
                 </div>
             </div>
         </section>
+
+        
 
     </main>
 
     <!-- FOOTER -->
     <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
-        <div class="max-w-5xl mx-auto px-4 text-center">
-            <p class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">@ 2026 - Varun Patel - Independent iOS Developer</p>
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <p class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">&copy; 2026 Varun Patel - Independent iOS Developer</p>
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-xs text-apple-blue font-medium hover:underline">Portfolio</a>
+                <a href="index.html#easyListProject" class="text-xs text-apple-blue font-medium hover:underline">Back to Project</a>
+            </div>
         </div>
     </footer>
 
-    <!-- INTERSECTION OBSERVER SCRIPT FOR AUTO PLAYBACK -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('appUsageVideo');
-            if (!video) return;
-
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.5 // Play when 50% of the video/phone mockup is visible
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise.catch(error => {
-                                console.log('Autoplay deferred or prevented by browser:', error);
-                            });
-                        }
-                    } else {
-                        video.pause();
-                    }
-                });
-            }, observerOptions);
-
-            observer.observe(video);
-        });
-    </script>
 </body>
 </html>
