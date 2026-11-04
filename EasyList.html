@@ -14,7 +14,7 @@
     ------------------
     1. Header: Light/Dark theme-aware app logos (3.png / 4.png), bold App Title (EasyList),
        and top-right Home button targeting index.html#easyListProject.
-    2. Hero Section: Overview, key feature tags, and responsive iPhone mockup 
+    2. Hero Section: Overview, key feature tags, and responsive iPhone Air mockup 
        running "App Usage Video.mov" with IntersectionObserver auto-playback.
     3. Technical Architecture & Data Layer: Models (Item, ListModel, EasyListDataStore),
        JSON persistence details, and voice/speech framework breakdown.
@@ -80,64 +80,52 @@
             outline-offset: 4px;
         }
 
-        /* Responsive iPhone Mockup Styling */
-        .iphone-frame {
+        /* iPhone Air Mockup Frame */
+        .iphone-air-frame {
             position: relative;
-            width: 280px;
-            height: 570px;
+            width: 290px;
+            height: 595px;
             margin: 0 auto;
-            background: #111;
-            border-radius: 46px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 
-                        0 0 0 10px #2a2a2c, 
-                        0 0 0 12px #1c1c1e;
+            background: #121214;
+            border-radius: 48px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45), 
+                        0 0 0 8px #262629, 
+                        0 0 0 10px #1a1a1c;
             overflow: hidden;
         }
 
         @media (min-width: 640px) {
-            .iphone-frame {
-                width: 310px;
-                height: 630px;
-                border-radius: 52px;
-                box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5), 
-                            0 0 0 12px #2a2a2c, 
-                            0 0 0 14px #1c1c1e;
+            .iphone-air-frame {
+                width: 320px;
+                height: 655px;
+                border-radius: 54px;
+                box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.55), 
+                            0 0 0 10px #262629, 
+                            0 0 0 12px #1a1a1c;
             }
         }
 
-        /* Dynamic Island / Notch */
-        .iphone-notch {
+        /* Sleek Dynamic Island */
+        .iphone-air-notch {
             position: absolute;
-            top: 12px;
+            top: 14px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90px;
-            height: 25px;
+            width: 96px;
+            height: 26px;
             background-color: #000000;
             border-radius: 20px;
             z-index: 20;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 8px;
         }
 
-        .iphone-notch::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background-color: #0f172a;
-            border-radius: 50%;
-            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.3);
-        }
-
-        /* Screen Video Fit */
-        .iphone-screen {
+        /* Edge-to-edge video screen */
+        .iphone-air-screen {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 36px;
+            border-radius: 38px;
             background-color: #000;
+            display: block;
         }
     </style>
 </head>
@@ -182,7 +170,7 @@
     <!-- MAIN DOCUMENTATION CONTENT -->
     <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
 
-        <!-- SECTION 1: HERO OVERVIEW WITH IPHONE MOCKUP -->
+        <!-- SECTION 1: HERO OVERVIEW WITH IPHONE AIR MOCKUP -->
         <section class="space-y-8">
             <div class="space-y-3">
                 <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">EasyList</h1>
@@ -191,13 +179,13 @@
                 </p>
             </div>
 
-            <!-- Responsive iPhone Mockup Frame -->
+            <!-- iPhone Air Mockup Frame with Edge-to-Edge Video -->
             <div class="pt-4 flex justify-center">
-                <div class="iphone-frame">
-                    <div class="iphone-notch"></div>
+                <div class="iphone-air-frame">
+                    <div class="iphone-air-notch"></div>
                     <video 
                         id="appUsageVideo" 
-                        class="iphone-screen" 
+                        class="iphone-air-screen" 
                         muted 
                         loop 
                         playsinline
