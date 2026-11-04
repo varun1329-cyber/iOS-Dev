@@ -12,16 +12,32 @@
 
     PAGE ARCHITECTURE:
     ------------------
-    1. Header: Light/Dark theme-aware app logos (3.png / 4.png), bold App Title (EasyList),
-       and top-right Home button targeting index.html#easyListProject.
-    2. Hero Section: Overview and iPhone Air mock screen framing App Usage Video.mov.
-    3. Core Features: Smart Item Entry, Hands-free Voice Input, Progress Tracking, Clean Up.
+    1. Header: Light/Dark theme-aware app logos (16.jpg / 17.jpg), bold App Title (TripMate),
+       and top-right Home button targeting index.html#tripMateProject.
+    2. Hero Section: Overview and iPhone Air mock screen framing the static
+       Home Page screenshot (HomePageView.png).
+    3. Core Features: Plan Multiple Trips, Track Expenses, Multi-Currency Conversion,
+       Flexible Budget Mode, Phase Insights, Local Data Storage.
     4. Footer: Developer copyright and Privacy Policy
+
+    CONTENT SOURCE: App name, overview, core features and privacy policy are taken
+    from AppSettingPage.swift (App Info + Privacy Policy screens, v1.0).
     ============================================================================
     -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>EasyList - iOS App Showcase &amp; Architecture</title>
+    <title>TripMate - iOS App Showcase</title>
+
+    <!-- Follow the visitor's system light/dark setting (runs before paint to avoid a flash). -->
+    <script>
+        (function () {
+            var mq = window.matchMedia('(prefers-color-scheme: dark)');
+            function apply() { document.documentElement.classList.toggle('dark', mq.matches); }
+            apply();
+            if (mq.addEventListener) mq.addEventListener('change', apply);
+            else if (mq.addListener) mq.addListener(apply);
+        })();
+    </script>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -146,10 +162,16 @@
             justify-content: center;
         }
 
-        .iphone-screen video {
+        .iphone-screen img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
+        }
+
+        /* Logo JPGs have generous padding; zoom slightly so the wordmark reads at header size. */
+        .brand-logo {
+            transform: scale(1.38);
         }
 
         .iphone-notch {
@@ -177,30 +199,28 @@
     <header class="sticky top-0 z-40 w-full bg-apple-bgLight/90 dark:bg-apple-bgDark/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
             <div class="flex items-center space-x-3">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-[#0785ff] flex items-center justify-center overflow-hidden shadow-sm">
-                    <!-- Light mode image 3.png -->
+                <div class="w-11 h-11 sm:w-12 sm:h-12 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-black flex items-center justify-center overflow-hidden shadow-sm">
+                    <!-- Light mode logo: 16.jpg -->
                     <img
-                        src="./3.png"
-                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';"
-                        alt="EasyList Light Icon"
-                        class="w-full h-full object-contain block dark:hidden"
+                        src="./16.jpg"
+                        alt="TripMate logo (light mode)"
+                        class="brand-logo w-full h-full object-contain block dark:hidden"
                     >
-                    <!-- Dark mode image 4.png -->
+                    <!-- Dark mode logo: 17.jpg -->
                     <img
-                        src="./4.png"
-                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';"
-                        alt="EasyList Dark Icon"
-                        class="w-full h-full object-contain hidden dark:block"
+                        src="./17.jpg"
+                        alt="TripMate logo (dark mode)"
+                        class="brand-logo w-full h-full object-contain hidden dark:block"
                     >
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-base sm:text-lg font-bold tracking-tight leading-tight">EasyList</span>
+                    <span class="text-base sm:text-lg font-bold tracking-tight leading-tight">TripMate</span>
                     <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">iOS App Showcase</span>
                 </div>
             </div>
 
             <div class="flex items-center shrink-0">
-                <a href="index.html#easyListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm">
+                <a href="index.html#tripMateProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
@@ -211,38 +231,32 @@
     </header>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-16">
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
 
         <!-- HERO SECTION WITH IPHONE AIR MOCK SCREEN -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div class="space-y-0 text-left">
+            <div class="space-y-2 text-left">
                 <div class="flex flex-col items-start gap-2">
-                    <div class="inline-flex items-center gap-2 rounded-full bg-apple-blue/10 px-0 py-1 text-l font-semibold text-apple-blue">
-                        <span>One focused list - Zero Clutter</span>
-                    </div>
+                    <h3 class="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">Every trip's "Expense" mate</h3>
                 </div>
-                <div class="pt-0 flex items-center gap-4 text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-apple-green"></span> iOS 27.0+</span>
+   
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">
                     <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-apple-blue"></span> 100% On-Device Storage</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-orange-500"></span> No Account Required</span>
                 </div>
             </div>
 
-            <!-- iPhone Air Mock Screen Video Container -->
+            <!-- iPhone Air Mock Screen: static Home Page screenshot -->
             <div class="flex justify-center">
                 <div class="iphone-air-frame">
                     <div class="iphone-screen">
-                        <video
-                            autoplay
-                            muted
-                            loop
-                            playsinline
-                            preload="auto"
-                            aria-label="EasyList app usage demonstration"
+                        <img
+                            src="./HomePageView.png"
+                            alt="TripMate home page showing the Your Trips list with trip dates, expenses and budgets"
+                            width="1206"
+                            height="2622"
+                            loading="eager"
                         >
-                            <source src="./App%20Usage%20Video.mov" type="video/quicktime">
-                            <source src="./App%20Usage%20Video.mov" type="video/mp4">
-                            Your browser does not support video playback.
-                        </video>
                     </div>
                 </div>
             </div>
@@ -256,55 +270,81 @@
 
             <div class="max-w-2xl mx-auto rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm divide-y divide-black/5 dark:divide-white/10">
 
-                <!-- Smart Item Entry -->
+                <!-- Plan Multiple Trips -->
                 <div class="flex items-start gap-4 p-6">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-500/15 text-blue-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                         </svg>
                     </div>
                     <div class="space-y-1">
-                        <h3 class="font-bold text-base">Smart Item Entry</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Type and press return to add items. The app smartly auto-capitalizes, sorts alphabetically, and prevents duplicates.</p>
+                        <h3 class="font-bold text-base">Plan Multiple Trips</h3>
+                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Create trips with dates, locations (with map view), budget (optional), and currencies.</p>
                     </div>
                 </div>
 
-                <!-- Voice -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-purple-500/15 text-purple-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
-                        </svg>
-                    </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Use Your Voice [Hands-Free]</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Use the microphone to add items hands-free using integrated Apple speech recognition.</p>
-                    </div>
-                </div>
-
-                <!-- Progress -->
+                <!-- Track Expenses -->
                 <div class="flex items-start gap-4 p-6">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-500/15 text-green-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
                         </svg>
                     </div>
                     <div class="space-y-1">
-                        <h3 class="font-bold text-base">Live Progress Tracking</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Tap any item to toggle its completed status, and watch the progress bar update in real time.</p>
+                        <h3 class="font-bold text-base">Track Expenses</h3>
+                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Log expenses with title, amount, date, and currency. Expense titles auto-format to title case.</p>
                     </div>
                 </div>
 
-                <!-- Clean Up -->
+                <!-- Multi-Currency Conversion -->
                 <div class="flex items-start gap-4 p-6">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-500/15 text-orange-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
                         </svg>
                     </div>
                     <div class="space-y-1">
-                        <h3 class="font-bold text-base">Easy Clean Up</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Clear completed items or reset the entire checklist instantly with one-tap confirmation actions.</p>
+                        <h3 class="font-bold text-base">Multi-Currency Conversion</h3>
+                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Add/Edit expense screens show a live 4-line exchange panel when entered currency differs from home currency.</p>
+                    </div>
+                </div>
+
+                <!-- Flexible Budget Mode -->
+                <div class="flex items-start gap-4 p-6">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-500/15 text-red-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
+                        </svg>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="font-bold text-base">Flexible Budget Mode</h3>
+                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Set budget in home currency, auto-convert for trip analytics, and get live remaining-per-day guidance in Trip Details.</p>
+                    </div>
+                </div>
+
+                <!-- Phase Insights -->
+                <div class="flex items-start gap-4 p-6">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-purple-500/15 text-purple-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+                        </svg>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="font-bold text-base">Phase Insights</h3>
+                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Visualize spending by pre-trip, during-trip, and post-trip phases.</p>
+                    </div>
+                </div>
+
+                <!-- Local Data Storage -->
+                <div class="flex items-start gap-4 p-6">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-500/15 text-teal-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008zm-3 0h.008v.008h-.008v-.008z" />
+                        </svg>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="font-bold text-base">Local Data Storage</h3>
+                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Trip and expense records are stored on device using SwiftData.</p>
                     </div>
                 </div>
 
@@ -324,33 +364,32 @@
     <dialog id="privacyModal" aria-labelledby="privacyModalTitle" class="modal-shell w-full sm:w-[700px]">
         <div class="modal-card privacy-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
             <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-4 sm:px-5 py-4 text-center">
-                <h2 id="privacyModalTitle" class="text-sm font-semibold tracking-tight">EasyList Privacy</h2>
+                <h2 id="privacyModalTitle" class="text-sm font-semibold tracking-tight">TripMate Privacy</h2>
             </div>
             <div class="privacy-scroll min-h-0 px-6 sm:px-10 py-7 sm:py-9">
                 <div class="inline-flex rounded-full bg-apple-blue/10 px-3 py-1 text-[11px] font-medium text-apple-blue mb-4">
-                    Your data, your choice
+                    Your data, stored on your device
                 </div>
                 <h3 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
                     <span class="text-apple-blue">Privacy Policy</span>
                 </h3>
+                <p class="mt-2 text-xs text-apple-subtextLight dark:text-apple-subtextDark">Learn how TripMate handles your data and protects your privacy.</p>
                 <div class="mt-4 space-y-4 text-sm sm:text-base leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                    <p>Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our app.</p>
-                    <p><strong class="font-semibold text-apple-textLight dark:text-apple-textDark">EasyList</strong> collects and stores only basic shopping list items locally on your device.</p>
-                    <p>This includes:</p>
-                    <ul class="list-decimal list-inside space-y-1 ml-4">
-                        <li>Item names</li>
-                        <li>Item creation timestamp</li>
-                        <li>Item completion status</li>
-                        <li>Total Count of items</li>
-                        <li>Total Count of completed items</li>
-                    </ul>
-                    <p>No personal information, contacts, location data, or usage tracking is collected or shared.</p>
-                    <p>All of the above item data are saved locally on your device in a JSON file within the app's documents directory. Your data is not transmitted to any external servers or third parties.</p>
-                    <p>You have full control over your data: you can add or delete items at any time, and the app updates the stored data accordingly.</p>
+                    <p>Your privacy is important to us. This Privacy Policy explains what <strong class="font-semibold text-apple-textLight dark:text-apple-textDark">TripMate</strong> stores and when the app may access network services.</p>
+                    <p>TripMate stores trip and expense records locally on your device using SwiftData. This can include:</p>
+                    <ol class="list-decimal list-inside space-y-1 ml-4">
+                        <li>Trip details (name, location, dates, budget, currency)</li>
+                        <li>Expense details (title, amount, date, currency)</li>
+                        <li>Optional profile settings (name, country, default currency) in AppStorage</li>
+                    </ol>
+                    <p>Location access is optional and used only for map preview and destination search flows when you grant permission.</p>
+                    <p>Currency conversion may use network providers (currently frankfurter.app with open.er-api.com fallback) to fetch exchange rates. Requests include currency codes needed for rates; trip records are not uploaded as part of conversion requests.</p>
+                    <p>TripMate does not require account sign-in and does not run third-party ad tracking.</p>
+                    <p>You can edit or delete your data at any time. Using &ldquo;Clear All Data&rdquo; permanently removes trips and expenses from this device.</p>
                 </div>
             </div>
             <div class="shrink-0 flex items-center justify-between gap-3 border-t border-black/5 dark:border-white/10 px-5 sm:px-6 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
-                <span class="text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">Your list stays on your device.</span>
+                <span class="text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">Your trips and expenses stay on your device.</span>
                 <button type="button" id="closePrivacyBtn" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Done</button>
             </div>
         </div>
