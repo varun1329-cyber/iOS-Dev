@@ -171,21 +171,19 @@
     </style>
 </head>
 
-<body class="bg-apple-bgLight dark:bg-apple-bgDark text-apple-textLight dark:text-apple-textDark transition-colors duration-300 font-sans min-h-screen flex flex-col justify-between antialiased selection:bg-apple-blue selection:text-white">
+<body class="bg-apple-bgLight dark:bg-apple-bgDark text-apple-textLight dark:text-apple-textDark transition-colors duration-300 font-sans min-h-screen flex flex-col justify-between antialiased select-none">
 
     <!-- HEADER -->
     <header class="sticky top-0 z-40 w-full bg-apple-bgLight/90 dark:bg-apple-bgDark/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
             <div class="flex items-center space-x-3">
                 <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-[#0785ff] flex items-center justify-center overflow-hidden shadow-sm">
-                    <!-- Light mode image 3.png -->
                     <img
                         src="./3.png"
                         onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';"
                         alt="EasyList Light Icon"
                         class="w-full h-full object-contain block dark:hidden"
                     >
-                    <!-- Dark mode image 4.png -->
                     <img
                         src="./4.png"
                         onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';"
@@ -200,8 +198,8 @@
             </div>
 
             <div class="flex items-center shrink-0">
-                <a href="index.html#easyListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <a href="index.html#easyListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-apple-blue/60">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
                     <span>Home</span>
@@ -248,6 +246,33 @@
             </div>
         </section>
 
+        <div class="w-full max-w-md mx-auto pt-2 sm:pt-3">
+            <div class="flex flex-col items-center justify-center gap-3 text-center">
+                <p class="text-sm sm:text-base font-medium text-apple-subtextLight dark:text-apple-subtextDark">
+                    App is live and available on the App Store
+                </p>
+
+                <a
+                    href="https://apple.co/4sMzuw9"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Download EasyList from the App Store"
+                    class="inline-flex items-center justify-center rounded-xl transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                >
+                    <img
+                        src="./black.svg"
+                        alt="Download EasyList on the App Store"
+                        class="h-14 w-auto object-contain dark:hidden"
+                    >
+                    <img
+                        src="./white.svg"
+                        alt="Download EasyList on the App Store"
+                        class="hidden h-14 w-auto object-contain dark:block"
+                    >
+                </a>
+            </div>
+        </div>
+
         <!-- SECTION 2: CORE FEATURES -->
         <section class="space-y-6">
             <div class="text-center max-w-xl mx-auto space-y-2">
@@ -260,12 +285,12 @@
                 <div class="flex items-start gap-4 p-6">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-500/15 text-blue-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 01-1.897-1.13L1.5 12.75l1.687-1.687a1.875 1.875 0 112.652 2.652L10.582 16.07"/>
                         </svg>
                     </div>
                     <div class="space-y-1">
                         <h3 class="font-bold text-base">Smart Item Entry</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Type and press return to add items. The app smartly auto-capitalizes, sorts alphabetically, and prevents duplicates.</p>
+                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Type and press return to add items. The app smartly auto-capitalizes, sorts alphabetically, and keeps your list clean and focused.</p>
                     </div>
                 </div>
 
@@ -273,7 +298,7 @@
                 <div class="flex items-start gap-4 p-6">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-purple-500/15 text-purple-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/>
                         </svg>
                     </div>
                     <div class="space-y-1">
@@ -286,12 +311,12 @@
                 <div class="flex items-start gap-4 p-6">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-500/15 text-green-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zm7.5-4.5c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0110.5 19.875V8.625zm7.5-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v14.625c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0118 22.25V5.25z"/>
                         </svg>
                     </div>
                     <div class="space-y-1">
                         <h3 class="font-bold text-base">Live Progress Tracking</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Tap any item to toggle its completed status, and watch the progress bar update in real time.</p>
+                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Tap any item to toggle its completed status, and watch the progress bar update in real time as you go.</p>
                     </div>
                 </div>
 
@@ -299,12 +324,12 @@
                 <div class="flex items-start gap-4 p-6">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-500/15 text-orange-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
                         </svg>
                     </div>
                     <div class="space-y-1">
                         <h3 class="font-bold text-base">Easy Clean Up</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Clear completed items or reset the entire checklist instantly with one-tap confirmation actions.</p>
+                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Clear completed items or reset the entire checklist instantly with one-tap confirmation and zero friction.</p>
                     </div>
                 </div>
 
@@ -316,7 +341,7 @@
     <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <p class="text-center text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">&copy; 2026 Varun Patel - Independent iOS Developer</p>
-            <button id="openPrivacyBtn" type="button" aria-haspopup="dialog" aria-controls="privacyModal" class="mt-2 text-xs sm:text-sm text-apple-blue underline hover:text-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded transition-colors">Privacy Policy</button>
+            <button id="openPrivacyBtn" type="button" aria-haspopup="dialog" aria-controls="privacyModal" class="mt-2 text-xs sm:text-sm text-apple-blue underline hover:text-blue-600 focus:outline-none">Privacy Policy</button>
         </div>
     </footer>
 
@@ -381,7 +406,6 @@
                 privacyBtn.focus({ preventScroll: true });
             });
 
-            // Allow a pointer gesture that begins on the backdrop to close the dialog.
             let pointerStartedOutside = false;
             privacyModal.addEventListener('pointerdown', event => {
                 pointerStartedOutside = event.target === privacyModal;
