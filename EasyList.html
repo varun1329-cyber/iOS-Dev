@@ -246,9 +246,10 @@
             </div>
         </section>
 
-        <div class="w-full max-w-md mx-auto pt-2 sm:pt-3">
-            <div class="flex flex-col items-center justify-center gap-3 text-center">
-                <p class="text-sm sm:text-base font-medium text-apple-subtextLight dark:text-apple-subtextDark">
+        <!-- App Store call to action -->
+        <div class="w-full max-w-md mx-auto -mt-10 sm:-mt-12">
+            <div class="flex flex-col items-center justify-center gap-2.5 text-center">
+                <p class="text-sm font-medium text-apple-subtextLight dark:text-apple-subtextDark">
                     App is live and available on the App Store
                 </p>
 
@@ -257,17 +258,17 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Download EasyList from the App Store"
-                    class="inline-flex items-center justify-center rounded-xl transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                    class="inline-flex items-center justify-center rounded-xl transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-apple-blue"
                 >
-                    <img
-                        src="./black.svg"
-                        alt="Download EasyList on the App Store"
-                        class="h-14 w-auto object-contain dark:hidden"
-                    >
                     <img
                         src="./white.svg"
                         alt="Download EasyList on the App Store"
-                        class="hidden h-14 w-auto object-contain dark:block"
+                        class="block h-[52px] w-auto object-contain dark:hidden"
+                    >
+                    <img
+                        src="./black.svg"
+                        alt="Download EasyList on the App Store"
+                        class="hidden h-[52px] w-auto object-contain dark:block"
                     >
                 </a>
             </div>
@@ -285,7 +286,7 @@
                 <div class="flex items-start gap-4 p-6">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-500/15 text-blue-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0[...]
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 01-1.897-1.13L1.5 12.75l1.687-1.687a1.875 1.875 0 112.652 2.652L10.582 16.07"/>
                         </svg>
                     </div>
                     <div class="space-y-1">
@@ -406,6 +407,7 @@
                 privacyBtn.focus({ preventScroll: true });
             });
 
+            // Allow a pointer gesture that begins on the backdrop to close the dialog.
             let pointerStartedOutside = false;
             privacyModal.addEventListener('pointerdown', event => {
                 pointerStartedOutside = event.target === privacyModal;
