@@ -8,12 +8,25 @@
     AUTHOR: Varun Patel
     DESIGN: Apple-inspired minimalism, automatic dark/light mode (system-controlled)
     TECH: HTML5, Tailwind CSS via CDN, custom CSS, vanilla JS, SVG assets
+    
+    STRUCTURE OVERVIEW:
+    -------------------
+    1. Header: Full-width with code logo, name/title, and Get in Touch button (opens email dialog).
+    2. Hero/Intro: Portrait image with animated status dot, name & bio, social media icons (non-link placeholders), and My Journey button (opens story dialog).
+    3. My Toolbox: Xcode/Swift/SwiftUI under Build; AI & workflow tools ordered by real usage; top three highlighted; all open a shared details dialog; below, personal learning principles.
+    4. My Work: Horizontally scrollable project carousel (EasyList, TripMate) with position indicator dots and keyboard/gesture navigation; theme-aware app icons for EasyList (3.png/4.png) and TripMate (TripMateIcon.png); each card links to its details page.
+    5. Tool Details Dialog: Unified for all tools; dynamic icon support (SVG/img); role and personalized journey reflection.
+    6. My Journey Dialog: Story, highlighted existential question, timeline, inspirational quote.
+    7. Email Dialog: Confirmation dialog before launching mail client to contact Varun; no backend mail form.
+    8. Footer: Identity line and technology stack credit.
+    9. JS: Handles theme sync, modal open/close, dynamic tool details, and carousel logic.
     ============================================================================
     -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Varun Patel - Independent iOS Developer</title>
 
+    <!-- Utility styling and existing Apple-inspired design tokens. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -35,17 +48,36 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['-apple-system','BlinkMacSystemFont','"SF Pro Display"','"SF Pro Text"','"Helvetica Neue"','Helvetica','Arial','sans-serif']
+                        sans: [
+                            '-apple-system',
+                            'BlinkMacSystemFont',
+                            '"SF Pro Display"',
+                            '"SF Pro Text"',
+                            '"Helvetica Neue"',
+                            'Helvetica',
+                            'Arial',
+                            'sans-serif'
+                        ]
                     }
                 }
             }
         };
     </script>
 
+    <!-- Global styles, shared dialogs, toolbox controls, and project carousel. -->
     <style>
-        html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; overflow-x: hidden; touch-action: manipulation; }
+        html {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
 
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        /* Approved portrait frame: fixed 195px size. */
         .portrait-frame {
             width: 195px;
             height: 195px;
@@ -70,41 +102,42 @@
         }
 
         @media (min-width: 640px) {
-            .portrait-frame { width: 195px; height: 195px; }
+            .portrait-frame {
+                width: 195px;
+                height: 195px;
+            }
         }
 
+        /* Decorative pulse, not a live availability service. */
         @keyframes status-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7); }
-            70% { box-shadow: 0 0 0 8px rgba(52, 199, 89, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(52, 199, 89, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
+            }
         }
 
-        .status-dot-pulse { animation: status-pulse 2s infinite; }
-
-        .status-dot-marker {
-            position: absolute;
-            right: 1px;
-            bottom: 1px;
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 23px;
-            height: 23px;
-            border: 4px solid #f5f5f7;
-            border-radius: 50%;
-            background: #34c759;
+        .status-dot-pulse {
+            animation: status-pulse 2s infinite;
         }
 
-        .dark .status-dot-marker { border-color: #000000; }
-
-        @media (min-width: 640px) {
-            .status-dot-marker { right: 2px; bottom: 2px; }
-        }
-
+        /* Shared app-window entrance and native modal backdrop. */
         @keyframes modal-pop {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
         dialog.modal-shell {
@@ -118,77 +151,344 @@
             overflow: visible;
         }
 
-        dialog.modal-shell::backdrop { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); }
-        .dark dialog.modal-shell::backdrop { background: rgba(0, 0, 0, 0.7); }
-        dialog.modal-shell[open] > .modal-card { animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        dialog.modal-shell::backdrop {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
 
-        .journey-window { max-height: calc(100vh - 2rem); max-height: calc(100dvh - 2rem); }
-        .journey-scroll { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+        .dark dialog.modal-shell::backdrop {
+            background: rgba(0, 0, 0, 0.7);
+        }
 
-        .timeline-item { position: relative; padding-left: 2rem; }
-        .timeline-item::before { content: ''; position: absolute; left: 5px; top: 14px; bottom: -24px; width: 1px; background: rgba(0, 113, 227, 0.2); }
-        .timeline-item:last-child::before { display: none; }
-        .timeline-dot { position: absolute; left: 0; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: #0071e3; box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1); }
+        dialog.modal-shell[open] > .modal-card {
+            animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
 
-        .curiosity-highlight { padding: 0.12em 0.35em; border-radius: 0.35em; background: rgba(0, 113, 227, 0.1); color: #005bb5; font-weight: 600; }
-        .dark .curiosity-highlight { background: rgba(0, 113, 227, 0.2); color: #8ec5ff; }
+        .journey-window {
+            max-height: calc(100vh - 2rem);
+            max-height: calc(100dvh - 2rem);
+        }
 
-        .hero-section { min-height: calc(100vh - 150px); min-height: calc(100svh - 150px); }
-        #toolbox, #work { scroll-margin-top: 6rem; }
+        .journey-scroll {
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+        }
 
-        .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 0.5rem; }
-        .tool-tile { display: flex; align-items: center; gap: 0.625rem; width: 100%; height: 100%; min-width: 0; padding: 0.625rem 0.75rem; border-radius: 0.75rem; border: 1px solid rgba(0, 0, 0, 0.06); background: #f5f5f7; font-size: 0.8125rem; font-weight: 500; line-height: 1.25rem; text-align: left; color: inherit; cursor: pointer; transition: background-color 180ms, border-color 180ms, transform 180ms; }
-        .dark .tool-tile { border-color: rgba(255, 255, 255, 0.07); background: rgba(255, 255, 255, 0.04); }
-        .tool-tile:hover { background: rgba(0, 113, 227, 0.08); border-color: rgba(0, 113, 227, 0.3); }
-        .dark .tool-tile:hover { background: rgba(0, 113, 227, 0.15); }
-        .tool-tile:active { transform: scale(0.98); }
+        /* Personal timeline and approved highlighted question. */
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+        }
 
-        .tool-logo { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; flex-shrink: 0; border-radius: 0.5rem; background: #ffffff; }
-        .tool-logo img, .tool-logo svg { width: 1.25rem; height: 1.25rem; object-fit: contain; }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 14px;
+            bottom: -24px;
+            width: 1px;
+            background: rgba(0, 113, 227, 0.2);
+        }
 
-        .usage-badge { margin-left: auto; flex-shrink: 0; padding: 0.1rem 0.35rem; border-radius: 999px; background: rgba(0, 113, 227, 0.1); color: #005bb5; font-size: 0.5625rem; font-weight: 700; line-height: 1rem; }
-        .dark .usage-badge { background: rgba(0, 113, 227, 0.22); color: #8ec5ff; }
+        .timeline-item:last-child::before {
+            display: none;
+        }
 
-        .social-icon-btn { display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: rgba(0, 0, 0, 0.04); color: #1d1d1f; transition: all 200ms ease; cursor: pointer; }
-        .dark .social-icon-btn { background: rgba(255, 255, 255, 0.08); color: #f5f5f7; }
-        .social-icon-btn:hover { background: rgba(0, 113, 227, 0.1); color: #0071e3; transform: translateY(-2px); }
-        .dark .social-icon-btn:hover { background: rgba(0, 113, 227, 0.25); color: #64b5f6; }
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #0071e3;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
 
-        .project-carousel { position: relative; display: flex; gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-        .project-carousel::-webkit-scrollbar { display: none; }
-        .project-carousel > article { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; }
+        .curiosity-highlight {
+            padding: 0.12em 0.35em;
+            border-radius: 0.35em;
+            background: rgba(0, 113, 227, 0.1);
+            color: #005bb5;
+            font-weight: 600;
+            -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
+        }
 
-        .project-dot { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; cursor: pointer; }
-        .project-dot span { display: block; width: 8px; height: 8px; border-radius: 999px; background: rgba(110, 110, 115, 0.35); transition: width 180ms, background-color 180ms; }
-        .dark .project-dot span { background: rgba(134, 134, 139, 0.6); }
-        .project-dot[aria-current="true"] span { width: 26px; background: #0071e3; }
+        .dark .curiosity-highlight {
+            background: rgba(0, 113, 227, 0.2);
+            color: #8ec5ff;
+        }
 
-        .project-art { position: relative; isolation: isolate; overflow: hidden; min-height: 190px; display: flex; align-items: center; justify-content: center; }
-        .project-art::before { content: ''; position: absolute; z-index: -1; width: 240px; height: 240px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); }
-        .project-art-easy { background: linear-gradient(135deg, #e1f1ff, #c8e1ff 55%, #ddd5ff); }
-        .project-art-trip { background: linear-gradient(135deg, #e1f7e9, #bcebdc 55%, #d8f0ff); }
-        .project-icon { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; box-shadow: 0 14px 28px rgba(0, 0, 0, 0.13); }
-        .project-tag { display: inline-flex; align-items: center; padding: 0.3rem 0.65rem; border-radius: 999px; background: rgba(0, 0, 0, 0.045); font-size: 0.6875rem; font-weight: 500; }
-        .dark .project-tag { background: rgba(255, 255, 255, 0.07); }
+        .hero-section {
+            min-height: calc(100vh - 150px);
+            min-height: calc(100svh - 150px);
+        }
 
-        @media (min-width: 640px) { .project-art { min-height: 220px; } }
-        @media (max-width: 359px) { .tool-grid { grid-template-columns: 1fr; } }
+        #toolbox,
+        #work {
+            scroll-margin-top: 6rem;
+        }
 
-        :focus-visible { outline: 2px solid #0071e3; outline-offset: 4px; }
+        /* Tools retain a compact grid; DOM order matches the personal usage order. */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .tool-tile {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            width: 100%;
+            height: 100%;
+            min-width: 0;
+            padding: 0.625rem 0.75rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            background: #f5f5f7;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            line-height: 1.25rem;
+            text-align: left;
+            color: inherit;
+            cursor: pointer;
+            transition:
+                background-color 180ms,
+                border-color 180ms,
+                transform 180ms;
+        }
+
+        .dark .tool-tile {
+            border-color: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tool-tile:hover {
+            background: rgba(0, 113, 227, 0.08);
+            border-color: rgba(0, 113, 227, 0.3);
+        }
+
+        .dark .tool-tile:hover {
+            background: rgba(0, 113, 227, 0.15);
+        }
+
+        .tool-tile:active {
+            transform: scale(0.98);
+        }
+
+        .tool-logo {
+            display: grid;
+            place-items: center;
+            width: 1.75rem;
+            height: 1.75rem;
+            flex-shrink: 0;
+            border-radius: 0.5rem;
+            background: #ffffff;
+        }
+
+        .tool-logo img,
+        .tool-logo svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            object-fit: contain;
+        }
+
+        /* Small, numbered top-three markers without introducing another accent. */
+        .usage-badge {
+            margin-left: auto;
+            flex-shrink: 0;
+            padding: 0.1rem 0.35rem;
+            border-radius: 999px;
+            background: rgba(0, 113, 227, 0.1);
+            color: #005bb5;
+            font-size: 0.5625rem;
+            font-weight: 700;
+            line-height: 1rem;
+        }
+
+        .dark .usage-badge {
+            background: rgba(0, 113, 227, 0.22);
+            color: #8ec5ff;
+        }
+
+        /* Social media icons styling */
+        .social-icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.04);
+            color: #1d1d1f;
+            transition: all 200ms ease;
+            cursor: pointer;
+        }
+
+        .dark .social-icon-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #f5f5f7;
+        }
+
+        .social-icon-btn:hover {
+            background: rgba(0, 113, 227, 0.1);
+            color: #0071e3;
+            transform: translateY(-2px);
+        }
+
+        .dark .social-icon-btn:hover {
+            background: rgba(0, 113, 227, 0.25);
+            color: #64b5f6;
+        }
+
+        /* Horizontal project track: native touch/trackpad scrolling and snapping. */
+        .project-carousel {
+            position: relative;
+            display: flex;
+            gap: 1.25rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            overscroll-behavior-x: contain;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .project-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .project-carousel > article {
+            flex: 0 0 100%;
+            min-width: 0;
+            scroll-snap-align: start;
+        }
+
+        /* Visible 44px indicator targets; active position uses a blue pill. */
+        .project-dot {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
+        .project-dot span {
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(110, 110, 115, 0.35);
+            transition: width 180ms, background-color 180ms;
+        }
+
+        .dark .project-dot span {
+            background: rgba(134, 134, 139, 0.6);
+        }
+
+        .project-dot[aria-current="true"] span {
+            width: 26px;
+            background: #0071e3;
+        }
+
+        /* Existing pastel artwork and project tags retained. */
+        .project-art {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            min-height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-art::before {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .project-art-easy {
+            background:
+                linear-gradient(135deg, #e1f1ff, #c8e1ff 55%, #ddd5ff);
+        }
+
+        .project-art-trip {
+            background:
+                linear-gradient(135deg, #e1f7e9, #bcebdc 55%, #d8f0ff);
+        }
+
+        .project-icon {
+            display: grid;
+            place-items: center;
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.13);
+        }
+
+        .project-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.045);
+            font-size: 0.6875rem;
+            font-weight: 500;
+        }
+
+        .dark .project-tag {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        @media (min-width: 640px) {
+            .project-art {
+                min-height: 220px;
+            }
+        }
+
+        @media (max-width: 359px) {
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        :focus-visible {
+            outline: 2px solid #0071e3;
+            outline-offset: 4px;
+        }
 
         @media (prefers-reduced-motion: reduce) {
-            html, .project-carousel { scroll-behavior: auto; }
-            *, *::before, *::after { animation: none !important; transition: none !important; }
+            html,
+            .project-carousel {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
         }
     </style>
 </head>
 
 <body class="bg-apple-bgLight dark:bg-apple-bgDark text-apple-textLight dark:text-apple-textDark transition-colors duration-300 font-sans min-h-screen flex flex-col justify-between antialiased selection:bg-apple-blue selection:text-white">
 
+    <!-- HEADER: Existing full-width branding and email contact action. -->
     <header class="sticky top-0 z-40 w-full bg-apple-bgLight dark:bg-apple-bgDark border-b border-black/5 dark:border-white/10 transition-colors duration-300">
         <div class="w-full px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
             <a href="#" class="group flex items-center space-x-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-lg p-1 transition-transform active:scale-95">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-apple-blue flex items-center justify-center text-white shadow-md shadow-apple-blue/20 group-hover:scale-105 transition-transform">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-apple-blue flex items-center justify-center text-white shadow-md shadow-apple-blue/20 group-hover:scale-105 transition-transform duration-300">
                     <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                     </svg>
@@ -199,19 +499,23 @@
                 </div>
             </a>
             <div class="flex items-center shrink-0">
-                <button id="openEmailModalBtn" type="button" aria-haspopup="dialog" aria-controls="emailModal" class="inline-flex items-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white shadow-md shadow-apple-blue/20 hover:bg-blue-600 active:scale-95 transition-all">
+                <button id="openEmailModalBtn" type="button" aria-haspopup="dialog" aria-controls="emailModal" class="inline-flex items-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm hover:shadow">
                     Get in Touch
                 </button>
             </div>
         </div>
     </header>
 
+    <!-- MAIN: Intro, My Toolbox, and My Work in normal document flow. -->
     <main class="flex-grow">
+
+        <!-- INTRO / HERO: Approved non-interactive portrait (195px), bio, social media icons bar, and green dot. -->
         <section aria-labelledby="introTitle" class="hero-section flex items-center justify-center px-4 sm:px-6 py-12 sm:py-20">
             <div class="max-w-2xl w-full mx-auto text-center flex flex-col items-center">
                 <div class="relative mb-6 sm:mb-8">
+                    <!-- Avatar circle resized to 195px -->
                     <div
-                        class="portrait-frame rounded-full ring-4 ring-black/5 dark:ring-white/10 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-neutral-800 dark:to-neutral-900 p-1 shadow-xl select-none"
+                        class="portrait-frame rounded-full ring-4 ring-black/5 dark:ring-white/10 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-neutral-800 dark:to-neutral-900 p-1 shadow-xl flex items-center justify-center overflow-hidden"
                         oncontextmenu="return false;"
                         ondragstart="return false;"
                     >
@@ -219,18 +523,17 @@
                             src="./Varun%201.jpg"
                             onerror="this.onerror=null; this.src='https://placehold.co/195x195/1c1c1e/f5f5f7?text=VP';"
                             alt="Portrait of Varun Patel"
-                            width="205"
-                            height="205"
+                            width="195"
+                            height="195"
                             class="hero-portrait"
                             draggable="false"
                             decoding="async"
                             fetchpriority="high"
                         >
                     </div>
-                    <!-- Green status dot visually attached to the avatar rim. -->
-                    <div class="status-dot-marker" title="Developer is Online">
-                        <span class="status-dot-pulse absolute inset-0 rounded-full"></span>
-                        <span class="relative w-3.5 h-3.5 sm:w-4 sm:h-4 bg-apple-green rounded-full"></span>
+                    <!-- Original green animated dot and positioning unchanged. -->
+                    <div class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 flex items-center justify-center bg-white dark:bg-black rounded-full p-1 shadow-md" title="Developer is Online">
+                        <span class="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-apple-green rounded-full status-dot-pulse block"></span>
                     </div>
                 </div>
 
@@ -247,276 +550,799 @@
                     tools.
                 </p>
 
+                <!-- SOCIAL MEDIA ICONS BAR -->
                 <div class="mt-6 flex items-center justify-center gap-3 sm:gap-4" aria-label="Social Media Links">
+                    <!-- GitHub Icon -->
                     <a href="javascript:void(0);" class="social-icon-btn" aria-label="GitHub Profile" title="GitHub">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                        </svg>
                     </a>
+                    <!-- Facebook Icon -->
                     <a href="javascript:void(0);" class="social-icon-btn" aria-label="Facebook Profile" title="Facebook">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.261c-1.243 0-1.631.771-1.631 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                        </svg>
                     </a>
+                    <!-- Instagram Icon -->
                     <a href="javascript:void(0);" class="social-icon-btn" aria-label="Instagram Profile" title="Instagram">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 2A3.75 3.75 0 004 7.75v8.5A3.75 3.75 0 007.75 20h8.5A3.75 3.75 0 0020 16.25v-8.5A3.75 3.75 0 0016.25 4h-8.5zm8.75 1.5a1 1 0 110 2 1 1 0 010-2zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2c2.717 0 3.056.01 4.122.06 1.065.048 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 011.153 1.772c.247.637.416 1.363.465 2.428.048 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.049 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772 4.915 4.915 0 01-1.772 1.153c-.637.247-1.363.416-2.428.465-1.066.048-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.049-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.247-.637-.416-1.363-.465-2.428C2.01 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.048-1.065.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.417 2.428-.465C8.944 2.01 9.283 2 12 2zm0 1.802c-2.67 0-2.987.01-4.042.059-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.048 1.055-.058 1.37-.058 4.041 0 2.67.01 2.986.058 4.041.045.976.207 1.505.344 1.858.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.042.058 2.67 0 2.987-.01 4.042-.058.975-.045 1.504-.207 1.857-.344.467-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041 0-2.67-.01-2.986-.058-4.041-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.055-.048-1.37-.059-4.042-.059zm0 3.101a5.097 5.097 0 110 10.195 5.097 5.097 0 010-10.195zm0 1.802a3.295 3.295 0 100 6.59 3.295 3.295 0 000-6.59zm6.495-3.108a1.192 1.192 0 11-2.385 0 1.192 1.192 0 012.385 0z"/>
+                        </svg>
                     </a>
+                    <!-- LinkedIn Icon -->
                     <a href="javascript:void(0);" class="social-icon-btn" aria-label="LinkedIn Profile" title="LinkedIn">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.34 18.34V9.75H5.67v8.59h2.67zm-1.34-9.77a1.55 1.55 0 100-3.1 1.55 1.55 0 000 3.1zm11.34 9.77v-4.78c0-2.56-1.37-3.75-3.19-3.75-1.47 0-2.13.81-2.5 1.38V9.75h-2.67c.04.83 0 8.59 0 8.59h2.67v-4.8c0-.26.02-.52.1-.7.21-.52.69-1.06 1.5-1.06 1.06 0 1.48.81 1.48 1.99v4.57h2.61z"/></svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.72a1.63 1.63 0 100 3.26 1.63 1.63 0 000-3.26z"/>
+                        </svg>
                     </a>
+                    <!-- YouTube Icon -->
                     <a href="javascript:void(0);" class="social-icon-btn" aria-label="YouTube Channel" title="YouTube">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.017 3.017 0 002.121 2.136c1.872.505 9.377.505 9.377.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
                     </a>
+                    <!-- X (Twitter) Icon -->
                     <a href="javascript:void(0);" class="social-icon-btn" aria-label="X Profile" title="X (Twitter)">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
                     </a>
                 </div>
 
-                <button id="openJourneyBtn" type="button" aria-haspopup="dialog" aria-controls="journeyModal" class="mt-7 inline-flex items-center gap-2 rounded-full bg-apple-blue px-6 py-3 text-sm font-semibold text-white shadow-md shadow-apple-blue/20 hover:bg-blue-600 active:scale-95 transition-all">
-                    <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.5C9 4.5 5.5 4.5 3 6v14c2.5-1.5 6-1.5 9 .5 3-2 6.5-2 9-.5V6c-2.5-1.5-6-1.5-9 .5Zm0 0v14"/></svg>
+                <button id="openJourneyBtn" type="button" aria-haspopup="dialog" aria-controls="journeyModal" class="mt-7 inline-flex items-center gap-2 rounded-full bg-apple-blue px-6 py-3 text-sm font-medium text-white shadow-md shadow-apple-blue/20 hover:bg-blue-600 hover:shadow-lg active:scale-95 transition-all">
+                    <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.5C9 4.5 5.5 4.5 3 6v14c2.5-1.5 6-1.5 9 .5 3-2 6.5-2 9-.5V6c-2.5-1.5-6-1.5-9 .5Zm0 0v14"/>
+                    </svg>
                     My Journey
                 </button>
             </div>
         </section>
 
+        <!-- MY TOOLBOX: Build stays separate; AI/workflow tools reordered & ranked (#1 Codex, #2 Cursor, #3 Perplexity). -->
         <section id="toolbox" aria-labelledby="toolboxTitle" class="border-t border-black/5 dark:border-white/10 px-4 sm:px-6 py-8 sm:py-10">
             <div class="max-w-5xl mx-auto">
                 <div class="mb-5">
                     <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">My Toolbox</p>
-                    <h2 id="toolboxTitle" class="text-xl sm:text-2xl font-bold tracking-tight">Human ideas/vision. <span class="text-apple-blue">AI-assisted execution.</span></h2>
-                    <p class="mt-2 text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Using AI as an intelligent learning partner to learn faster and work smarter.</p>
+                    <h2 id="toolboxTitle" class="text-xl sm:text-2xl font-bold tracking-tight">
+                        Human ideas/vision.
+                        <span class="text-apple-blue">AI-assisted execution.</span>
+                    </h2>
+                    <p class="mt-2 text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">
+                        Using AI as an intelligent learning partner to learn faster and work smarter.
+                    </p>
                 </div>
 
+                <!-- All tools open the same reusable tool-details window. -->
                 <div class="rounded-2xl bg-apple-cardLight dark:bg-apple-cardDark border border-black/5 dark:border-white/10 p-4 sm:p-5 shadow-sm">
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-5">
                         <div>
                             <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">Build</h3>
                             <ul class="tool-grid" aria-label="Development tools">
-                                <li><button type="button" data-tool="xcode" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile"><span class="tool-logo"><img src="https://api.iconify.design/logos/xcode.svg" alt="" width="20" height="20" loading="lazy"></span><span class="min-w-0">Xcode</span></button></li>
-                                <li><button type="button" data-tool="swift" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile"><span class="tool-logo"><img src="https://api.iconify.design/logos/swift.svg" alt="" width="20" height="20" loading="lazy"></span><span class="min-w-0">Swift / SwiftUI</span></button></li>
+                                <li>
+                                    <button type="button" data-tool="xcode" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/xcode.svg" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Xcode</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-tool="swift" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/swift.svg" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Swift / SwiftUI</span>
+                                    </button>
+                                </li>
                             </ul>
                         </div>
 
                         <div class="border-t border-black/5 dark:border-white/10 pt-4 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-5 min-w-0">
                             <h3 class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-apple-subtextLight dark:text-apple-subtextDark">Think, learn &amp; iterate</h3>
+
                             <ol class="tool-grid" aria-label="AI and workflow tools, sorted by preference" aria-describedby="toolUsageHelp">
-                                <li><button type="button" data-tool="codex" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile"><span class="tool-logo"><img src="https://api.iconify.design/logos/openai-icon.svg" alt="" width="20" height="20" loading="lazy"></span><span class="min-w-0">Codex</span><span class="usage-badge" aria-label="Usage rank 1, top three tools">#1</span></button></li>
-                                <li><button type="button" data-tool="cursor" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile"><span class="tool-logo"><img src="https://api.iconify.design/simple-icons/cursor.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span><span class="min-w-0">Cursor</span><span class="usage-badge" aria-label="Usage rank 2, top three tools">#2</span></button></li>
-                                <li><button type="button" data-tool="perplexity" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile"><span class="tool-logo"><img src="https://api.iconify.design/simple-icons/perplexity.svg?color=%2320808d" alt="" width="20" height="20" loading="lazy"></span><span class="min-w-0">Perplexity.ai</span><span class="usage-badge" aria-label="Usage rank 3, top three tools">#3</span></button></li>
-                                <li><button type="button" data-tool="chatgpt" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile"><span class="tool-logo"><img src="https://api.iconify.design/logos/openai-icon.svg" alt="" width="20" height="20" loading="lazy"></span><span class="min-w-0">ChatGPT</span></button></li>
-                                <li><button type="button" data-tool="claude" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile"><span class="tool-logo"><img src="https://api.iconify.design/simple-icons/claude.svg?color=%23d97757" alt="" width="20" height="20" loading="lazy"></span><span class="min-w-0">Claude.ai</span></button></li>
-                                <li><button type="button" data-tool="gemini" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile"><span class="tool-logo"><img src="https://api.iconify.design/logos/google-gemini.svg" alt="" width="20" height="20" loading="lazy"></span><span class="min-w-0">Google Gemini</span></button></li>
-                                <li><button type="button" data-tool="mscopilot" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile"><span class="tool-logo"><svg viewBox="0 0 24 24" width="20" height="20"><defs><linearGradient id="copilot-grad-tile" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0078D4"/><stop offset="50%" stop-color="#2058D8"/><stop offset="100%" stop-color="#8764B8"/></linearGradient></defs><circle cx="12" cy="12" r="10" fill="url(#copilot-grad-tile)"/></svg></span><span class="min-w-0">MS Copilot</span></button></li>
-                                <li><button type="button" data-tool="github" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile"><span class="tool-logo"><img src="https://api.iconify.design/simple-icons/github.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span><span class="min-w-0">GitHub</span></button></li>
+                                <!-- 1. Codex (#1) -->
+                                <li>
+                                    <button type="button" data-tool="codex" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/openai-icon.svg" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Codex</span>
+                                        <span class="usage-badge" aria-label="Usage rank 1, top three tools" title="Top 3 — usage rank 1">#1</span>
+                                    </button>
+                                </li>
+                                <!-- 2. Cursor (#2) -->
+                                <li>
+                                    <button type="button" data-tool="cursor" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/cursor.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Cursor</span>
+                                        <span class="usage-badge" aria-label="Usage rank 2, top three tools" title="Top 3 — usage rank 2">#2</span>
+                                    </button>
+                                </li>
+                                <!-- 3. Perplexity.ai (#3) -->
+                                <li>
+                                    <button type="button" data-tool="perplexity" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/perplexity.svg?color=%2320808d" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Perplexity.ai</span>
+                                        <span class="usage-badge" aria-label="Usage rank 3, top three tools" title="Top 3 — usage rank 3">#3</span>
+                                    </button>
+                                </li>
+                                <!-- 4. ChatGPT -->
+                                <li>
+                                    <button type="button" data-tool="chatgpt" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/openai-icon.svg" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">ChatGPT</span>
+                                    </button>
+                                </li>
+                                <!-- 5. Claude.ai -->
+                                <li>
+                                    <button type="button" data-tool="claude" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/claude.svg?color=%23d97757" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Claude.ai</span>
+                                    </button>
+                                </li>
+                                <!-- 6. Google Gemini -->
+                                <li>
+                                    <button type="button" data-tool="gemini" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/logos/google-gemini.svg" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">Google Gemini</span>
+                                    </button>
+                                </li>
+                                <!-- 7. MS Copilot -->
+                                <li>
+                                    <button type="button" data-tool="mscopilot" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo">
+                                            <svg viewBox="0 0 24 24" width="20" height="20" aria-label="Microsoft Copilot Logo">
+                                                <defs>
+                                                    <linearGradient id="copilot-grad-tile" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#0078D4"/>
+                                                        <stop offset="50%" stop-color="#2058D8"/>
+                                                        <stop offset="100%" stop-color="#8764B8"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <path fill="url(#copilot-grad-tile)" d="M12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2ZM12 4C14.761 4 17.156 5.378 18.6 7.5C16.9 8.2 14.8 8.6 12.5 8.6C9.2 8.6 6.3 7.6 4.2 6C5.9 4.8 8.1 4 12 4ZM4 12C4 10.4 4.5 8.9 5.3 7.6C7.5 9 10.3 9.8 13.5 9.8C15.8 9.8 18 9.4 19.7 8.7C19.9 9.7 20 10.8 20 12C20 16.4 16.4 20 12 20C7.6 20 4 16.4 4 12Z"/>
+                                            </svg>
+                                        </span>
+                                        <span class="min-w-0">MS Copilot</span>
+                                    </button>
+                                </li>
+
+                                <!-- 8. GitHub -->
+                                <li>
+                                    <button type="button" data-tool="github" aria-haspopup="dialog" aria-controls="toolModal" class="tool-tile">
+                                        <span class="tool-logo"><img src="https://api.iconify.design/simple-icons/github.svg?color=%23242424" alt="" width="20" height="20" loading="lazy"></span>
+                                        <span class="min-w-0">GitHub</span>
+                                    </button>
+                                </li>
                             </ol>
                         </div>
                     </div>
-                    <p id="toolUsageHelp" class="mt-4 border-t border-black/5 dark:border-white/10 pt-3 text-[11px] leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"><span class="font-semibold text-apple-blue">#1–#3: My top three.</span> AI and workflow tools are sorted from most to least used in my coding journey.</p>
+
+                    <!-- Usage note follows every tool and explains the three badges. -->
+                    <p id="toolUsageHelp" class="mt-4 border-t border-black/5 dark:border-white/10 pt-3 text-[11px] leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
+                        <span class="font-semibold text-apple-blue">#1–#3: My top three.</span>
+                        AI and workflow tools are sorted from most to least used in my coding journey.
+                    </p>
                 </div>
 
+                <!-- Existing three principles retained in a single shared container. -->
                 <div class="mt-3 rounded-2xl bg-apple-cardLight dark:bg-apple-cardDark border border-black/5 dark:border-white/10 shadow-sm grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-black/5 dark:divide-white/10">
-                    <article class="p-4 sm:p-5"><h3 class="text-sm font-semibold tracking-tight"><span aria-hidden="true" class="text-apple-blue mr-2">01</span>Learn by building</h3><p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">I turn new concepts into working experiments, then refine what I learn.</p></article>
-                    <article class="p-4 sm:p-5"><h3 class="text-sm font-semibold tracking-tight"><span aria-hidden="true" class="text-apple-blue mr-2">02</span>Solve real problems</h3><p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">I start with everyday needs and aim for apps that feel useful, not complicated.</p></article>
-                    <article class="p-4 sm:p-5"><h3 class="text-sm font-semibold tracking-tight"><span aria-hidden="true" class="text-apple-blue mr-2">03</span>Improve every iteration</h3><p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">Better structure, thoughtful details, and a smoother experience—one step at a time.</p></article>
+                    <article class="p-4 sm:p-5">
+                        <h3 class="text-sm font-semibold tracking-tight"><span aria-hidden="true" class="text-apple-blue mr-2">01</span>Learn by building</h3>
+                        <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">I turn new concepts into working experiments, then refine what I learn.</p>
+                    </article>
+                    <article class="p-4 sm:p-5">
+                        <h3 class="text-sm font-semibold tracking-tight"><span aria-hidden="true" class="text-apple-blue mr-2">02</span>Solve real problems</h3>
+                        <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">I start with everyday needs and aim for apps that feel useful, not complicated.</p>
+                    </article>
+                    <article class="p-4 sm:p-5">
+                        <h3 class="text-sm font-semibold tracking-tight"><span aria-hidden="true" class="text-apple-blue mr-2">03</span>Improve every iteration</h3>
+                        <p class="mt-1.5 text-xs leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">Better structure, thoughtful details, and a smoother experience—one step at a time.</p>
+                    </article>
                 </div>
             </div>
         </section>
 
+        <!-- MY WORK: Horizontal project carousel with a visible bottom position indicator. -->
         <section id="work" aria-labelledby="workTitle" class="border-t border-black/5 dark:border-white/10 px-4 sm:px-6 py-8 sm:py-10">
             <div class="max-w-5xl mx-auto">
                 <div class="max-w-xl mb-5 sm:mb-6">
                     <p class="text-xs font-semibold text-apple-blue tracking-widest uppercase mb-2">My Work</p>
-                    <h2 id="workTitle" class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">Small steps.<br><span class="text-apple-blue">Real Apps.</span></h2>
-                    <p class="mt-3 text-sm sm:text-base text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Every project is a chance to learn, solve a practical problem, and make the next version a little better.</p>
+                    <h2 id="workTitle" class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
+                        Small steps.<br><span class="text-apple-blue">Real Apps.</span>
+                    </h2>
+                    <p class="mt-3 text-sm sm:text-base text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">
+                        Every project is a chance to learn, solve a practical problem,
+                        and make the next version a little better.
+                    </p>
                 </div>
 
                 <div class="max-w-3xl mx-auto" role="region" aria-roledescription="carousel" aria-label="My Work projects">
+                    <!-- Focus the track to navigate with Left/Right/Home/End keys. -->
                     <div id="projectCarousel" class="project-carousel rounded-3xl" tabindex="0" aria-label="Scrollable projects" aria-describedby="projectScrollHint">
-                        <article id="easyListProject" role="group" aria-roledescription="slide" aria-label="1 of 2: EasyList" class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm">
-                            <a href="EasyList.html" class="flex flex-col flex-grow focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-3xl" aria-label="View EasyList details">
+                        <article
+                            id="easyListProject"
+                            role="group"
+                            aria-roledescription="slide"
+                            aria-label="1 of 2: EasyList"
+                            class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm hover:border-apple-blue/50 dark:hover:border-apple-blue/50 transition-colors group"
+                        >
+                            <a href="EasyList.html" class="flex flex-col flex-grow focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-3xl" aria-label="View EasyList details page">
                                 <div class="project-art project-art-easy" aria-hidden="true">
-                                    <div class="project-icon border-[4px] border-[#1d1d1f] bg-[#0785ff] text-[#17212c]">
-                                        <img src="./3.png" onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';" alt="EasyList Light Icon" class="w-12 h-12 rounded-xl object-contain shadow-md block dark:hidden">
-                                        <img src="./4.png" onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';" alt="EasyList Dark Icon" class="w-12 h-12 rounded-xl object-contain shadow-md hidden dark:block">
+                                    <div class="project-icon border-[4px] border-[#1d1d1f] bg-[#0785ff] text-[#17212c] group-hover:scale-105 transition-transform duration-300">
+                                        <!-- Light mode image 3.png -->
+                                        <img 
+                                            src="./3.png" 
+                                            onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';" 
+                                            alt="EasyList Light Icon" 
+                                            class="w-12 h-12 rounded-xl object-contain shadow-md block dark:hidden"
+                                        >
+                                        <!-- Dark mode image 4.png -->
+                                        <img 
+                                            src="./4.png" 
+                                            onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';" 
+                                            alt="EasyList Dark Icon" 
+                                            class="w-12 h-12 rounded-xl object-contain shadow-md hidden dark:block"
+                                        >
                                     </div>
                                     <span class="absolute bottom-5 left-5 sm:left-6 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#536b83]">One focused list - Zero clutter</span>
                                 </div>
                                 <div class="flex flex-col flex-grow p-5 sm:p-6">
-                                    <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark"><span class="inline-flex items-center gap-2 font-medium"><span class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span><span>01 / 02</span></div>
-                                    <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight flex items-center justify-between">EasyList <span class="text-apple-subtextLight dark:text-apple-subtextDark">&rarr;</span></h3>
-                                    <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">Create lists with quick voice input, duplicate prevention, and hands-free use.</p>
-                                    <ul class="flex flex-wrap gap-2 mt-4 mb-5"><li class="project-tag">iOS</li><li class="project-tag">SwiftUI</li><li class="project-tag">Productivity</li></ul>
-                                    <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold flex items-center justify-between"><span>My first app-building chapter</span><span class="text-xs text-apple-blue">Explore Project &rarr;</span></p>
+                                    <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
+                                        <span class="inline-flex items-center gap-2 font-medium"><span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span>
+                                        <span>01 / 02</span>
+                                    </div>
+                                    <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight group-hover:text-apple-blue transition-colors flex items-center justify-between">
+                                        EasyList
+                                        <svg class="w-5 h-5 text-apple-subtextLight dark:text-apple-subtextDark group-hover:text-apple-blue group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                                        </svg>
+                                    </h3>
+                                    <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">Create list with quick/smart hands-free voice inputs, duplicate prevention, progress tracking and one tap cleanup actions.</p>
+                                    <ul aria-label="EasyList technologies and category" class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark">
+                                        <li class="project-tag">iOS</li>
+                                        <li class="project-tag">SwiftUI</li>
+                                        <li class="project-tag">Productivity</li>
+                                    </ul>
+                                    <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold flex items-center justify-between text-apple-textLight dark:text-apple-textDark">
+                                        <span>My first app-building chapter</span>
+                                        <span class="text-xs text-apple-blue font-medium">Explore Project &rarr;</span>
+                                    </p>
                                 </div>
                             </a>
                         </article>
 
-                        <article id="tripMateProject" role="group" aria-roledescription="slide" aria-label="2 of 2: TripMate" class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm">
-                            <a href="TripMate.html" class="flex flex-col flex-grow focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-3xl" aria-label="View TripMate details">
+                        <article
+                            id="tripMateProject"
+                            role="group"
+                            aria-roledescription="slide"
+                            aria-label="2 of 2: TripMate"
+                            class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm hover:border-apple-blue/50 dark:hover:border-apple-blue/50 transition-colors group"
+                        >
+                            <a href="TripMate.html" class="flex flex-col flex-grow focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-3xl" aria-label="View TripMate details page">
                                 <div class="project-art project-art-trip" aria-hidden="true">
-                                    <div class="project-icon overflow-hidden border border-black/10 dark:border-white/15 bg-white dark:bg-black"><img src="./TripMateIcon.png" alt="TripMate Icon" class="w-full h-full object-contain" style="transform: scale(1.6);"></div>
+                                    <div class="project-icon overflow-hidden border border-black/10 dark:border-white/15 bg-white dark:bg-black group-hover:scale-105 transition-transform duration-300">
+                                        <!-- Light mode logo: .png -->
+                                        <img
+                                            src="./TripMateIcon.png"
+                                            alt="TripMate Light Icon"
+                                            class="w-full h-full object-contain block dark:hidden"
+                                            style="transform: scale(1.6);"
+                                        >
+                                        <!-- Dark mode logo: TripMateIcon.png -->
+                                        <img
+                                            src="./TripMateIcon.png"
+                                            alt="TripMate Dark Icon"
+                                            class="w-full h-full object-contain hidden dark:block"
+                                            style="transform: scale(1.6);"
+                                        >
+                                    </div>
                                     <span class="absolute bottom-5 left-5 sm:left-6 right-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#506f6e]">Your expense mate for the trips</span>
                                 </div>
                                 <div class="flex flex-col flex-grow p-5 sm:p-6">
-                                    <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark"><span class="inline-flex items-center gap-2 font-medium"><span class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span><span>02 / 02</span></div>
-                                    <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight flex items-center justify-between">TripMate <span class="text-apple-subtextLight dark:text-apple-subtextDark">&rarr;</span></h3>
-                                    <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">Every trip needs a smart expense mate. Plan trips and track shared expenses.</p>
-                                    <ul class="flex flex-wrap gap-2 mt-4 mb-5"><li class="project-tag">iOS</li><li class="project-tag">SwiftUI</li><li class="project-tag">Travel</li></ul>
-                                    <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold flex items-center justify-between"><span>Built around real-life needs</span><span class="text-xs text-apple-blue">Explore App &rarr;</span></p>
+                                    <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
+                                        <span class="inline-flex items-center gap-2 font-medium"><span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span>
+                                        <span>02 / 02</span>
+                                    </div>
+                                    <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight group-hover:text-apple-blue transition-colors flex items-center justify-between">
+                                        TripMate
+                                        <svg class="w-5 h-5 text-apple-subtextLight dark:text-apple-subtextDark group-hover:text-apple-blue group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                                        </svg>
+                                    </h3>
+                                    <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">Every Trip needs a Smart &quot;Expense&quot; Mate. Plan trips and track expenses across multiple currencies. It converts expenses to your home currency for clear budgeting and insights.</p>
+                                    <ul aria-label="TripMate technologies and category" class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark">
+                                        <li class="project-tag">iOS</li>
+                                        <li class="project-tag">SwiftUI</li>
+                                        <li class="project-tag">Travel</li>
+                                    </ul>
+                                    <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold flex items-center justify-between text-apple-textLight dark:text-apple-textDark">
+                                        <span>Built around real-life needs</span>
+                                        <span class="text-xs text-apple-blue font-medium">Explore App &rarr;</span>
+                                    </p>
                                 </div>
                             </a>
                         </article>
                     </div>
+
+                    <!-- Indicators are navigation controls, not app-exploration links. -->
                     <div class="mt-3 flex items-center justify-center gap-1" role="group" aria-label="Choose a project">
                         <button type="button" class="project-dot" data-project-index="0" aria-label="Show EasyList, project 1 of 2" aria-controls="projectCarousel" aria-current="true"><span aria-hidden="true"></span></button>
                         <button type="button" class="project-dot" data-project-index="1" aria-label="Show TripMate, project 2 of 2" aria-controls="projectCarousel"><span aria-hidden="true"></span></button>
                     </div>
-                    <p id="projectScrollHint" class="text-center text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">Swipe or scroll sideways to explore · Click a dot to switch projects</p>
+                    <p id="projectScrollHint" class="text-center text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
+                        Swipe or scroll sideways to explore · Click a dot to switch projects
+                    </p>
                     <p id="projectPosition" class="sr-only" aria-live="polite" aria-atomic="true">Project 1 of 2: EasyList</p>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- TOOL DETAILS DIALOG: Layout handles both IMG and inline SVG icons dynamically. -->
     <dialog id="toolModal" aria-labelledby="toolModalTitle" class="modal-shell w-full sm:w-[480px]">
         <div class="modal-card journey-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
-            <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-5 py-4 text-center"><p class="text-xs font-semibold tracking-tight">My Toolbox</p></div>
-            <div class="journey-scroll min-h-0 p-6">
-                <div class="flex items-center gap-3 mb-5"><span id="toolModalIconContainer" class="h-12 w-12 rounded-xl bg-white border border-black/5 flex items-center justify-center shrink-0"><img id="toolModalIcon" alt="" width="30" height="30" class="w-[30px] h-[30px] object-contain"></span><div><p id="toolModalCategory" class="mb-1 text-[10px] font-semibold uppercase tracking-widest text-apple-blue"></p><h2 id="toolModalTitle" class="text-xl font-bold tracking-tight"></h2></div></div>
-                <h3 class="text-xs font-semibold mb-2">What it is</h3><p id="toolModalAbout" class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"></p>
-                <div class="mt-5 rounded-xl bg-apple-bgLight dark:bg-black/25 p-4"><h3 class="text-xs font-semibold text-apple-blue mb-2">How it supports my journey</h3><p id="toolModalJourney" class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"></p></div>
+            <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-5 py-4 text-center">
+                <p class="text-xs font-semibold tracking-tight">My Toolbox</p>
             </div>
-            <div class="shrink-0 flex justify-end border-t border-black/5 dark:border-white/10 px-5 py-3"><button type="button" data-close="toolModal" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white">Done</button></div>
+            <div class="journey-scroll min-h-0 p-6">
+                <div class="flex items-center gap-3 mb-5">
+                    <span id="toolModalIconContainer" class="h-12 w-12 rounded-xl bg-white border border-black/5 flex items-center justify-center shrink-0">
+                        <img id="toolModalIcon" alt="" width="30" height="30" class="w-[30px] h-[30px] object-contain">
+                    </span>
+                    <div>
+                        <p id="toolModalCategory" class="mb-1 text-[10px] font-semibold uppercase tracking-widest text-apple-blue"></p>
+                        <h2 id="toolModalTitle" class="text-xl font-bold tracking-tight"></h2>
+                    </div>
+                </div>
+                <h3 class="text-xs font-semibold mb-2">What it is</h3>
+                <p id="toolModalAbout" class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"></p>
+                <div class="mt-5 rounded-xl bg-apple-bgLight dark:bg-black/25 p-4">
+                    <h3 class="text-xs font-semibold text-apple-blue mb-2">How it supports my journey</h3>
+                    <p id="toolModalJourney" class="text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark"></p>
+                </div>
+            </div>
+            <div class="shrink-0 flex justify-end border-t border-black/5 dark:border-white/10 px-5 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
+                <button type="button" data-close="toolModal" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Done</button>
+            </div>
         </div>
     </dialog>
 
+    <!-- MY JOURNEY DIALOG: Approved story, highlighted question, and timeline. -->
     <dialog id="journeyModal" aria-labelledby="journeyTitle" class="modal-shell w-full sm:w-[700px]">
         <div class="modal-card journey-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
-            <div class="shrink-0 border-b border-black/5 dark:border-white/10 px-4 sm:px-5 py-4 text-center"><h2 id="journeyTitle" class="text-sm font-semibold">Varun Patel</h2></div>
-            <div class="journey-scroll min-h-0 px-6 sm:px-10 py-7 sm:py-9">
-                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight"><span class="text-apple-blue">My Story</span></h3>
-                <div class="mt-4 space-y-4 text-sm sm:text-base leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                    <p>I’m <strong class="font-semibold text-apple-textLight dark:text-apple-textDark">Varun Patel</strong>, a curious learner who had always dreamed of building my own apps.</p>
-                    <p>Exploring AI tools helped me see a different starting point: ask questions, explore ideas, and make unfamiliar code less intimidating.</p>
-                    <p>That curiosity sparked the question: <mark class="curiosity-highlight">What if I could learn as I build?</mark></p>
-                    <p>With a new MacBook Air and a willingness to start from scratch, I began turning ideas into useful iOS apps.</p>
-                    <p>Today, I share a happy life with my beautiful wife, Smruti, and our two children—Jenil and Anaya.</p>
-                </div>
-                <h3 class="mt-8 text-lg font-semibold">My Timeline</h3>
-                <ol class="mt-7 space-y-6">
-                    <li class="timeline-item"><span class="timeline-dot"></span><p class="text-[10px] font-semibold text-apple-blue">1984</p><h4 class="mt-1 text-base font-semibold">Born in India.</h4></li>
-                    <li class="timeline-item"><span class="timeline-dot"></span><p class="text-[10px] font-semibold text-apple-blue">2005</p><h4 class="mt-1 text-base font-semibold">Moved to the USA in pursuit of the American Dream.</h4></li>
-                    <li class="timeline-item"><span class="timeline-dot"></span><p class="text-[10px] font-semibold text-apple-blue">2009</p><h4 class="mt-1 text-base font-semibold">Earned my master’s degree in Computer Science.</h4></li>
-                    <li class="timeline-item"><span class="timeline-dot"></span><p class="text-[10px] font-semibold text-apple-blue">2011</p><h4 class="mt-1 text-base font-semibold">Began my career in IT Release Management.</h4></li>
-                    <li class="timeline-item"><span class="timeline-dot"></span><p class="text-[10px] font-semibold text-apple-blue">2025</p><h4 class="mt-1 text-base font-semibold">Began learning to code with AI tools and building iOS apps.</h4></li>
-                    <li class="timeline-item"><span class="timeline-dot"></span><p class="text-[10px] font-semibold text-apple-blue">Today</p><h4 class="mt-1 text-base font-semibold">Continuing to grow as a developer.</h4></li>
-                </ol>
-                <blockquote class="mt-8 rounded-2xl bg-apple-bgLight dark:bg-black/25 p-5 text-sm sm:text-base font-medium">You don’t need to know everything to begin.</blockquote>
+            <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-4 sm:px-5 py-4 text-center">
+                <h2 id="journeyTitle" class="text-sm font-semibold tracking-tight">Varun Patel</h2>
             </div>
-            <div class="shrink-0 flex justify-end border-t border-black/5 dark:border-white/10 px-5 py-3"><button type="button" data-close="journeyModal" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white">Done</button></div>
+            <div class="journey-scroll min-h-0 px-6 sm:px-10 py-7 sm:py-9">
+                <div class="inline-flex rounded-full bg-apple-blue/10 px-3 py-1 text-[11px] font-medium text-apple-blue mb-4">
+                    A little about the person behind the code
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
+                    <span class="text-apple-blue">My Story</span>
+                </h3>
+                <div class="mt-4 space-y-4 text-sm sm:text-base leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
+                    <p>
+                        I’m <strong class="font-semibold text-apple-textLight dark:text-apple-textDark">Varun Patel</strong>,
+                        a curious learner who had always dreamed of building my
+                        own apps. For a long time, that dream felt out of reach
+                        because I had never written a line of code.
+                    </p>
+                    <p>
+                        Exploring ChatGPT, Perplexity, Claude, and Google
+                        Gemini helped me see a different starting point.
+                        AI tools offered a way to ask questions, explore
+                        ideas, and make unfamiliar code less intimidating.
+                        What inspired me was not the possibility of skipping
+                        the learning—it was the possibility of finally beginning.
+                    </p>
+                    <p>
+                        That curiosity sparked the question that inspired my
+                        first step:
+                        <mark class="curiosity-highlight">What if I could learn as I build?</mark>
+                    </p>
+                    <p>
+                        With a new MacBook Air and a willingness to start
+                        from scratch, I turned that question into action.
+                        I wanted to create iOS apps that felt simple,
+                        useful, and intuitive—turning ideas into something
+                        people could actually use. That motivation gave my
+                        learning a purpose, and the journey led to EasyList
+                        and TripMate.
+                    </p>
+                    <p>
+                        Today, I share a happy life with my beautiful wife,
+                        Smruti, and our two children—our handsome son, Jenil,
+                        and our little princess, Anaya. Alongside family life
+                        and my career, I’m making room for a dream that once
+                        felt distant.
+                    </p>
+                    <p>
+                        If there is something you have been waiting to try,
+                        I hope my story encourages you to give it a chance.
+                        You can be a beginner and still have something
+                        worthwhile to create. Start with a question, take one
+                        small step, and give yourself permission to learn
+                        along the way.
+                    </p>
+                </div>
+
+                <h3 class="mt-8 text-lg font-semibold tracking-tight">My Timeline</h3>
+                <ol class="mt-7 space-y-6">
+                    <li class="timeline-item">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">1984</p>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Born in India.</h4>
+                    </li>
+                    <li class="timeline-item">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2005</p>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Moved to the USA in pursuit of the American Dream.</h4>
+                    </li>
+                    <li class="timeline-item">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2009</p>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Earned my master’s degree in Computer Science.</h4>
+                    </li>
+                    <li class="timeline-item">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2011</p>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Began my career in IT Release Management.</h4>
+                    </li>
+                    <li class="timeline-item">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">2025</p>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Began learning to code with AI tools and building my first iOS apps.</h4>
+                    </li>
+                    <li class="timeline-item">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-apple-blue">Today</p>
+                        <h4 class="mt-1 text-base font-semibold tracking-tight">Continuing to grow as a developer while balancing family, career, and new ideas.</h4>
+                    </li>
+                </ol>
+
+                <blockquote class="mt-8 rounded-2xl bg-apple-bgLight dark:bg-black/25 p-5 text-sm sm:text-base font-medium leading-relaxed">
+                    You don’t need to know everything to begin.
+                    You just need to take the first step.
+                </blockquote>
+            </div>
+            <div class="shrink-0 flex items-center justify-between gap-3 border-t border-black/5 dark:border-white/10 px-5 sm:px-6 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
+                <span class="text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">The story is still being written.</span>
+                <button type="button" data-close="journeyModal" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Done</button>
+            </div>
         </div>
     </dialog>
 
-    <dialog id="emailModal" aria-labelledby="emailModalTitle" class="modal-shell w-full sm:w-[440px]">
-        <div class="modal-card rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl p-6 text-center">
-            <h2 id="emailModalTitle" class="text-lg font-bold">Get in Touch</h2>
-            <p class="mt-2 text-sm text-apple-subtextLight dark:text-apple-subtextDark">Continue in your email app?</p>
-            <div class="mt-5 flex justify-end gap-2"><button type="button" data-close="emailModal" class="rounded-full px-4 py-2 text-xs">Cancel</button><a href="mailto:varun@example.com" class="rounded-full bg-apple-blue px-4 py-2 text-xs text-white">Open Email</a></div>
+    <!-- EMAIL DIALOG: Existing mail-client confirmation; no backend form. -->
+    <dialog id="emailModal" aria-labelledby="emailModalTitle" aria-describedby="emailModalDescription" class="modal-shell w-full sm:w-[416px]">
+        <div class="modal-card bg-white/90 dark:bg-apple-cardDark/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-6 sm:p-7 w-full shadow-2xl text-center">
+            <div class="w-12 h-12 rounded-full bg-apple-blue/10 text-apple-blue mx-auto flex items-center justify-center mb-4">
+                <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 0-2 2v10a2 2 0 002 2z"/>
+                </svg>
+            </div>
+            <h3 id="emailModalTitle" class="text-lg font-bold mb-1">Contact Developer</h3>
+            <p id="emailModalDescription" class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark mb-5 leading-normal">
+                Would you like to open your native mail client to send an email to
+                <span class="font-semibold text-apple-textLight dark:text-apple-textDark">varun1329@icloud.com</span>?
+            </p>
+            <div class="flex items-center space-x-3">
+                <button id="cancelModalBtn" type="button" class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all">Cancel</button>
+                <a id="confirmEmailBtn" href="mailto:varun1329@icloud.com" class="w-1/2 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm text-center inline-block">Send Email</a>
+            </div>
         </div>
     </dialog>
 
-    <footer class="border-t border-black/5 dark:border-white/10 px-4 sm:px-6 py-5">
-        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-apple-subtextLight dark:text-apple-subtextDark"><p>© 2026 Varun Patel</p><p>Built with HTML, Tailwind CSS &amp; JavaScript</p></div>
+    <!-- FOOTER: Approved identity line and technology credit. -->
+    <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <p class="text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">@ 2026 - Varun Patel - Independent iOS Developer</p>
+            <p class="mt-2 text-[11px] sm:text-xs text-apple-subtextLight dark:text-apple-subtextDark">Built with HTML, Tailwind CSS &amp; JavaScript.</p>
+        </div>
     </footer>
 
+    <!-- SCRIPT: System theme, shared modal controls, tool content, and carousel. -->
     <script>
-        const html = document.documentElement;
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        document.addEventListener('DOMContentLoaded', () => {
 
-        function syncTheme(event) { html.classList.toggle('dark', event ? event.matches : prefersDark.matches); }
-        syncTheme();
-        prefersDark.addEventListener?.('change', syncTheme);
+            // 1. Keep the existing system-controlled light/dark theme synchronized.
+            const htmlElement = document.documentElement;
+            const darkThemeMediaQuery =
+                window.matchMedia('(prefers-color-scheme: dark)');
 
-        document.querySelectorAll('dialog').forEach(dialog => {
-            dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
-        });
+            const applySystemTheme = event =>
+                htmlElement.classList.toggle('dark', event.matches);
 
-        document.querySelectorAll('[data-close]').forEach(button => {
-            button.addEventListener('click', () => document.getElementById(button.dataset.close)?.close());
-        });
+            applySystemTheme(darkThemeMediaQuery);
+            darkThemeMediaQuery.addEventListener('change', applySystemTheme);
 
-        document.getElementById('openJourneyBtn')?.addEventListener('click', () => document.getElementById('journeyModal')?.showModal());
-        document.getElementById('openEmailModalBtn')?.addEventListener('click', () => document.getElementById('emailModal')?.showModal());
+            // 2. Shared native dialog controls; no changes to approved behavior.
+            const emailModal = document.getElementById('emailModal');
+            const journeyModal = document.getElementById('journeyModal');
+            const toolModal = document.getElementById('toolModal');
+            const dialogs = [emailModal, journeyModal, toolModal];
+            const returnFocus = new WeakMap();
+            let savedOverflow = '';
 
-        const toolData = {
-            xcode: ['Build', 'Xcode', 'Apple’s integrated development environment for iOS apps.', 'My primary workspace for running, debugging, and refining iOS projects.'],
-            swift: ['Build', 'Swift / SwiftUI', 'Apple’s modern programming language and declarative UI framework.', 'How I turn app ideas into native interfaces and working features.'],
-            codex: ['AI & workflow', 'Codex', 'An AI coding assistant for implementing and debugging software.', 'It helps me move from questions to working code while learning why changes work.'],
-            cursor: ['AI & workflow', 'Cursor', 'An AI-powered code editor and development environment.', 'I use it to explore codebases, make focused edits, and iterate quickly.'],
-            perplexity: ['AI & workflow', 'Perplexity.ai', 'A research assistant for finding and understanding information with sources.', 'It helps me research concepts, compare approaches, and resolve unfamiliar details.'],
-            chatgpt: ['AI & workflow', 'ChatGPT', 'A conversational assistant for ideas, code, and explanations.', 'It supports learning, brainstorming, debugging, and understanding new concepts.'],
-            claude: ['AI & workflow', 'Claude.ai', 'A conversational AI assistant for analysis and writing.', 'It helps me reason through implementation choices and review ideas clearly.'],
-            gemini: ['AI & workflow', 'Google Gemini', 'Google’s AI assistant for research and multimodal tasks.', 'It supports research and alternative explanations as I build.'],
-            mscopilot: ['AI & workflow', 'MS Copilot', 'Microsoft’s AI assistant for productivity and coding support.', 'It complements my workflow when working across Microsoft tools.'],
-            github: ['AI & workflow', 'GitHub', 'A platform for source control, collaboration, and project hosting.', 'It keeps my code history organized and helps publish my projects.']
-        };
+            function openDialog(dialog, trigger) {
+                if (dialogs.some(item => item.open)) return;
 
-        document.querySelectorAll('[data-tool]').forEach(button => {
-            button.addEventListener('click', () => {
-                const data = toolData[button.dataset.tool];
-                if (!data) return;
-                document.getElementById('toolModalCategory').textContent = data[0];
-                document.getElementById('toolModalTitle').textContent = data[1];
-                document.getElementById('toolModalAbout').textContent = data[2];
-                document.getElementById('toolModalJourney').textContent = data[3];
-                const sourceLogo = button.querySelector('.tool-logo img, .tool-logo svg');
-                const iconContainer = document.getElementById('toolModalIconContainer');
-                iconContainer.replaceChildren();
-                if (sourceLogo?.tagName === 'IMG') {
-                    const img = document.createElement('img');
-                    img.src = sourceLogo.src;
-                    img.alt = '';
-                    img.width = 30;
-                    img.height = 30;
-                    img.className = 'w-[30px] h-[30px] object-contain';
-                    iconContainer.appendChild(img);
-                } else if (sourceLogo) {
-                    const clone = sourceLogo.cloneNode(true);
-                    clone.removeAttribute('aria-label');
-                    clone.setAttribute('width', '30');
-                    clone.setAttribute('height', '30');
-                    iconContainer.appendChild(clone);
-                }
-                document.getElementById('toolModal')?.showModal();
+                savedOverflow = document.body.style.overflow;
+                returnFocus.set(dialog, trigger);
+
+                dialog.showModal();
+                document.body.style.overflow = 'hidden';
+
+                const scrollArea = dialog.querySelector('.journey-scroll');
+                if (scrollArea) scrollArea.scrollTop = 0;
+            }
+
+            dialogs.forEach(dialog => {
+                dialog.addEventListener('close', () => {
+                    document.body.style.overflow = savedOverflow;
+                    returnFocus.get(dialog)?.focus({
+                        preventScroll: true
+                    });
+                });
+
+                let pointerStartedOutside = false;
+
+                dialog.addEventListener('pointerdown', event => {
+                    pointerStartedOutside = event.target === dialog;
+                });
+
+                dialog.addEventListener('click', event => {
+                    if (
+                        event.target === dialog &&
+                        pointerStartedOutside
+                    ) {
+                        dialog.close();
+                    }
+                    pointerStartedOutside = false;
+                });
             });
+
+            const emailButton =
+                document.getElementById('openEmailModalBtn');
+            const journeyButton =
+                document.getElementById('openJourneyBtn');
+
+            emailButton.addEventListener('click', () => {
+                openDialog(emailModal, emailButton);
+            });
+
+            journeyButton.addEventListener('click', () => {
+                openDialog(journeyModal, journeyButton);
+            });
+
+            document.getElementById('cancelModalBtn')
+                .addEventListener('click', () => emailModal.close());
+
+            document.getElementById('confirmEmailBtn')
+                .addEventListener('click', () => emailModal.close());
+
+            document.querySelectorAll('[data-close]').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.getElementById(button.dataset.close).close();
+                });
+            });
+
+            // 3. Tool details matching the new order and GitHub source-control definition.
+            const toolDetails = {
+                xcode: {
+                    name: "Xcode",
+                    category: "Build",
+                    about: "Apple’s integrated development environment for building apps for Apple platforms. It brings together a code editor, SwiftUI previews, simulators, debugging tools, testing, and app distribution workflows.",
+                    journey: "Xcode is the place where I bring my iOS project together. I connect Swift and SwiftUI code with previews, build the app, investigate errors, and check behavior in the Simulator or on a device. It turns an idea or an AI suggestion into something I can actually verify."
+                },
+                swift: {
+                    name: "Swift / SwiftUI",
+                    category: "Build",
+                    about: "Swift is a general-purpose programming language used to build apps for Apple platforms and other software. SwiftUI is Apple’s declarative framework for describing an app’s interface and how it responds to changing data.",
+                    journey: "Swift helps me express my app’s data and logic, while SwiftUI turns that logic into screens and interactions. Learning views, state, bindings, and navigation helps me understand why an interface changes—not just how to make it look right in an Xcode preview."
+                },
+                codex: {
+                    name: "Codex",
+                    category: "Think, learn & iterate",
+                    about: "OpenAI’s software-development agent for understanding codebases, writing and reviewing changes, debugging, and running commands or tests in an appropriately configured environment.",
+                    journey: "Codex is my #1 tool for turning a clearly described coding task into changes I can inspect. Its role in my workflow is to support implementation, explain the approach, and help investigate errors. I review the changes and validate the iOS result in Xcode."
+                },
+                cursor: {
+                    name: "Cursor",
+                    category: "Think, learn & iterate",
+                    about: "An AI-powered code editor and coding agent that can use the project files you make available to explain a codebase, propose or apply edits, and help investigate bugs.",
+                    journey: "As my #2 AI/workflow tool, Cursor helps me connect a question to the relevant Swift files rather than work with isolated snippets. I use that project context to understand relationships, plan features, and review changes before building and testing in Xcode."
+                },
+                perplexity: {
+                    name: "Perplexity.ai",
+                    category: "Think, learn & iterate",
+                    about: "An AI-powered search and research tool that gathers information from the web and presents answers with links to sources you can inspect and verify.",
+                    journey: "My #3 tool for research: exploring SwiftUI concepts, finding relevant Apple documentation, and investigating unfamiliar error messages. Following cited sources helps me check API availability and understand an approach before trying it in my Xcode project."
+                },
+                chatgpt: {
+                    name: "ChatGPT",
+                    category: "Think, learn & iterate",
+                    about: "OpenAI’s conversational AI assistant for discussing ideas, learning concepts, and writing, explaining, or debugging code from the context you share.",
+                    journey: "ChatGPT helps me turn beginner questions into manageable learning steps. I can share a Swift snippet or an Xcode error, ask for a plain-language explanation, and work through a smaller example before adapting the idea to my app."
+                },
+                claude: {
+                    name: "Claude.ai",
+                    category: "Think, learn & iterate",
+                    about: "Anthropic’s conversational AI assistant for reasoning, explaining code, and helping write or revise it using the context you provide.",
+                    journey: "Claude helps me reason through Swift code I share, understand state and data flow, and discuss alternatives when a feature feels complicated. I use those explanations to make a more informed edit, then check the solution against my Xcode build."
+                },
+                gemini: {
+                    name: "Google Gemini",
+                    category: "Think, learn & iterate",
+                    about: "Google’s AI assistant for reasoning, research, and working with text and code. It can explain examples, propose changes, and help troubleshoot problems.",
+                    journey: "Gemini helps me compare explanations and explore another way to structure a Swift or SwiftUI solution. Sharing the relevant code and expected behavior gives the discussion context before testing the code in Xcode."
+                },
+                mscopilot: {
+                    name: "MS Copilot",
+                    category: "Think, learn & iterate",
+                    about: "Microsoft’s general-purpose AI assistant for questions, research, brainstorming, writing, and coding discussions.",
+                    journey: "MS Copilot provides another perspective when I am researching a concept, clarifying a requirement, or discussing a possible solution before implementing it in my local Xcode workspace."
+                },
+                copilot: {
+                    name: "GitHub Copilot",
+                    category: "Think, learn & iterate",
+                    about: "GitHub’s AI coding assistant and agent for code suggestions, chat, and development tasks across supported editors.",
+                    journey: "GitHub Copilot supports the writing stage with suggestions and explanations in a supported coding setup. I treat its output as a starting point, review how it fits the surrounding implementation, and use Xcode builds to verify the result."
+                },
+                github: {
+                    name: "GitHub",
+                    category: "Think, learn & iterate",
+                    about: "The industry-standard source control and cloud version control platform for managing Git repositories, saving code commits, and tracking project evolution.",
+                    journey: "GitHub acts as my primary source control system. It allows me to securely save, sync, and version-control my Xcode projects to GitHub repositories, giving me a true real-life professional coding experience and complete history of my code."
+                }
+            };
+
+            const toolTitle = document.getElementById('toolModalTitle');
+            const toolCategory = document.getElementById('toolModalCategory');
+            const toolAbout = document.getElementById('toolModalAbout');
+            const toolJourney = document.getElementById('toolModalJourney');
+            const toolIconContainer = document.getElementById('toolModalIconContainer');
+
+            document.querySelectorAll('[data-tool]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const toolKey = button.dataset.tool;
+                    const tool = toolDetails[toolKey];
+                    if (!tool) return;
+
+                    toolTitle.textContent = tool.name;
+                    toolCategory.textContent = tool.category;
+                    toolAbout.textContent = tool.about;
+                    toolJourney.textContent = tool.journey;
+
+                    // Dynamically handle both SVG icons (like MS Copilot) and standard IMG elements
+                    const logoSpan = button.querySelector('.tool-logo');
+                    const svgIcon = logoSpan ? logoSpan.querySelector('svg') : null;
+                    const imgIcon = logoSpan ? logoSpan.querySelector('img') : null;
+
+                    if (svgIcon) {
+                        toolIconContainer.innerHTML = svgIcon.outerHTML;
+                        const modalSvg = toolIconContainer.querySelector('svg');
+                        modalSvg.setAttribute('width', '30');
+                        modalSvg.setAttribute('height', '30');
+                        modalSvg.classList.add('w-[30px]', 'h-[30px]');
+                    } else if (imgIcon) {
+                        toolIconContainer.innerHTML = `<img id="toolModalIcon" src="${imgIcon.src}" alt="${tool.name}" width="30" height="30" class="w-[30px] h-[30px] object-contain">`;
+                    }
+
+                    openDialog(toolModal, button);
+                });
+            });
+
+            // 4. Horizontal project carousel; indicators follow actual scroll position.
+            const track = document.getElementById('projectCarousel');
+            const slides = Array.from(track.querySelectorAll('article'));
+            const dots = Array.from(
+                document.querySelectorAll('[data-project-index]')
+            );
+            const positionText =
+                document.getElementById('projectPosition');
+            const projectNames = ['EasyList', 'TripMate'];
+            const reducedMotion =
+                window.matchMedia('(prefers-reduced-motion: reduce)');
+
+            let activeIndex = 0;
+            let scrollFrame = 0;
+            let resizeFrame = 0;
+
+            function updateIndicators(index) {
+                dots.forEach((dot, dotIndex) => {
+                    if (dotIndex === index) {
+                        dot.setAttribute('aria-current', 'true');
+                    } else {
+                        dot.removeAttribute('aria-current');
+                    }
+                });
+
+                if (index !== activeIndex) {
+                    positionText.textContent =
+                        `Project ${index + 1} of ${slides.length}: ${projectNames[index]}`;
+                }
+
+                activeIndex = index;
+            }
+
+            function nearestSlide() {
+                let nearest = 0;
+                let distance = Infinity;
+
+                slides.forEach((slide, index) => {
+                    const difference =
+                        Math.abs(track.scrollLeft - slide.offsetLeft);
+
+                    if (difference < distance) {
+                        distance = difference;
+                        nearest = index;
+                    }
+                });
+
+                return nearest;
+            }
+
+            function goToProject(index, immediate = false) {
+                const target =
+                    Math.max(0, Math.min(index, slides.length - 1));
+
+                track.scrollTo({
+                    left: slides[target].offsetLeft,
+                    behavior:
+                        immediate || reducedMotion.matches
+                            ? 'instant'
+                            : 'smooth'
+                });
+            }
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    goToProject(Number(dot.dataset.projectIndex));
+                });
+            });
+
+            track.addEventListener('scroll', () => {
+                if (scrollFrame) return;
+
+                scrollFrame = requestAnimationFrame(() => {
+                    updateIndicators(nearestSlide());
+                    scrollFrame = 0;
+                });
+            }, {
+                passive: true
+            });
+
+            track.addEventListener('keydown', event => {
+                if (event.target !== track) return;
+
+                const current = nearestSlide();
+                let target;
+
+                if (event.key === 'ArrowRight') {
+                    target = current + 1;
+                } else if (event.key === 'ArrowLeft') {
+                    target = current - 1;
+                } else if (event.key === 'Home') {
+                    target = 0;
+                } else if (event.key === 'End') {
+                    target = slides.length - 1;
+                } else {
+                    return;
+                }
+
+                event.preventDefault();
+                goToProject(target);
+            });
+
+            // Re-align the selected project when responsive dimensions change.
+            const observer = new ResizeObserver(() => {
+                cancelAnimationFrame(resizeFrame);
+                const selected = activeIndex;
+
+                resizeFrame = requestAnimationFrame(() => {
+                    goToProject(selected, true);
+                });
+            });
+
+            observer.observe(track);
+            updateIndicators(0);
         });
-
-        const carousel = document.getElementById('projectCarousel');
-        const dots = Array.from(document.querySelectorAll('.project-dot'));
-        const position = document.getElementById('projectPosition');
-
-        function showProject(index) {
-            const slide = carousel?.children[index];
-            if (!slide) return;
-            carousel.scrollTo({ left: slide.offsetLeft - carousel.offsetLeft, behavior: 'smooth' });
-            dots.forEach((dot, dotIndex) => dotIndex === index ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current'));
-            position.textContent = index === 0 ? 'Project 1 of 2: EasyList' : 'Project 2 of 2: TripMate';
-        }
-
-        dots.forEach(dot => dot.addEventListener('click', () => showProject(Number(dot.dataset.projectIndex))));
-
-        carousel?.addEventListener('keydown', event => {
-            const current = dots.findIndex(dot => dot.hasAttribute('aria-current'));
-            if (event.key === 'ArrowRight') { event.preventDefault(); showProject(Math.min(1, current + 1)); }
-            if (event.key === 'ArrowLeft') { event.preventDefault(); showProject(Math.max(0, current - 1)); }
-            if (event.key === 'Home') { event.preventDefault(); showProject(0); }
-            if (event.key === 'End') { event.preventDefault(); showProject(1); }
-        });
-
-        let scrollTimer;
-        carousel?.addEventListener('scroll', () => {
-            clearTimeout(scrollTimer);
-            scrollTimer = setTimeout(() => {
-                const index = Math.round(carousel.scrollLeft / Math.max(1, carousel.clientWidth));
-                if (dots[index]) showProject(index);
-            }, 100);
-        }, { passive: true });
     </script>
 </body>
 </html>
