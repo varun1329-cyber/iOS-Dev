@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <!--
     ============================================================================
@@ -21,6 +21,23 @@
     -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+
+    <!-- Automatically follow the device's light/dark appearance. -->
+    <script>
+        (() => {
+            const preference = window.matchMedia('(prefers-color-scheme: dark)');
+
+            function applyTheme() {
+                const isDark = preference.matches;
+                document.documentElement.classList.toggle('dark', isDark);
+                document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+            }
+
+            applyTheme();
+            preference.addEventListener('change', applyTheme);
+        })();
+    </script>
+
     <title>EasyList - iOS App Showcase &amp; Architecture</title>
 
     <!-- Tailwind CSS CDN -->
