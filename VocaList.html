@@ -13,9 +13,9 @@
 
     PAGE ARCHITECTURE:
     ------------------
-    1. Header: Light/Dark theme-aware app logos (3.png / 4.png), bold App Title (VocaList),
-       and top-right Home button targeting index.html#easyListProject.
-    2. Hero Section: Overview and iPhone Air mock screen framing App Usage Video.mov.
+    1. Header: Light/Dark theme-aware app icons (20.jpg / 21.jpg), bold App Title (VocaList),
+       and top-right Home button targeting index.html#vocaListProject.
+    2. Hero Section: Overview and iPhone Air mock screen framing vocalistimage.png.
     3. Core Features: Lists, Smart Item Entry, Continuous Voice Input, Voice Review,
        iCloud Sync, Collaboration & Sharing, Progress Tracking, Clean Up.
     4. Built With + Requirements (SwiftUI, CloudKit, Speech; iOS 27, iPhone and iPad).
@@ -186,18 +186,18 @@
     <header class="sticky top-0 z-40 w-full bg-apple-bgLight/90 dark:bg-apple-bgDark/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
             <div class="flex items-center space-x-3">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-[#0785ff] flex items-center justify-center overflow-hidden shadow-sm">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-black flex items-center justify-center overflow-hidden shadow-sm">
                     <img
-                        src="./3.png"
+                        src="./20.jpg"
                         onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=VL';"
                         alt="VocaList Light Icon"
-                        class="w-full h-full object-contain block dark:hidden"
+                        class="w-full h-full object-cover block dark:hidden"
                     >
                     <img
-                        src="./4.png"
+                        src="./21.jpg"
                         onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=VL';"
                         alt="VocaList Dark Icon"
-                        class="w-full h-full object-contain hidden dark:block"
+                        class="w-full h-full object-cover hidden dark:block"
                     >
                 </div>
                 <div class="flex flex-col">
@@ -207,7 +207,7 @@
             </div>
 
             <div class="flex items-center shrink-0">
-                <a href="index.html#easyListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-apple-blue/60">
+                <a href="index.html#vocaListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-apple-blue/60">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
@@ -238,18 +238,12 @@
             <div class="flex justify-center">
                 <div class="iphone-air-frame">
                     <div class="iphone-screen">
-                        <video
-                            autoplay
-                            muted
-                            loop
-                            playsinline
-                            preload="auto"
-                            aria-label="VocaList app usage demonstration"
+                        <img
+                            src="./vocalistimage.png"
+                            alt="VocaList app screenshot"
+                            class="w-full h-full object-cover block"
+                            draggable="false"
                         >
-                            <source src="./App%20Usage%20Video.mov" type="video/quicktime">
-                            <source src="./App%20Usage%20Video.mov" type="video/mp4">
-                            Your browser does not support video playback.
-                        </video>
                     </div>
                 </div>
             </div>
