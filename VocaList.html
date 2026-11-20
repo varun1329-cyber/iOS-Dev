@@ -1,517 +1,1550 @@
-
 <!DOCTYPE html>
+<!--
+===============================================================================
+PROJECT
+    VocaList — Independent iOS Developer App Showcase
+
+FILE
+    VocaList.html
+
+AUTHOR / OWNER
+    Varun Patel
+    Independent iOS Developer
+    Contact: varun1329@icloud.com
+
+DOCUMENT PURPOSE
+    This file is a single-page showcase for the VocaList iPhone and iPad app.
+
+    It introduces the app, explains its main features, describes the technology
+    used to build it, provides an App Store download link, and displays the full
+    privacy policy directly within the same document.
+
+    The privacy policy is always visible in the normal page flow. There is no
+    separate privacy page, privacy popup, modal dialog, or privacy-policy button.
+
+WHAT THE PAGE SHOWS
+    1. Sticky header
+       - Appearance-aware VocaList app icon.
+       - App name and "iOS App Showcase" subtitle.
+       - Home link that returns to the top of this same page.
+
+    2. Hero section
+       - "Create Lists with Voice" headline.
+       - Short app description.
+       - Highlights for private iCloud sync, supported devices, and no tracking.
+       - App screenshot displayed inside a decorative iPhone-style frame.
+
+    3. App Store download area
+       - Availability message.
+       - Appearance-aware App Store badge.
+       - External App Store destination without requesting a new tab.
+
+    4. Core Features
+       Each feature includes a decorative inline SVG icon:
+       - Unlimited Lists: checklist with add symbol.
+       - Smart Item Entry: pencil.
+       - Continuous Voice Input: microphone.
+       - Review Before You Add: checkmark inside a circle.
+       - Private iCloud Sync: cloud.
+       - Collaborate and Share: people.
+       - Live Progress Tracking: ascending bar chart.
+       - Easy Clean Up: broom.
+
+    5. Built With
+       - Swift, SwiftUI, CloudKit, Speech, AVFoundation, Combine, and UIKit.
+       - Platform requirements.
+       - Architecture, storage, sync, sharing, and voice-pipeline details.
+
+    6. Inline Privacy Policy
+       - Information stored by the app.
+       - Local storage and iCloud behavior.
+       - Speech-recognition processing.
+       - Shared-list visibility.
+       - Ratings and feedback.
+       - Data deletion behavior.
+       - Developer contact information.
+
+    7. Footer
+       - Copyright and developer attribution.
+       - Email contact.
+       - No separate privacy link.
+
+VISUAL DESIGN
+    - Minimal, Apple-inspired presentation.
+    - System font stack with no external font downloads.
+    - Responsive layouts for narrow and wide screens.
+    - Automatic light/dark appearance based on device preferences.
+    - Rounded cards, restrained borders, and consistent spacing.
+    - Feature icons with appearance-specific color palettes.
+    - No autoplay, carousels, popup dialogs, or decorative animations.
+
+HTML / ACCESSIBILITY APPROACH
+    - HTML Living Standard document structure.
+    - Native header, main, section, article, and footer elements.
+    - One page-level h1 followed by structured h2 and h3 headings.
+    - Keyboard-accessible "Skip to main content" link.
+    - Visible focus indicators.
+    - Meaningful alternative text for informative images.
+    - Empty alternative text for the redundant app icon.
+    - Decorative SVG feature icons hidden from assistive technology.
+    - Native picture elements for appearance-specific images.
+    - Browser zoom is not restricted.
+    - Reduced-motion preference disables smooth scrolling and transitions.
+    - Forced-colors styling for feature icons.
+    - Privacy content remains available without JavaScript.
+    - Print styles retain document content and remove decorative UI.
+
+    These implementation choices support accessibility, but do not constitute
+    a completed WCAG audit or a guarantee of conformance.
+
+IMPLEMENTATION / DEPENDENCIES
+    - One HTML document with embedded CSS.
+    - No JavaScript required.
+    - No Tailwind, Bootstrap, icon libraries, or external font services.
+    - Feature icons are inline SVG and require no separate image files.
+    - App imagery remains in the separate local files listed below.
+
+REQUIRED LOCAL IMAGE FILES
+    Place these files in the same directory as this HTML document:
+
+    ./20.jpg             Light-appearance app icon.
+    ./21.jpg             Dark-appearance app icon.
+    ./vocalistimage.png   Main VocaList app screenshot.
+    ./white.svg          App Store badge used in light appearance.
+    ./black.svg          App Store badge used in dark appearance.
+
+    This is a single-page HTML implementation, not an image-embedded archive.
+    A completely self-contained physical file would require embedding the
+    actual image assets as data URLs.
+
+EXTERNAL DESTINATIONS
+    App Store:
+        https://apple.co/4sMzuw9
+
+    Email:
+        mailto:varun1329@icloud.com
+
+    The App Store link leaves this website. It has no target="_blank".
+    The email link may open the visitor's configured email application.
+
+PRIVACY-CONTENT MAINTENANCE
+    - App behavior and privacy statements are based on the supplied copy.
+    - This document does not independently verify the app's implementation.
+    - Recheck privacy wording whenever storage, speech processing, sharing,
+      analytics, SDKs, or deletion behavior changes.
+    - Keep the displayed policy consistent with the shipped app.
+
+EDITING GUIDE
+    - Change shared colors and dimensions in the CSS design tokens.
+    - Update feature descriptions inside the Core Features section.
+    - Update feature icon paths inside their corresponding SVG elements.
+    - Update app architecture details inside the Built With section.
+    - Update policy wording inside the privacy-policy section.
+    - Preserve meaningful heading order and keyboard focus styles.
+    - Verify image filenames and letter casing before publishing.
+
+PRE-PUBLISH CHECKS
+    - Test narrow and wide screen layouts.
+    - Test light and dark appearance.
+    - Navigate links using only the keyboard.
+    - Test browser zoom and increased text size.
+    - Check reduced-motion and forced-colors behavior.
+    - Confirm images, App Store link, and contact address.
+    - Validate HTML and perform accessibility checks.
+===============================================================================
+-->
 <html lang="en">
 <head>
-    <!--
-    ============================================================================
-    PROJECT: Varun Patel - Independent iOS Developer Portfolio
-    FILE: VocaList.html
-    AUTHOR: Varun Patel
-    ROLE: Independent iOS Developer
-    DESIGN SYSTEM: Apple-inspired minimalism with automatic light/dark themes
-    TECH STACK: HTML5, Tailwind CSS (CDN), custom CSS, vanilla JavaScript, SVG
-    ============================================================================
-    -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="VocaList: a fast, private list manager for iPhone and iPad with continuous voice entry, smart duplicate protection, and iCloud sharing.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
 
-    <!-- Automatically follow the device's light/dark appearance. -->
-    <script>
-        (() => {
-            const preference = window.matchMedia('(prefers-color-scheme: dark)');
-            function applyTheme() {
-                const isDark = preference.matches;
-                document.documentElement.classList.toggle('dark', isDark);
-                document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
-            }
-            applyTheme();
-            preference.addEventListener('change', applyTheme);
-        })();
-    </script>
+    <meta
+        name="description"
+        content="VocaList: a fast, private list manager for iPhone and iPad with continuous voice entry, smart duplicate protection, and iCloud sharing."
+    >
+    <meta name="author" content="Varun Patel">
 
-    <title>VocaList - iOS App Showcase &amp; Architecture</title>
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        apple: {
-                            bgDark: '#000000',
-                            cardDark: '#1c1c1e',
-                            textDark: '#f5f5f7',
-                            subtextDark: '#86868b',
-                            bgLight: '#f5f5f7',
-                            cardLight: '#ffffff',
-                            textLight: '#1d1d1f',
-                            subtextLight: '#6e6e73',
-                            blue: '#0071e3',
-                            green: '#34c759'
-                        }
-                    },
-                    fontFamily: {
-                        sans: [
-                            '-apple-system',
-                            'BlinkMacSystemFont',
-                            '"SF Pro Display"',
-                            '"SF Pro Text"',
-                            '"Helvetica Neue"',
-                            'Helvetica',
-                            'Arial',
-                            'sans-serif'
-                        ]
-                    }
-                }
-            }
-        };
-    </script>
+    <title>VocaList — Features, Technology &amp; Privacy Policy</title>
 
     <style>
+        /* ================================================================
+           1. DESIGN TOKENS
+           Shared colors, typography, dimensions, and appearance settings.
+           ================================================================ */
+
+        :root {
+            color-scheme: light dark;
+
+            --page-bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --text: #1d1d1f;
+            --muted: #626268;
+
+            --accent: #0066cc;
+            --accent-tint: rgba(0, 102, 204, 0.09);
+
+            --button-bg: #0071e3;
+            --button-hover: #005fbe;
+            --button-text: #ffffff;
+
+            --border: rgba(0, 0, 0, 0.1);
+            --header-bg: rgba(245, 245, 247, 0.94);
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
+
+            --page-width: 64rem;
+            --reading-width: 43rem;
+            --card-radius: 1.25rem;
+            --page-gutter: clamp(1rem, 4vw, 1.5rem);
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Text",
+                "Helvetica Neue",
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --page-bg: #000000;
+                --card-bg: #1c1c1e;
+                --text: #f5f5f7;
+                --muted: #a8a8af;
+
+                --accent: #64b5ff;
+                --accent-tint: rgba(100, 181, 255, 0.12);
+
+                --border: rgba(255, 255, 255, 0.14);
+                --header-bg: rgba(0, 0, 0, 0.94);
+            }
+        }
+
+        /* ================================================================
+           2. DOCUMENT BASE AND KEYBOARD ACCESS
+           ================================================================ */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
         html {
             scroll-behavior: smooth;
-            -webkit-tap-highlight-color: transparent;
+            scroll-padding-block-start: 7rem;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
             margin: 0;
-            overflow-x: hidden;
-            touch-action: manipulation;
-        }
-
-        /* Match the portfolio's shared dialog entrance and blurred backdrop. */
-        @keyframes modal-pop {
-            from {
-                opacity: 0;
-                transform: scale(0.95) translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        dialog.modal-shell {
-            border: 0;
-            padding: 1rem;
-            margin: auto;
-            max-width: 100%;
-            max-height: 100%;
-            background: transparent;
-            color: inherit;
-            overflow: visible;
-        }
-
-        dialog.modal-shell::backdrop {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .dark dialog.modal-shell::backdrop {
-            background: rgba(0, 0, 0, 0.7);
-        }
-
-        dialog.modal-shell[open] > .modal-card {
-            animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-
-        .privacy-window {
-            max-height: calc(100vh - 2rem);
-            max-height: calc(100dvh - 2rem);
-        }
-
-        .privacy-scroll {
-            overflow-y: auto;
-            overscroll-behavior: contain;
-            scrollbar-width: thin;
-        }
-
-        /* iPhone Air Mock Screen Frame */
-        .iphone-air-frame {
-            position: relative;
-            max-width: 320px;
-            width: 100%;
-            margin: 0 auto;
-            background: #111;
-            border-radius: 44px;
-            padding: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
-        }
-
-        .iphone-screen {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 9 / 19.5;
-            background: #000;
-            border-radius: 36px;
-            overflow: hidden;
+            min-block-size: 100vh;
+            min-block-size: 100svh;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            background: var(--page-bg);
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .iphone-screen img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        h1,
+        h2,
+        h3,
+        p,
+        dl,
+        dd {
+            margin: 0;
+        }
+
+        img,
+        svg {
+            max-inline-size: 100%;
+        }
+
+        img {
             display: block;
         }
 
+        a {
+            color: var(--accent);
+            text-underline-offset: 0.2em;
+            text-decoration-thickness: 0.08em;
+        }
+
+        a:hover {
+            text-decoration-thickness: 0.14em;
+        }
+
         :focus-visible {
-            outline: 2px solid #0071e3;
-            outline-offset: 4px;
+            outline: 3px solid var(--accent);
+            outline-offset: 5px;
+        }
+
+        ::selection {
+            background: var(--button-bg);
+            color: #ffffff;
+        }
+
+        .container {
+            inline-size: min(100%, var(--page-width));
+            margin-inline: auto;
+            padding-inline: var(--page-gutter);
+        }
+
+        .skip-link {
+            position: fixed;
+            inset-block-start: 0.75rem;
+            inset-inline-start: 1rem;
+            z-index: 100;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            background: var(--card-bg);
+            color: var(--text);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            transform: translateY(-200%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        /* ================================================================
+           3. STICKY HEADER
+           ================================================================ */
+
+        .site-header {
+            position: sticky;
+            inset-block-start: 0;
+            z-index: 40;
+            border-block-end: 1px solid var(--border);
+            background: var(--header-bg);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+        }
+
+        .header-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem 1rem;
+            padding-block: 0.875rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-inline-size: 0;
+        }
+
+        .app-icon {
+            display: block;
+            inline-size: 2.75rem;
+            block-size: 2.75rem;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+
+        .app-icon img {
+            inline-size: 100%;
+            block-size: 100%;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.3;
+        }
+
+        .brand-subtitle {
+            margin-block-start: 0.125rem;
+            color: var(--muted);
+            font-size: 0.75rem;
+        }
+
+        .home-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-block-size: 2.75rem;
+            padding: 0.625rem 1.125rem;
+            border-radius: 999px;
+            background: var(--button-bg);
+            color: var(--button-text);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 160ms ease;
+        }
+
+        .home-link:hover {
+            background: var(--button-hover);
+        }
+
+        .home-link svg {
+            inline-size: 1rem;
+            block-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* ================================================================
+           4. HERO AND APP STORE CALL TO ACTION
+           ================================================================ */
+
+        main {
+            flex: 1;
+            padding-block: 3rem 4rem;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .hero-copy {
+            display: grid;
+            justify-items: start;
+            gap: 1.25rem;
+        }
+
+        h1 {
+            max-inline-size: 14ch;
+            font-size: clamp(2rem, 4vw, 2.875rem);
+            line-height: 1.12;
+            letter-spacing: -0.045em;
+        }
+
+        .hero-description {
+            max-inline-size: 44ch;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            color: var(--muted);
+            font-size: 0.8125rem;
+        }
+
+        .highlights li {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            inline-size: 0.5rem;
+            block-size: 0.5rem;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .dot-green {
+            background: #34c759;
+        }
+
+        .dot-orange {
+            background: #ff9500;
+        }
+
+        .phone-frame {
+            inline-size: min(100%, 20rem);
+            margin-inline: auto;
+            padding: 0.75rem;
+            border-radius: 2.75rem;
+            background: #111111;
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.4),
+                0 0 0 2px rgba(150, 150, 150, 0.2);
+        }
+
+        .phone-screen {
+            aspect-ratio: 9 / 19.5;
+            overflow: hidden;
+            border-radius: 2.25rem;
+            background: #000000;
+        }
+
+        .phone-screen img {
+            inline-size: 100%;
+            block-size: 100%;
+            object-fit: cover;
+        }
+
+        .app-store {
+            display: grid;
+            justify-items: center;
+            gap: 0.75rem;
+            margin-block-start: 2.25rem;
+            text-align: center;
+        }
+
+        .app-store p {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        .store-link {
+            display: inline-flex;
+            align-items: center;
+            min-block-size: 3.25rem;
+            border-radius: 0.625rem;
+        }
+
+        .store-link picture {
+            display: block;
+        }
+
+        .store-link img {
+            inline-size: auto;
+            block-size: 3.25rem;
+            max-inline-size: 100%;
+        }
+
+        /* ================================================================
+           5. SHARED CONTENT SECTIONS AND FEATURE CARDS
+           ================================================================ */
+
+        .content-section {
+            max-inline-size: var(--reading-width);
+            margin: 4rem auto 0;
+        }
+
+        .section-heading {
+            margin-block-end: 1.5rem;
+        }
+
+        h2 {
+            font-size: clamp(1.625rem, 3vw, 2rem);
+            line-height: 1.2;
+            letter-spacing: -0.035em;
+        }
+
+        .section-description {
+            margin-block-start: 0.75rem;
+            color: var(--muted);
+            font-size: 0.9375rem;
+        }
+
+        .card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .feature + .feature {
+            border-block-start: 1px solid var(--border);
+        }
+
+        .feature-content {
+            flex: 1;
+            min-inline-size: 0;
+        }
+
+        h3 {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .feature p {
+            margin-block-start: 0.375rem;
+            color: var(--muted);
+            font-size: 0.9375rem;
+            line-height: 1.75;
+        }
+
+        .feature strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* ================================================================
+           6. CORE FEATURE ICONS
+           Decorative inline SVG icons paired with visible headings.
+           ================================================================ */
+
+        .feature-icon {
+            display: grid;
+            place-items: center;
+            inline-size: 2.75rem;
+            block-size: 2.75rem;
+            flex: 0 0 2.75rem;
+            border-radius: 0.8125rem;
+            color: var(--feature-icon-color, var(--accent));
+            background: var(--feature-icon-bg, var(--accent-tint));
+        }
+
+        .feature-icon svg {
+            display: block;
+            inline-size: 1.5rem;
+            block-size: 1.5rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Light-appearance icon palettes. */
+        .feature-icon--lists {
+            --feature-icon-color: #0066cc;
+            --feature-icon-bg: rgba(0, 102, 204, 0.1);
+        }
+
+        .feature-icon--entry {
+            --feature-icon-color: #5856d6;
+            --feature-icon-bg: rgba(88, 86, 214, 0.1);
+        }
+
+        .feature-icon--voice {
+            --feature-icon-color: #8940c7;
+            --feature-icon-bg: rgba(137, 64, 199, 0.1);
+        }
+
+        .feature-icon--review {
+            --feature-icon-color: #c32d72;
+            --feature-icon-bg: rgba(195, 45, 114, 0.1);
+        }
+
+        .feature-icon--cloud {
+            --feature-icon-color: #007c9e;
+            --feature-icon-bg: rgba(0, 124, 158, 0.1);
+        }
+
+        .feature-icon--sharing {
+            --feature-icon-color: #087f78;
+            --feature-icon-bg: rgba(8, 127, 120, 0.1);
+        }
+
+        .feature-icon--progress {
+            --feature-icon-color: #24833b;
+            --feature-icon-bg: rgba(36, 131, 59, 0.1);
+        }
+
+        .feature-icon--cleanup {
+            --feature-icon-color: #b85b00;
+            --feature-icon-bg: rgba(184, 91, 0, 0.1);
+        }
+
+        /* Dark-appearance icon palettes. */
+        @media (prefers-color-scheme: dark) {
+            .feature-icon--lists {
+                --feature-icon-color: #64b5ff;
+                --feature-icon-bg: rgba(100, 181, 255, 0.14);
+            }
+
+            .feature-icon--entry {
+                --feature-icon-color: #a5a3ff;
+                --feature-icon-bg: rgba(165, 163, 255, 0.14);
+            }
+
+            .feature-icon--voice {
+                --feature-icon-color: #d19bff;
+                --feature-icon-bg: rgba(209, 155, 255, 0.14);
+            }
+
+            .feature-icon--review {
+                --feature-icon-color: #ff94c5;
+                --feature-icon-bg: rgba(255, 148, 197, 0.14);
+            }
+
+            .feature-icon--cloud {
+                --feature-icon-color: #6bdcff;
+                --feature-icon-bg: rgba(107, 220, 255, 0.14);
+            }
+
+            .feature-icon--sharing {
+                --feature-icon-color: #6cddd2;
+                --feature-icon-bg: rgba(108, 221, 210, 0.14);
+            }
+
+            .feature-icon--progress {
+                --feature-icon-color: #7cde91;
+                --feature-icon-bg: rgba(124, 222, 145, 0.14);
+            }
+
+            .feature-icon--cleanup {
+                --feature-icon-color: #ffbb70;
+                --feature-icon-bg: rgba(255, 187, 112, 0.14);
+            }
+        }
+
+        /* ================================================================
+           7. TECHNOLOGY TAGS AND DEFINITION LIST
+           ================================================================ */
+
+        .technology-card {
+            padding: 1.5rem;
+        }
+
+        .technology-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0 0 1.5rem;
+            padding: 0;
+            list-style: none;
+        }
+
+        .technology-tags li {
+            padding: 0.375rem 0.75rem;
+            border-radius: 999px;
+            background: var(--accent-tint);
+            color: var(--accent);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        .technology-details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .technology-details dt {
+            margin-block-end: 0.25rem;
+            font-weight: 700;
+        }
+
+        .technology-details dd {
+            color: var(--muted);
+        }
+
+        /* ================================================================
+           8. INLINE PRIVACY POLICY
+           Always-visible document content; no popup or separate page.
+           ================================================================ */
+
+        .privacy-card {
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .privacy-label {
+            display: inline-block;
+            margin-block-end: 1rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: 999px;
+            background: var(--accent-tint);
+            color: var(--accent);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        .privacy-content {
+            display: grid;
+            gap: 1.5rem;
+            margin-block-start: 1.5rem;
+            color: var(--muted);
+            font-size: 0.9375rem;
+            line-height: 1.8;
+        }
+
+        .privacy-content h3 {
+            margin-block-end: 0.375rem;
+            color: var(--text);
+        }
+
+        .privacy-content ol {
+            margin-block: 0.625rem 0;
+            padding-inline-start: 1.5rem;
+        }
+
+        .privacy-content li + li {
+            margin-block-start: 0.375rem;
+        }
+
+        .privacy-note {
+            margin-block-start: 1.75rem;
+            padding-block-start: 1.25rem;
+            border-block-start: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8125rem;
+        }
+
+        /* ================================================================
+           9. FOOTER
+           ================================================================ */
+
+        .site-footer {
+            padding-block: 1.5rem;
+            border-block-start: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8125rem;
+        }
+
+        .footer-content {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        /* ================================================================
+           10. RESPONSIVE LAYOUT
+           ================================================================ */
+
+        @media (max-width: 50rem) {
+            .hero {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 2.25rem;
+            }
+
+            .hero-copy {
+                justify-items: center;
+                text-align: center;
+            }
+
+            .highlights {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 37.5rem) {
+            main {
+                padding-block: 2rem 3rem;
+            }
+
+            .brand-name {
+                font-size: 1rem;
+            }
+
+            .content-section {
+                margin-block-start: 3rem;
+            }
+
+            .feature,
+            .technology-card {
+                padding: 1.25rem;
+            }
+
+            .feature {
+                gap: 0.75rem;
+            }
+
+            .feature-icon {
+                inline-size: 2.5rem;
+                block-size: 2.5rem;
+                flex-basis: 2.5rem;
+                border-radius: 0.75rem;
+            }
+
+            .feature-icon svg {
+                inline-size: 1.375rem;
+                block-size: 1.375rem;
+            }
+
+            .technology-details {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .footer-content {
+                text-align: center;
+            }
+        }
+
+        /* ================================================================
+           11. ACCESSIBILITY PREFERENCES
+           ================================================================ */
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .home-link {
+                transition: none;
+            }
+        }
+
+        @media (forced-colors: active) {
+            .feature-icon {
+                color: CanvasText;
+                background: Canvas;
+                border: 1px solid CanvasText;
+            }
+
+            .home-link {
+                border: 1px solid ButtonText;
+            }
+        }
+
+        /* ================================================================
+           12. PRINT PRESENTATION
+           ================================================================ */
+
+        @media print {
+            :root {
+                color-scheme: light;
+                --page-bg: #ffffff;
+                --card-bg: #ffffff;
+                --text: #000000;
+                --muted: #333333;
+                --border: #cccccc;
+                --accent: #000000;
+                --accent-tint: transparent;
+            }
+
+            .site-header {
+                position: static;
+                background: #ffffff;
+                -webkit-backdrop-filter: none;
+                backdrop-filter: none;
+            }
+
+            .skip-link,
+            .home-link,
+            .phone-frame,
+            .store-link {
+                display: none;
+            }
+
+            .hero {
+                display: block;
+            }
+
+            .hero-copy {
+                justify-items: start;
+                text-align: start;
+            }
+
+            .highlights {
+                justify-content: flex-start;
+            }
+
+            .content-section {
+                max-inline-size: none;
+                margin-block-start: 2rem;
+            }
+
+            .card {
+                overflow: visible;
+                box-shadow: none;
+            }
+
+            .feature {
+                break-inside: avoid;
+            }
+
+            .feature-icon {
+                color: #000000;
+                background: transparent;
+                border: 1px solid #cccccc;
+            }
+
+            h2,
+            h3 {
+                break-after: avoid;
+            }
+
+            a {
+                text-decoration: underline;
+            }
         }
     </style>
 </head>
 
-<body class="bg-apple-bgLight dark:bg-apple-bgDark text-apple-textLight dark:text-apple-textDark transition-colors duration-300 font-sans min-h-screen flex flex-col justify-between antialiased select-none selection:bg-apple-blue selection:text-white">
+<body id="top">
+    <!-- First keyboard destination: bypass the page header. -->
+    <a href="#main-content" class="skip-link">
+        Skip to main content
+    </a>
 
-    <!-- HEADER -->
-    <header class="sticky top-0 z-40 w-full bg-apple-bgLight/90 dark:bg-apple-bgDark/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 transition-colors duration-300">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-black flex items-center justify-center overflow-hidden shadow-sm">
+    <!-- HEADER: Home returns to the top of this document. -->
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <picture class="app-icon">
+                    <source
+                        srcset="./21.jpg"
+                        media="(prefers-color-scheme: dark)"
+                    >
                     <img
                         src="./20.jpg"
-                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=VL';"
-                        alt="VocaList Light Icon"
-                        class="w-full h-full object-cover block dark:hidden"
+                        alt=""
+                        width="44"
+                        height="44"
+                        decoding="async"
                     >
-                    <img
-                        src="./21.jpg"
-                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=VL';"
-                        alt="VocaList Dark Icon"
-                        class="w-full h-full object-cover hidden dark:block"
-                    >
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-base sm:text-lg font-bold tracking-tight leading-tight">VocaList</span>
-                    <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">iOS App Showcase</span>
+                </picture>
+
+                <div>
+                    <p class="brand-name">VocaList</p>
+                    <p class="brand-subtitle">iOS App Showcase</p>
                 </div>
             </div>
 
-            <div class="flex items-center shrink-0">
-                <a href="index.html#vocaListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-apple-blue/60">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
-                    <span>Home</span>
-                </a>
-            </div>
+            <a href="#top" class="home-link">
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                    focusable="false"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m3 12 9-9 9 9M5 10v10h5v-6h4v6h5V10"
+                    />
+                </svg>
+                <span>Home</span>
+            </a>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-16">
+    <main id="main-content" class="container" tabindex="-1">
+        <!-- HERO: App introduction and primary screenshot. -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <h1 id="hero-title">Create Lists with Voice</h1>
 
-        <!-- HERO SECTION WITH IPHONE AIR MOCK SCREEN -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div class="flex flex-col items-center lg:items-start justify-center gap-4 text-center lg:text-left">
-                <h1 class="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">Create Lists with Voice</h1>
-                <p class="max-w-md text-sm sm:text-base leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                    A fast, private list manager for iPhone and iPad with continuous voice entry, smart duplicate protection, and iCloud sharing.
+                <p class="hero-description">
+                    A fast, private list manager for iPhone and iPad with
+                    continuous voice entry, smart duplicate protection,
+                    and iCloud sharing.
                 </p>
-                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2 text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-apple-blue"></span> Private iCloud Sync</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-apple-green"></span> iPhone &amp; iPad</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-orange-500"></span> No Ads, Analytics or Tracking</span>
-                </div>
+
+                <ul class="highlights">
+                    <li>
+                        <span class="dot" aria-hidden="true"></span>
+                        Private iCloud Sync
+                    </li>
+                    <li>
+                        <span
+                            class="dot dot-green"
+                            aria-hidden="true"
+                        ></span>
+                        iPhone &amp; iPad
+                    </li>
+                    <li>
+                        <span
+                            class="dot dot-orange"
+                            aria-hidden="true"
+                        ></span>
+                        No Ads, Analytics or Tracking
+                    </li>
+                </ul>
             </div>
 
-            <!-- iPhone Air Mock Screen Image Container -->
-            <div class="flex justify-center">
-                <div class="iphone-air-frame">
-                    <div class="iphone-screen">
-                        <img
-                            src="./vocalistimage.png"
-                            alt="VocaList app screenshot"
-                            class="w-full h-full object-cover block"
-                            draggable="false"
-                        >
-                    </div>
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <img
+                        src="./vocalistimage.png"
+                        alt="Screenshot of the VocaList app"
+                        fetchpriority="high"
+                        decoding="async"
+                    >
                 </div>
             </div>
         </section>
 
-        <!-- App Store Call to Action -->
-        <div class="w-full max-w-md mx-auto -mt-10 sm:-mt-12">
-            <div class="flex flex-col items-center justify-center gap-2.5 text-center">
-                <p class="text-sm font-medium text-apple-subtextLight dark:text-apple-subtextDark">
-                    App is live and available on the App Store
-                </p>
+        <!-- APP STORE: External destination; no new tab requested. -->
+        <div class="app-store">
+            <p>App is live and available on the App Store</p>
 
-                <a
-                    href="https://apple.co/4sMzuw9"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Download VocaList from the App Store"
-                    class="inline-flex items-center justify-center rounded-xl transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-apple-blue"
-                >
+            <a
+                href="https://apple.co/4sMzuw9"
+                class="store-link"
+            >
+                <picture>
+                    <source
+                        srcset="./black.svg"
+                        media="(prefers-color-scheme: dark)"
+                    >
                     <img
                         src="./white.svg"
                         alt="Download VocaList on the App Store"
-                        class="block h-[52px] w-auto object-contain dark:hidden"
+                        decoding="async"
                     >
-                    <img
-                        src="./black.svg"
-                        alt="Download VocaList on the App Store"
-                        class="hidden h-[52px] w-auto object-contain dark:block"
-                    >
-                </a>
-            </div>
+                </picture>
+            </a>
         </div>
 
-        <!-- SECTION 2: CORE FEATURES -->
-        <section class="space-y-6">
-            <div class="text-left max-w-2xl mx-auto space-y-2">
-                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Core Features</h2>
+        <!--
+            CORE FEATURES
+            Decorative inline SVG icons accompany visible feature headings.
+            Icons require no external libraries or additional image files.
+        -->
+        <section
+            class="content-section"
+            aria-labelledby="features-title"
+        >
+            <div class="section-heading">
+                <h2 id="features-title">Core Features</h2>
             </div>
 
-            <div class="max-w-2xl mx-auto rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm divide-y divide-black/5 dark:divide-white/10">
-
-                <!-- Unlimited Lists -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-500/15 text-blue-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 6.5h9M8 11.5h6M8 16.5h3M5 6.5h.01M5 11.5h.01M5 16.5h.01M18 15v6m-3-3h6"/>
+            <div class="card">
+                <!-- Unlimited Lists: checklist and add symbol. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--lists"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="m3 5 1 1 2-2"/>
+                            <path d="M9 5h11"/>
+                            <path d="m3 11 1 1 2-2"/>
+                            <path d="M9 11h7"/>
+                            <path d="m3 17 1 1 2-2"/>
+                            <path d="M9 17h3"/>
+                            <path d="M18 15v6"/>
+                            <path d="M15 18h6"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Unlimited Lists</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Create as many lists as you like: groceries, errands, tasks, travel, books to read. The home screen shows every list, newest first, with a status chip (<span class="font-medium text-apple-textLight dark:text-apple-textDark">Empty</span>, <span class="font-medium text-apple-textLight dark:text-apple-textDark">Active</span>, or <span class="font-medium text-apple-textLight dark:text-apple-textDark">Completed</span>) and a <span class="font-medium text-apple-textLight dark:text-apple-textDark">completed/total</span> count. Quick-start names make new lists effortless, and a swipe deletes one with confirmation.</p>
-                    </div>
-                </div>
 
-                <!-- Smart Item Entry -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-500/15 text-indigo-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125"/>
+                    <div class="feature-content">
+                        <h3>Unlimited Lists</h3>
+                        <p>
+                            Create as many lists as you like: groceries,
+                            errands, tasks, travel, books to read. The home
+                            screen shows every list, newest first, with a
+                            status chip (<strong>Empty</strong>,
+                            <strong>Active</strong>, or
+                            <strong>Completed</strong>) and a
+                            <strong>completed/total</strong> count.
+                            Quick-start names make new lists effortless,
+                            and a swipe deletes one with confirmation.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Smart Item Entry: editing pencil. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--entry"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path
+                                d="m15.5 4.5 4 4M4 20l5-1L20 8a2.83 2.83 0 0 0-4-4L5 15l-1 5Z"
+                            />
+                            <path d="m5 15 4 4"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Smart Item Entry</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Type and press Done to add items. Text is title-cased as you type (<span class="font-medium text-apple-textLight dark:text-apple-textDark">olive oil</span> becomes <span class="font-medium text-apple-textLight dark:text-apple-textDark">Olive Oil</span>), items are listed alphabetically and numbered, and duplicate protection with simple plural handling keeps your list clean.</p>
-                    </div>
-                </div>
 
-                <!-- Voice -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-purple-500/15 text-purple-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/>
+                    <div class="feature-content">
+                        <h3>Smart Item Entry</h3>
+                        <p>
+                            Type and press Done to add items. Text is
+                            title-cased as you type
+                            (<strong>olive oil</strong> becomes
+                            <strong>Olive Oil</strong>), items are listed
+                            alphabetically and numbered, and duplicate
+                            protection with simple plural handling keeps
+                            your list clean.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Continuous Voice Input: microphone. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--voice"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <rect
+                                x="9"
+                                y="2"
+                                width="6"
+                                height="12"
+                                rx="3"
+                            />
+                            <path d="M5 10v2a7 7 0 0 0 14 0v-2"/>
+                            <path d="M12 19v3"/>
+                            <path d="M8 22h8"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Continuous Voice Input [Hands-Free]</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Tap the mic and speak items back to back, with no commas or pauses (&ldquo;bread butter apples chips&rdquo;). A floating Listening&hellip; pill with a Done button stays on screen while the mic is live, powered by integrated Apple speech recognition.</p>
-                    </div>
-                </div>
 
-                <!-- Voice Review -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-pink-500/15 text-pink-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    <div class="feature-content">
+                        <h3>Continuous Voice Input [Hands-Free]</h3>
+                        <p>
+                            Tap the mic and speak items back to back, with
+                            no commas or pauses (“bread butter apples chips”).
+                            A floating Listening… pill with a Done button
+                            stays on screen while the mic is live, powered
+                            by integrated Apple speech recognition.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Review Before You Add: confirmation checkmark. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--review"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="m8 12 3 3 5-6"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Review Before You Add</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">A review sheet lets you edit names, uncheck or delete items, or Toggle All before adding. Duplicates are crossed out, labelled, and never added, even as you edit. Voice-added items get a small blue microphone badge.</p>
-                    </div>
-                </div>
 
-                <!-- iCloud Sync -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-500/15 text-sky-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"/>
+                    <div class="feature-content">
+                        <h3>Review Before You Add</h3>
+                        <p>
+                            A review sheet lets you edit names, uncheck or
+                            delete items, or Toggle All before adding.
+                            Duplicates are crossed out, labelled, and never
+                            added, even as you edit. Voice-added items get
+                            a small blue microphone badge.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Private iCloud Sync: cloud. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--cloud"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path
+                                d="M6 19h12a4 4 0 0 0 1-7.87A7 7 0 0 0 5.2 9.2 5 5 0 0 0 6 19Z"
+                            />
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Private iCloud Sync</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Lists sync across your own devices automatically through your private iCloud account (CloudKit). The developer cannot read them, and the app works fully offline when iCloud is unavailable.</p>
-                    </div>
-                </div>
 
-                <!-- Collaboration -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-500/15 text-teal-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
+                    <div class="feature-content">
+                        <h3>Private iCloud Sync</h3>
+                        <p>
+                            Lists sync across your own devices automatically
+                            through your private iCloud account (CloudKit).
+                            The developer cannot read them, and the app works
+                            fully offline when iCloud is unavailable.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Collaborate and Share: people. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--sharing"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <circle cx="9" cy="7" r="3"/>
+                            <path d="M3 21v-2a6 6 0 0 1 12 0v2"/>
+                            <path d="M16 4a3 3 0 0 1 0 6"/>
+                            <path d="M18 14a5 5 0 0 1 3 5v2"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Collaborate &amp; Share</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Share a list with family or housemates through an invite-only iCloud link sent via Messages, WhatsApp, Mail, or AirDrop. Collaborators can read and edit, and every completed item shows &ldquo;Done by&rdquo; with the name of who finished it. You can also send a plain-text copy through the iOS share sheet.</p>
-                    </div>
-                </div>
 
-                <!-- Progress -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-500/15 text-green-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zm7.5-4.5c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0110.5 19.875V8.625zm7.5-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v14.625c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0118 22.25V5.25z"/>
+                    <div class="feature-content">
+                        <h3>Collaborate &amp; Share</h3>
+                        <p>
+                            Share a list with family or housemates through an
+                            invite-only iCloud link sent via Messages,
+                            WhatsApp, Mail, or AirDrop. Collaborators can read
+                            and edit, and every completed item shows “Done by”
+                            with the name of who finished it. You can also
+                            send a plain-text copy through the iOS share sheet.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Live Progress Tracking: ascending bar chart. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--progress"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <rect
+                                x="3"
+                                y="13"
+                                width="4"
+                                height="8"
+                                rx="1"
+                            />
+                            <rect
+                                x="10"
+                                y="8"
+                                width="4"
+                                height="13"
+                                rx="1"
+                            />
+                            <rect
+                                x="17"
+                                y="3"
+                                width="4"
+                                height="18"
+                                rx="1"
+                            />
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Live Progress Tracking</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Tap a row to mark it complete: it turns green, is struck through, and shows a timestamp. Each list has its own progress bar that updates in real time, and toasts confirm every action.</p>
-                    </div>
-                </div>
 
-                <!-- Clean Up -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-500/15 text-orange-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
+                    <div class="feature-content">
+                        <h3>Live Progress Tracking</h3>
+                        <p>
+                            Tap a row to mark it complete: it turns green,
+                            is struck through, and shows a timestamp. Each
+                            list has its own progress bar that updates in
+                            real time, and toasts confirm every action.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Easy Clean Up: broom. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--cleanup"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="m20 3-8 8"/>
+                            <path d="m10 9 5 5"/>
+                            <path d="m10 9-5 3-3 8h10l3-6"/>
+                            <path d="m7 15-2 5"/>
+                            <path d="m10 16-1 4"/>
+                            <path d="M16 20h5"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Easy Clean Up</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Use the list menu to Clear All Completed or Clear Everything, or delete any single item with the &#10005; icon. Onboarding, a Helpful Tips guide, and Settings keep everything easy to learn and manage.</p>
-                    </div>
-                </div>
 
+                    <div class="feature-content">
+                        <h3>Easy Clean Up</h3>
+                        <p>
+                            Use the list menu to Clear All Completed or Clear
+                            Everything, or delete any single item with the
+                            × icon. Onboarding, a Helpful Tips guide, and
+                            Settings keep everything easy to learn and manage.
+                        </p>
+                    </div>
+                </article>
             </div>
         </section>
 
-        <!-- SECTION 3: BUILT WITH -->
-        <section class="space-y-6">
-            <div class="text-left max-w-2xl mx-auto space-y-2">
-                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Built With</h2>
-                <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">A single-target SwiftUI app using a lightweight MVVM structure and no third-party packages.</p>
+        <!-- BUILT WITH: Technologies and app architecture. -->
+        <section
+            class="content-section"
+            aria-labelledby="technology-title"
+        >
+            <div class="section-heading">
+                <h2 id="technology-title">Built With</h2>
+                <p class="section-description">
+                    A single-target SwiftUI app using a lightweight MVVM
+                    structure and no third-party packages.
+                </p>
             </div>
 
-            <div class="max-w-2xl mx-auto rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm p-6 space-y-5">
-                <div class="flex flex-wrap gap-2">
-                    <span class="rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-medium text-apple-blue">Swift</span>
-                    <span class="rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-medium text-apple-blue">SwiftUI</span>
-                    <span class="rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-medium text-apple-blue">CloudKit</span>
-                    <span class="rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-medium text-apple-blue">Speech</span>
-                    <span class="rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-medium text-apple-blue">AVFoundation</span>
-                    <span class="rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-medium text-apple-blue">Combine</span>
-                    <span class="rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-medium text-apple-blue">UIKit</span>
-                </div>
-                <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm">
+            <div class="card technology-card">
+                <ul
+                    class="technology-tags"
+                    aria-label="Technologies used"
+                >
+                    <li>Swift</li>
+                    <li>SwiftUI</li>
+                    <li>CloudKit</li>
+                    <li>Speech</li>
+                    <li>AVFoundation</li>
+                    <li>Combine</li>
+                    <li>UIKit</li>
+                </ul>
+
+                <dl class="technology-details">
                     <div>
-                        <dt class="font-bold">Platforms</dt>
-                        <dd class="text-apple-subtextLight dark:text-apple-subtextDark">iPhone and iPad (iOS / iPadOS 16.0+)</dd>
+                        <dt>Platforms</dt>
+                        <dd>iPhone and iPad (iOS / iPadOS 16.0+)</dd>
                     </div>
+
                     <div>
-                        <dt class="font-bold">Architecture</dt>
-                        <dd class="text-apple-subtextLight dark:text-apple-subtextDark">MVVM with one @MainActor observable data store</dd>
+                        <dt>Architecture</dt>
+                        <dd>
+                            MVVM with one @MainActor observable data store
+                        </dd>
                     </div>
+
                     <div>
-                        <dt class="font-bold">Sync &amp; Sharing</dt>
-                        <dd class="text-apple-subtextLight dark:text-apple-subtextDark">Custom CloudKit zone with invite-only shares</dd>
+                        <dt>Sync &amp; Sharing</dt>
+                        <dd>
+                            Custom CloudKit zone with invite-only shares
+                        </dd>
                     </div>
+
                     <div>
-                        <dt class="font-bold">Voice Pipeline</dt>
-                        <dd class="text-apple-subtextLight dark:text-apple-subtextDark">AVAudioEngine and SFSpeechRecognizer with a custom spoken-item parser</dd>
+                        <dt>Voice Pipeline</dt>
+                        <dd>
+                            AVAudioEngine and SFSpeechRecognizer with a
+                            custom spoken-item parser
+                        </dd>
                     </div>
+
                     <div>
-                        <dt class="font-bold">Local Storage</dt>
-                        <dd class="text-apple-subtextLight dark:text-apple-subtextDark">JSON file in the app&rsquo;s documents directory</dd>
+                        <dt>Local Storage</dt>
+                        <dd>
+                            JSON file in the app’s documents directory
+                        </dd>
                     </div>
+
                     <div>
-                        <dt class="font-bold">Language</dt>
-                        <dd class="text-apple-subtextLight dark:text-apple-subtextDark">English UI; speech recognition follows the device locale</dd>
+                        <dt>Language</dt>
+                        <dd>
+                            English UI; speech recognition follows the
+                            device locale
+                        </dd>
                     </div>
                 </dl>
             </div>
         </section>
+
+        <!--
+            PRIVACY POLICY
+            Complete policy displayed directly in the main document.
+            No dialog, separate privacy page, or privacy-policy button.
+        -->
+        <section
+            id="privacy-policy"
+            class="content-section"
+            aria-labelledby="privacy-title"
+        >
+            <div class="card privacy-card">
+                <p class="privacy-label">Your data, your choice</p>
+
+                <h2 id="privacy-title">Privacy Policy</h2>
+
+                <div class="privacy-content">
+                    <p>
+                        Your privacy is important. This policy summarizes
+                        how VocaList handles your information.
+                    </p>
+
+                    <p>
+                        VocaList has no developer servers, accounts,
+                        analytics, ads, tracking, or third-party SDKs.
+                        The developer does not receive your data.
+                    </p>
+
+                    <div>
+                        <h3>Information Stored by the App</h3>
+                        <p>The app stores the following:</p>
+
+                        <ol>
+                            <li>List names and creation dates</li>
+                            <li>Item names and quantities</li>
+                            <li>Item completion status and timestamps</li>
+                            <li>
+                                The display name of whoever last
+                                completed an item
+                            </li>
+                            <li>Total and completed item counts</li>
+                        </ol>
+                    </div>
+
+                    <div>
+                        <h3>Storage and iCloud</h3>
+                        <p>
+                            Your lists are saved on your device in a JSON
+                            file within the app’s documents directory and
+                            in your own private iCloud account (CloudKit)
+                            so they sync across your devices. The developer
+                            cannot read them. If iCloud is unavailable,
+                            the app works locally.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3>Voice</h3>
+                        <p>
+                            While the microphone is on, audio is passed
+                            to Apple’s Speech Recognition, which may
+                            process it on-device or on Apple’s servers
+                            depending on your device and language.
+                            VocaList never saves audio, and only the items
+                            you confirm on the review sheet are stored.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3>Sharing</h3>
+                        <p>
+                            Shared lists, including display names on
+                            items, are visible to the people you invite.
+                            Your display name defaults to your device
+                            name, so change it during onboarding if it
+                            contains your real name and you plan to
+                            share lists.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3>Ratings and Feedback</h3>
+                        <p>
+                            Ratings and comments you enter stay on your
+                            device and are never uploaded.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3>Your Control Over Your Data</h3>
+                        <p>
+                            You have full control over your data: add or
+                            delete items and lists at any time, or use
+                            Clear All Data in Settings to remove lists
+                            from the device. Lists still in iCloud sync
+                            back until deleted individually.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3>Contact</h3>
+                        <p>
+                            Questions? Contact
+                            <a href="mailto:varun1329@icloud.com">varun1329@icloud.com</a>.
+                        </p>
+                    </div>
+                </div>
+
+                <p class="privacy-note">
+                    Your lists stay on your device and in your iCloud.
+                </p>
+            </div>
+        </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
-        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-            <div class="space-y-1">
-                <p class="text-center sm:text-left text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">&copy; 2026 Varun Patel - Independent iOS Developer</p>
-                <p class="text-center sm:text-left text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">Contact &middot; <a href="mailto:varun1329@icloud.com" class="text-apple-blue hover:underline">varun1329@icloud.com</a></p>
-            </div>
-            <button id="openPrivacyBtn" type="button" aria-haspopup="dialog" aria-controls="privacyModal" class="mt-2 text-xs sm:text-sm text-apple-blue underline hover:text-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded transition-colors">Privacy Policy</button>
+    <!-- FOOTER: Attribution and contact; no separate privacy link. -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p>
+                &copy; 2026 Varun Patel — Independent iOS Developer
+            </p>
+
+            <p>
+                Contact &middot;
+                <a href="mailto:varun1329@icloud.com">
+                    varun1329@icloud.com
+                </a>
+            </p>
         </div>
     </footer>
-
-    <!-- PRIVACY POLICY DIALOG -->
-    <dialog id="privacyModal" aria-labelledby="privacyModalTitle" class="modal-shell w-full sm:w-[700px]">
-        <div class="modal-card privacy-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
-            <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-4 sm:px-5 py-4 text-center">
-                <h2 id="privacyModalTitle" class="text-sm font-semibold tracking-tight">VocaList Privacy</h2>
-            </div>
-            <div class="privacy-scroll min-h-0 px-6 sm:px-10 py-7 sm:py-9">
-                <div class="inline-flex rounded-full bg-apple-blue/10 px-3 py-1 text-[11px] font-medium text-apple-blue mb-4">
-                    Your data, your choice
-                </div>
-                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
-                    <span class="text-apple-blue">Privacy Policy</span>
-                </h3>
-                <div class="mt-4 space-y-4 text-sm sm:text-base leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                    <p>Your privacy is important. This policy summarizes how <strong class="font-semibold text-apple-textLight dark:text-apple-textDark">VocaList</strong> handles your information.</p>
-                    <p>VocaList has <strong class="font-semibold text-apple-textLight dark:text-apple-textDark">no developer servers, accounts, analytics, ads, tracking, or third-party SDKs</strong>. The developer does not receive your data.</p>
-                    <p>The app stores the following:</p>
-                    <ul class="list-decimal list-inside space-y-1 ml-4">
-                        <li>List names and creation dates</li>
-                        <li>Item names and quantities</li>
-                        <li>Item completion status and timestamps</li>
-                        <li>The display name of whoever last completed an item</li>
-                        <li>Total and completed item counts</li>
-                    </ul>
-                    <p><strong class="font-semibold text-apple-textLight dark:text-apple-textDark">Storage and iCloud:</strong> Your lists are saved on your device in a JSON file within the app&rsquo;s documents directory and in your own private iCloud account (CloudKit) so they sync across your devices. The developer cannot read them. If iCloud is unavailable, the app works locally.</p>
-                    <p><strong class="font-semibold text-apple-textLight dark:text-apple-textDark">Voice:</strong> While the microphone is on, audio is passed to Apple&rsquo;s Speech Recognition, which may process it on-device or on Apple&rsquo;s servers depending on your device and language. VocaList never saves audio, and only the items you confirm on the review sheet are stored.</p>
-                    <p><strong class="font-semibold text-apple-textLight dark:text-apple-textDark">Sharing:</strong> Shared lists, including display names on items, are visible to the people you invite. Your display name defaults to your device name, so change it during onboarding if it contains your real name and you plan to share lists.</p>
-                    <p><strong class="font-semibold text-apple-textLight dark:text-apple-textDark">Ratings and feedback:</strong> Ratings and comments you enter stay on your device and are never uploaded.</p>
-                    <p>You have full control over your data: add or delete items and lists at any time, or use Clear All Data in Settings to remove lists from the device. Lists still in iCloud sync back until deleted individually. Questions? Contact <a href="mailto:varun1329@icloud.com" class="text-apple-blue hover:underline">varun1329@icloud.com</a>.</p>
-                </div>
-            </div>
-            <div class="shrink-0 flex items-center justify-between gap-3 border-t border-black/5 dark:border-white/10 px-5 sm:px-6 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
-                <span class="text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">Your lists stay on your device and in your iCloud.</span>
-                <button type="button" id="closePrivacyBtn" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Done</button>
-            </div>
-        </div>
-    </dialog>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const privacyBtn = document.getElementById('openPrivacyBtn');
-            const privacyModal = document.getElementById('privacyModal');
-            const closePrivacyBtn = document.getElementById('closePrivacyBtn');
-            let savedOverflow = '';
-
-            function openDialog(dialog, trigger) {
-                savedOverflow = document.body.style.overflow;
-                dialog.showModal();
-                document.body.style.overflow = 'hidden';
-                if (trigger) trigger.blur();
-            }
-
-            function closeDialog(dialog) {
-                if (dialog.open) dialog.close();
-            }
-
-            privacyBtn.addEventListener('click', () => openDialog(privacyModal, privacyBtn));
-            closePrivacyBtn.addEventListener('click', () => closeDialog(privacyModal));
-            privacyModal.addEventListener('close', () => {
-                document.body.style.overflow = savedOverflow;
-                privacyBtn.focus({ preventScroll: true });
-            });
-
-            let pointerStartedOutside = false;
-            privacyModal.addEventListener('pointerdown', event => {
-                pointerStartedOutside = event.target === privacyModal;
-            });
-            privacyModal.addEventListener('click', event => {
-                if (event.target === privacyModal && pointerStartedOutside) {
-                    closeDialog(privacyModal);
-                }
-                pointerStartedOutside = false;
-            });
-        });
-    </script>
 </body>
 </html>
