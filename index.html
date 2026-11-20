@@ -14,7 +14,7 @@
     1. Header: Full-width with code logo, name/title, and Get in Touch button (opens email dialog).
     2. Hero/Intro: Portrait image with animated status dot, name & bio, social media icons (non-link placeholders), and My Journey button (opens story dialog).
     3. My Toolbox: Xcode/Swift/SwiftUI under Build; AI & workflow tools ordered by real usage; top three highlighted; all open a shared details dialog; below, personal learning principles.
-    4. My Work: Horizontally scrollable project carousel (EasyList, TripMate, VocaList) with position indicator dots and keyboard/gesture navigation; theme-aware app icons for EasyList and VocaList (3.png/4.png) and TripMate (TripMateIcon.png); each card links to its details page.
+    4. My Work: Horizontally scrollable project carousel (EasyList, TripMate, VocaList) with position indicator dots and keyboard/gesture navigation; theme-aware app icons for EasyList (3.png/4.png), TripMate (TripMateIcon.png) and VocaList (20.jpg/21.jpg); each card links to its details page.
     5. Tool Details Dialog: Unified for all tools; dynamic icon support (SVG/img); role and personalized journey reflection.
     6. My Journey Dialog: Story, highlighted existential question, timeline, inspirational quote.
     7. Email Dialog: Confirmation dialog before launching mail client to contact Varun; no backend mail form.
@@ -873,20 +873,20 @@
                         >
                             <a href="VocaList.html" class="flex flex-col flex-grow focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-3xl" aria-label="View VocaList details page">
                                 <div class="project-art project-art-voca" aria-hidden="true">
-                                    <div class="project-icon border-[4px] border-[#1d1d1f] bg-[#0785ff] text-[#17212c] group-hover:scale-105 transition-transform duration-300">
-                                        <!-- Light mode image 3.png -->
+                                    <div class="project-icon overflow-hidden border border-black/10 dark:border-white/15 bg-white dark:bg-black group-hover:scale-105 transition-transform duration-300">
+                                        <!-- Light mode icon 20.jpg -->
                                         <img
-                                            src="./3.png"
+                                            src="./20.jpg"
                                             onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=VL';"
                                             alt="VocaList Light Icon"
-                                            class="w-12 h-12 rounded-xl object-contain shadow-md block dark:hidden"
+                                            class="w-full h-full object-cover block dark:hidden"
                                         >
-                                        <!-- Dark mode image 4.png -->
+                                        <!-- Dark mode icon 21.jpg -->
                                         <img
-                                            src="./4.png"
+                                            src="./21.jpg"
                                             onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=VL';"
                                             alt="VocaList Dark Icon"
-                                            class="w-12 h-12 rounded-xl object-contain shadow-md hidden dark:block"
+                                            class="w-full h-full object-cover hidden dark:block"
                                         >
                                     </div>
                                     <span class="absolute bottom-5 left-5 sm:left-6 right-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5f5b8a]">Speak your list - Share it with iCloud</span>
