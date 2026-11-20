@@ -20,6 +20,9 @@
     7. Email Dialog: Confirmation dialog before launching mail client to contact Varun; no backend mail form.
     8. Footer: Identity line and technology stack credit.
     9. JS: Handles theme sync, modal open/close, dynamic tool details, and carousel logic.
+       Project return fix: URL fragments restore the matching carousel slide,
+       indicator, and vertical position. Outgoing project links also preserve
+       the selected project in this page's browser-history entry.
     ============================================================================
     -->
     <meta charset="UTF-8">
@@ -1287,21 +1290,35 @@
                 });
             });
 
-            // 4. Horizontal project carousel; indicators follow actual scroll position.
+            // 4. Project carousel with project-specific return navigation.
+            // Home links on the detail pages must include the project's ID:
+            // index.html#easyListProject
+            // index.html#tripMateProject
+            // index.html#vocaListProject
             const track = document.getElementById('projectCarousel');
-            const slides = Array.from(track.querySelectorAll('article'));
-            const dots = Array.from(
-                document.querySelectorAll('[data-project-index]')
-            );
-            const positionText =
-                document.getElementById('projectPosition');
+            const slides = Array.from(track.querySelectorAll(':scope > article'));
+            const dots = Array.from(document.querySelectorAll('[data-project-index]'));
+            const positionText = document.getElementById('projectPosition');
             const projectNames = ['EasyList', 'TripMate', 'VocaList'];
-            const reducedMotion =
-                window.matchMedia('(prefers-reduced-motion: reduce)');
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-            let activeIndex = 0;
+            // Match the fragment to a slide rather than assuming slide zero.
+            function projectIndexFromHash() {
+                try {
+                    const id = decodeURIComponent(window.location.hash.slice(1));
+                    return slides.findIndex(slide => slide.id === id);
+                } catch {
+                    return -1;
+                }
+            }
+
+            const requestedIndex = projectIndexFromHash();
+            let activeIndex = requestedIndex >= 0 ? requestedIndex : 0;
             let scrollFrame = 0;
             let resizeFrame = 0;
+            let restoreFrame = 0;
+            let restoring = false;
+            let restoreGeneration = 0;
 
             function updateIndicators(index) {
                 dots.forEach((dot, dotIndex) => {
@@ -1311,42 +1328,64 @@
                         dot.removeAttribute('aria-current');
                     }
                 });
-
-                if (index !== activeIndex) {
-                    positionText.textContent =
-                        `Project ${index + 1} of ${slides.length}: ${projectNames[index]}`;
-                }
-
+                positionText.textContent =
+                    `Project ${index + 1} of ${slides.length}: ${projectNames[index]}`;
                 activeIndex = index;
             }
 
+            // The track is positioned, so slide offsets are relative to it.
             function nearestSlide() {
                 let nearest = 0;
                 let distance = Infinity;
-
                 slides.forEach((slide, index) => {
-                    const difference =
-                        Math.abs(track.scrollLeft - slide.offsetLeft);
-
+                    const difference = Math.abs(track.scrollLeft - slide.offsetLeft);
                     if (difference < distance) {
                         distance = difference;
                         nearest = index;
                     }
                 });
-
                 return nearest;
             }
 
             function goToProject(index, immediate = false) {
-                const target =
-                    Math.max(0, Math.min(index, slides.length - 1));
-
+                const target = Math.max(0, Math.min(index, slides.length - 1));
+                const instant = immediate || reducedMotion.matches;
+                // Set state before immediate moves so resize callbacks cannot
+                // send the carousel back to its former slide.
+                if (instant) updateIndicators(target);
                 track.scrollTo({
                     left: slides[target].offsetLeft,
-                    behavior:
-                        immediate || reducedMotion.matches
-                            ? 'instant'
-                            : 'smooth'
+                    behavior: instant ? 'instant' : 'smooth'
+                });
+            }
+
+            function revealCarousel() {
+                const header = document.querySelector('header');
+                const headerHeight = header ? header.getBoundingClientRect().height : 0;
+                const top = window.scrollY + track.getBoundingClientRect().top
+                    - headerHeight - 24;
+                window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
+            }
+
+            // Restore horizontal selection first, then reveal it vertically.
+            // Briefly ignore transient scroll events during layout restoration.
+            function restoreProjectFromHash() {
+                const index = projectIndexFromHash();
+                if (index < 0) return;
+                const generation = ++restoreGeneration;
+                restoring = true;
+                cancelAnimationFrame(scrollFrame);
+                scrollFrame = 0;
+                cancelAnimationFrame(restoreFrame);
+                goToProject(index, true);
+                restoreFrame = requestAnimationFrame(() => {
+                    goToProject(index, true);
+                    revealCarousel();
+                    restoreFrame = requestAnimationFrame(() => {
+                        if (generation !== restoreGeneration) return;
+                        restoring = false;
+                        updateIndicators(nearestSlide());
+                    });
                 });
             }
 
@@ -1357,50 +1396,67 @@
             });
 
             track.addEventListener('scroll', () => {
-                if (scrollFrame) return;
-
+                if (restoring || scrollFrame) return;
                 scrollFrame = requestAnimationFrame(() => {
-                    updateIndicators(nearestSlide());
                     scrollFrame = 0;
+                    if (!restoring) updateIndicators(nearestSlide());
                 });
-            }, {
-                passive: true
-            });
+            }, { passive: true });
 
             track.addEventListener('keydown', event => {
                 if (event.target !== track) return;
-
                 const current = nearestSlide();
                 let target;
-
-                if (event.key === 'ArrowRight') {
-                    target = current + 1;
-                } else if (event.key === 'ArrowLeft') {
-                    target = current - 1;
-                } else if (event.key === 'Home') {
-                    target = 0;
-                } else if (event.key === 'End') {
-                    target = slides.length - 1;
-                } else {
-                    return;
-                }
-
+                if (event.key === 'ArrowRight') target = current + 1;
+                else if (event.key === 'ArrowLeft') target = current - 1;
+                else if (event.key === 'Home') target = 0;
+                else if (event.key === 'End') target = slides.length - 1;
+                else return;
                 event.preventDefault();
                 goToProject(target);
             });
 
-            // Re-align the selected project when responsive dimensions change.
-            const observer = new ResizeObserver(() => {
-                cancelAnimationFrame(resizeFrame);
-                const selected = activeIndex;
-
-                resizeFrame = requestAnimationFrame(() => {
-                    goToProject(selected, true);
+            // Remember the outgoing project's fragment in this history entry.
+            // This also supports returning with the browser's Back button.
+            // replaceState does not trigger fragment scrolling or add an entry.
+            slides.forEach(slide => {
+                const link = slide.querySelector('a[href]');
+                link?.addEventListener('click', event => {
+                    if (event.defaultPrevented || event.button !== 0 ||
+                        event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+                    try {
+                        const url = new URL(window.location.href);
+                        url.hash = slide.id;
+                        history.replaceState(history.state, '', url.href);
+                    } catch {
+                        // Explicit project-specific Home links still work if
+                        // history changes are restricted in a local preview.
+                    }
                 });
             });
 
-            observer.observe(track);
-            updateIndicators(0);
+            // Re-align the current selection when responsive dimensions change.
+            if ('ResizeObserver' in window) {
+                const observer = new ResizeObserver(() => {
+                    cancelAnimationFrame(resizeFrame);
+                    resizeFrame = requestAnimationFrame(() => {
+                        goToProject(activeIndex, true);
+                    });
+                });
+                observer.observe(track);
+            } else {
+                window.addEventListener('resize', () => goToProject(activeIndex, true));
+            }
+
+            goToProject(activeIndex, true);
+            restoreProjectFromHash();
+
+            // Reapply after image/layout loading and on fragment navigation.
+            window.addEventListener('load', restoreProjectFromHash, { once: true });
+            window.addEventListener('hashchange', restoreProjectFromHash);
+            window.addEventListener('pageshow', event => {
+                if (event.persisted) restoreProjectFromHash();
+            });
         });
     </script>
 </body>
