@@ -1,437 +1,1440 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<!--
+===============================================================================
+PROJECT
+    TripMate — Independent iOS Developer App Showcase
+
+FILE
+    TripMate.html
+
+AUTHOR / OWNER
+    Varun Patel
+    Independent iOS Developer
+    Contact: varun1329@icloud.com
+
+DOCUMENT PURPOSE
+    This document is a single-page showcase for TripMate, an iOS travel
+    companion and multi-currency expense tracker currently under development.
+
+    It introduces the app, displays its home-screen screenshot, explains its
+    core features, describes its implementation technologies, and displays
+    the complete privacy policy directly within the same document.
+
+    All information appears in one continuous page.
+    There is no separate privacy page, privacy popup, or modal dialog.
+
+WHAT VISITORS SEE
+    1. Sticky header
+       - TripMate logo.
+       - App name.
+       - Original "iOS App · Under Development" status.
+       - Home link that returns to the top of this document.
+
+    2. Hero section
+       - "Every Trip's Expense Mate" headline.
+       - Original app description.
+       - On-device storage and no-account highlights.
+       - TripMate home-screen screenshot inside an iPhone-style frame.
+
+    3. Core Features
+       Each feature includes a decorative inline SVG icon:
+       - Plan Multiple Trips: suitcase.
+       - Track Expenses: receipt.
+       - Multi-Currency Conversion: opposing exchange arrows.
+       - Flexible Budget Mode: wallet.
+       - Phase Insights: pie chart.
+       - Local Data Storage: storage drive.
+
+    4. Built With
+       - Original technology tags.
+       - Platform requirements.
+       - Architecture description.
+       - Live foreign-exchange provider and fallback.
+       - Local storage description.
+
+    5. Inline Privacy Policy
+       - Original privacy introduction.
+       - Trip and expense information stored by the app.
+       - Optional profile settings.
+       - Optional location access.
+       - Exchange-rate network requests.
+       - Account and advertising statements.
+       - Editing and deletion behavior.
+       - Original device-storage summary.
+
+    6. Footer
+       - Original copyright attribution.
+       - Email contact.
+       - No separate privacy-policy button or link.
+
+DESIGN SYSTEM
+    - Matches the accompanying VocaList and EasyList single-page showcases.
+    - Apple-inspired minimal presentation.
+    - System font stack with no external font downloads.
+    - Responsive two-column hero that stacks on narrower screens.
+    - Centered content cards with readable line lengths.
+    - Automatic light/dark appearance using CSS media queries.
+    - Consistent rounded corners, spacing, borders, and blue accents.
+    - Feature icons with separate light/dark color palettes.
+
+IMPLEMENTATION / DEPENDENCIES
+    - One HTML document with embedded CSS.
+    - No JavaScript required.
+    - No Tailwind, Bootstrap, external icon libraries, or font services.
+    - Feature icons are inline SVG and require no separate assets.
+    - App imagery remains in two separate local image files.
+
+REQUIRED LOCAL ASSETS
+    Place these files in the same directory as this HTML document:
+
+    ./TripMateIcon.png
+        Header logo used in both light and dark appearance.
+
+    ./TripMateHomePage.png
+        Main app screenshot.
+        Supplied image dimensions: 1206 × 2622 pixels.
+
+    The original 1.38 logo scale is retained to match the supplied branding.
+
+    This is a single-page HTML implementation, not an image-embedded archive.
+    A completely self-contained physical file would require embedding the
+    actual image assets as data URLs.
+
+NAVIGATION AND EXTERNAL DESTINATIONS
+    Home:
+        #top
+        Scrolls to the top of this document.
+
+    Contact:
+        mailto:varun1329@icloud.com
+        May open the visitor's configured email application.
+
+    No App Store download button is added because the supplied page identifies
+    TripMate as under development and does not provide an App Store URL.
+
+    Currency-provider names are displayed as text, as in the original page.
+    This showcase does not call exchange-rate services or request location.
+
+HTML / ACCESSIBILITY APPROACH
+    - Native header, main, section, article, and footer elements.
+    - One h1 followed by logical h2 and h3 headings.
+    - Keyboard-accessible "Skip to main content" link.
+    - Visible keyboard focus indicators.
+    - Browser zoom is not restricted.
+    - Meaningful alternative text for the informative screenshot.
+    - Empty alternative text for the logo beside the visible app name.
+    - Decorative feature icons hidden from assistive technology.
+    - Reduced-motion preference disables smooth scrolling and transitions.
+    - Forced-colors treatment is included for feature icons.
+    - Written content remains available without JavaScript.
+    - Print styles retain app information and the complete privacy policy.
+
+    These implementation choices support accessibility, but do not constitute
+    a completed accessibility audit or a guarantee of WCAG conformance.
+
+CONTENT PRESERVATION
+    Original app descriptions, feature descriptions, technology values,
+    development status, and privacy-policy wording are retained.
+
+    In particular, these supplied technical values remain unchanged:
+
+    Swift version:
+        Swift 5.7+
+
+    Platforms:
+        iPhone (iOS 16.0+)
+
+    Live FX Provider:
+        frankfurter.app (open.er-api.com fallback)
+
+    Local Storage:
+        Sandboxed TripMateData.json / SwiftData
+
+    This presentation update does not independently verify compatibility or
+    reconcile the listed platform, framework, and storage details.
+    Confirm these against the actual app implementation before publishing.
+
+PRIVACY MAINTENANCE
+    - Privacy wording is retained from the supplied document.
+    - This HTML conversion does not verify the app's actual data practices.
+    - Review the policy when app storage, location use, provider integrations,
+      profile settings, advertising, or deletion behavior changes.
+    - Keep policy statements consistent with the shipped app.
+    - No unverified policy effective date is added.
+
+EDITING GUIDE
+    - CSS section 1 contains shared colors and dimensions.
+    - CSS section 6 contains feature icon styling and palettes.
+    - Each Core Features article contains its own SVG and description.
+    - Built With contains the original technology tags and definition list.
+    - The privacy-policy section contains the full inline privacy text.
+    - Keep asset filenames and letter casing consistent with deployed files.
+
+PRE-PUBLISH CHECKS
+    - Verify both image assets load.
+    - Confirm the development status.
+    - Review platform and framework requirements.
+    - Review local storage and network-provider details.
+    - Test light and dark appearance.
+    - Test narrow screens, browser zoom, and keyboard navigation.
+    - Check reduced-motion and forced-colors behavior.
+    - Validate HTML and review accessibility.
+===============================================================================
+-->
+<html lang="en">
 <head>
-    <!--
-    ============================================================================
-    PROJECT: Varun Patel - Independent iOS Developer Portfolio
-    FILE: TripMate.html
-    AUTHOR: Varun Patel
-    ROLE: Independent iOS Developer
-    DESIGN SYSTEM: Apple-inspired minimalism with automatic light/dark themes
-    TECH STACK: HTML5, Tailwind CSS (CDN), custom CSS, vanilla JavaScript, SVG
-
-    PAGE ARCHITECTURE:
-    ------------------
-    1. Header: Light/Dark theme-aware app logos (TripMateIcon.png), bold App Title (TripMate),
-       and top-right Home button targeting index.html#tripMateProject.
-    2. Hero Section: Overview and iPhone Air mock screen framing the static
-       Home Page screenshot (HomePageView.png).
-    3. Core Features: Plan Multiple Trips, Track Expenses, Multi-Currency Conversion,
-       Flexible Budget Mode, Phase Insights, Local Data Storage.
-    4. Footer: Developer copyright and Privacy Policy
-
-    CONTENT SOURCE: App name, overview, core features and privacy policy are taken
-    from AppSettingPage.swift (App Info + Privacy Policy screens, v1.0).
-    ============================================================================
-    -->
+    <!-- UTF-8 supports the document's punctuation and text characters. -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>TripMate - iOS App Showcase</title>
 
-    <!-- Follow the visitor's system light/dark setting (runs before paint to avoid a flash). -->
-    <script>
-        (function () {
-            var mq = window.matchMedia('(prefers-color-scheme: dark)');
-            function apply() { document.documentElement.classList.toggle('dark', mq.matches); }
-            apply();
-            if (mq.addEventListener) mq.addEventListener('change', apply);
-            else if (mq.addListener) mq.addListener(apply);
-        })();
-    </script>
+    <!-- Match the screen width without restricting browser zoom. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        apple: {
-                            bgDark: '#000000',
-                            cardDark: '#1c1c1e',
-                            textDark: '#f5f5f7',
-                            subtextDark: '#86868b',
-                            bgLight: '#f5f5f7',
-                            cardLight: '#ffffff',
-                            textLight: '#1d1d1f',
-                            subtextLight: '#6e6e73',
-                            blue: '#0071e3',
-                            green: '#34c759'
-                        }
-                    },
-                    fontFamily: {
-                        sans: [
-                            '-apple-system',
-                            'BlinkMacSystemFont',
-                            '"SF Pro Display"',
-                            '"SF Pro Text"',
-                            '"Helvetica Neue"',
-                            'Helvetica',
-                            'Arial',
-                            'sans-serif'
-                        ]
-                    }
-                }
-            }
-        };
-    </script>
+    <!-- Tell the browser that both light and dark appearances are supported. -->
+    <meta name="color-scheme" content="light dark">
+
+    <!-- Original page description retained. -->
+    <meta
+        name="description"
+        content="TripMate: a personal travel companion and multi-currency expense tracker built for iOS with Swift and MapKit."
+    >
+    <meta name="author" content="Varun Patel">
+
+    <title>TripMate - iOS App Showcase &amp; Architecture</title>
 
     <style>
+        /* ================================================================
+           1. DESIGN TOKENS
+           Shared values make site-wide appearance changes easier.
+           ================================================================ */
+
+        :root {
+            color-scheme: light dark;
+
+            --page-bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --text: #1d1d1f;
+            --muted: #626268;
+
+            --accent: #0066cc;
+            --accent-tint: rgba(0, 102, 204, 0.09);
+
+            --button-bg: #0071e3;
+            --button-hover: #005fbe;
+            --button-text: #ffffff;
+
+            --border: rgba(0, 0, 0, 0.1);
+            --header-bg: rgba(245, 245, 247, 0.94);
+            --icon-bg: #ffffff;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
+
+            --page-width: 64rem;
+            --reading-width: 43rem;
+            --card-radius: 1.25rem;
+            --page-gutter: clamp(1rem, 4vw, 1.5rem);
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Text",
+                "Helvetica Neue",
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        /* Update shared colors automatically when dark appearance is active. */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --page-bg: #000000;
+                --card-bg: #1c1c1e;
+                --text: #f5f5f7;
+                --muted: #a8a8af;
+
+                --accent: #64b5ff;
+                --accent-tint: rgba(100, 181, 255, 0.12);
+
+                --border: rgba(255, 255, 255, 0.14);
+                --header-bg: rgba(0, 0, 0, 0.94);
+                --icon-bg: #000000;
+            }
+        }
+
+        /* ================================================================
+           2. DOCUMENT BASE AND KEYBOARD ACCESS
+           ================================================================ */
+
+        /* Include padding and borders within declared element dimensions. */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
         html {
             scroll-behavior: smooth;
-            -webkit-tap-highlight-color: transparent;
+
+            /* Leave room for the sticky header when following page anchors. */
+            scroll-padding-block-start: 7rem;
+
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
             margin: 0;
-            overflow-x: hidden;
-            touch-action: manipulation;
-        }
 
-        /* Match the portfolio's shared dialog entrance and blurred backdrop. */
-        @keyframes modal-pop {
-            from {
-                opacity: 0;
-                transform: scale(0.95) translateY(10px);
-            }
+            /* Use the small viewport height where supported. */
+            min-block-size: 100vh;
+            min-block-size: 100svh;
 
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        dialog.modal-shell {
-            border: 0;
-            padding: 1rem;
-            margin: auto;
-            max-width: 100%;
-            max-height: 100%;
-            background: transparent;
-            color: inherit;
-            overflow: visible;
-        }
-
-        dialog.modal-shell::backdrop {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .dark dialog.modal-shell::backdrop {
-            background: rgba(0, 0, 0, 0.7);
-        }
-
-        dialog.modal-shell[open] > .modal-card {
-            animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-
-        .privacy-window {
-            max-height: calc(100vh - 2rem);
-            max-height: calc(100dvh - 2rem);
-        }
-
-        .privacy-scroll {
-            overflow-y: auto;
-            overscroll-behavior: contain;
-            scrollbar-width: thin;
-        }
-
-        /* iPhone Air Mock Screen Frame */
-        .iphone-air-frame {
-            position: relative;
-            max-width: 320px;
-            width: 100%;
-            margin: 0 auto;
-            background: #111;
-            border-radius: 44px;
-            padding: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
-        }
-
-        .iphone-screen {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 9 / 19.5;
-            background: #000;
-            border-radius: 36px;
-            overflow: hidden;
+            /* Keep the footer below the main content on short pages. */
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+
+            background: var(--page-bg);
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .iphone-screen img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        /* Reset default margins so component spacing is predictable. */
+        h1,
+        h2,
+        h3,
+        p,
+        dl,
+        dd {
+            margin: 0;
+        }
+
+        img,
+        svg {
+            max-inline-size: 100%;
+        }
+
+        img {
             display: block;
         }
 
-        /* Logo JPGs have generous padding; zoom slightly so the wordmark reads at header size. */
-        .brand-logo {
+        a {
+            color: var(--accent);
+            text-underline-offset: 0.2em;
+            text-decoration-thickness: 0.08em;
+        }
+
+        a:hover {
+            text-decoration-thickness: 0.14em;
+        }
+
+        /* Preserve a strong visible focus indicator for keyboard users. */
+        :focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 5px;
+        }
+
+        ::selection {
+            background: var(--button-bg);
+            color: #ffffff;
+        }
+
+        /* Reusable centered page wrapper. */
+        .container {
+            inline-size: min(100%, var(--page-width));
+            margin-inline: auto;
+            padding-inline: var(--page-gutter);
+        }
+
+        /* Hidden above the viewport until the link receives keyboard focus. */
+        .skip-link {
+            position: fixed;
+            inset-block-start: 0.75rem;
+            inset-inline-start: 1rem;
+            z-index: 100;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            background: var(--card-bg);
+            color: var(--text);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            transform: translateY(-200%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        /* ================================================================
+           3. STICKY HEADER
+           ================================================================ */
+
+        .site-header {
+            position: sticky;
+            inset-block-start: 0;
+            z-index: 40;
+            border-block-end: 1px solid var(--border);
+            background: var(--header-bg);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+        }
+
+        .header-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem 1rem;
+            padding-block: 0.875rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-inline-size: 0;
+        }
+
+        .app-icon {
+            display: grid;
+            place-items: center;
+            inline-size: 2.75rem;
+            block-size: 2.75rem;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            background: var(--icon-bg);
+            box-shadow: var(--shadow);
+        }
+
+        .app-icon img {
+            inline-size: 100%;
+            block-size: 100%;
+            object-fit: contain;
+
+            /* Preserve the logo enlargement used in the supplied page. */
             transform: scale(1.38);
         }
 
-        .iphone-notch {
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90px;
-            height: 24px;
-            background: #111;
-            border-radius: 12px;
-            z-index: 10;
+        .brand-name {
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.3;
         }
 
-        :focus-visible {
-            outline: 2px solid #0071e3;
-            outline-offset: 4px;
+        .brand-subtitle {
+            margin-block-start: 0.125rem;
+            color: var(--muted);
+            font-size: 0.75rem;
+        }
+
+        .home-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-block-size: 2.75rem;
+            padding: 0.625rem 1.125rem;
+            border-radius: 999px;
+            background: var(--button-bg);
+            color: var(--button-text);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 160ms ease;
+        }
+
+        .home-link:hover {
+            background: var(--button-hover);
+        }
+
+        .home-link svg {
+            inline-size: 1rem;
+            block-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* ================================================================
+           4. HERO AND APP SCREENSHOT
+           Two columns on wide screens; stacked on narrower screens.
+           ================================================================ */
+
+        main {
+            flex: 1;
+            padding-block: 3rem 4rem;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .hero-copy {
+            display: grid;
+            justify-items: start;
+            gap: 1.25rem;
+        }
+
+        h1 {
+            max-inline-size: 16ch;
+            font-size: clamp(2rem, 4vw, 2.875rem);
+            line-height: 1.12;
+            letter-spacing: -0.045em;
+        }
+
+        .hero-description {
+            max-inline-size: 44ch;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            color: var(--muted);
+            font-size: 0.8125rem;
+        }
+
+        .highlights li {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            inline-size: 0.5rem;
+            block-size: 0.5rem;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .dot-orange {
+            background: #ff9500;
+        }
+
+        /* Decorative outer device frame, matching the other showcase pages. */
+        .phone-frame {
+            inline-size: min(100%, 20rem);
+            margin-inline: auto;
+            padding: 0.75rem;
+            border-radius: 2.75rem;
+            background: #111111;
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.4),
+                0 0 0 2px rgba(150, 150, 150, 0.2);
+        }
+
+        /* Reserve the phone-screen shape before the screenshot loads. */
+        .phone-screen {
+            aspect-ratio: 9 / 19.5;
+            overflow: hidden;
+            border-radius: 2.25rem;
+            background: #000000;
+        }
+
+        .phone-screen img {
+            inline-size: 100%;
+            block-size: 100%;
+            object-fit: cover;
+        }
+
+        /* ================================================================
+           5. SHARED CONTENT SECTIONS AND FEATURE CARDS
+           ================================================================ */
+
+        .content-section {
+            max-inline-size: var(--reading-width);
+            margin: 4rem auto 0;
+        }
+
+        .section-heading {
+            margin-block-end: 1.5rem;
+        }
+
+        h2 {
+            font-size: clamp(1.625rem, 3vw, 2rem);
+            line-height: 1.2;
+            letter-spacing: -0.035em;
+        }
+
+        .section-description {
+            margin-block-start: 0.75rem;
+            color: var(--muted);
+            font-size: 0.9375rem;
+        }
+
+        .card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        /* Draw separators only between adjacent feature articles. */
+        .feature + .feature {
+            border-block-start: 1px solid var(--border);
+        }
+
+        .feature-content {
+            flex: 1;
+            min-inline-size: 0;
+        }
+
+        h3 {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .feature p {
+            margin-block-start: 0.375rem;
+            color: var(--muted);
+            font-size: 0.9375rem;
+            line-height: 1.75;
+        }
+
+        /* ================================================================
+           6. INLINE SVG FEATURE ICONS
+           Shared sizing with a separate palette for each feature.
+           ================================================================ */
+
+        .feature-icon {
+            display: grid;
+            place-items: center;
+            inline-size: 2.75rem;
+            block-size: 2.75rem;
+            flex: 0 0 2.75rem;
+            border-radius: 0.8125rem;
+            color: var(--feature-icon-color, var(--accent));
+            background: var(--feature-icon-bg, var(--accent-tint));
+        }
+
+        .feature-icon svg {
+            display: block;
+            inline-size: 1.5rem;
+            block-size: 1.5rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Light-appearance palettes. */
+        .feature-icon--trips {
+            --feature-icon-color: #0066cc;
+            --feature-icon-bg: rgba(0, 102, 204, 0.1);
+        }
+
+        .feature-icon--expenses {
+            --feature-icon-color: #24833b;
+            --feature-icon-bg: rgba(36, 131, 59, 0.1);
+        }
+
+        .feature-icon--currency {
+            --feature-icon-color: #b85b00;
+            --feature-icon-bg: rgba(184, 91, 0, 0.1);
+        }
+
+        .feature-icon--budget {
+            --feature-icon-color: #c43b43;
+            --feature-icon-bg: rgba(196, 59, 67, 0.1);
+        }
+
+        .feature-icon--insights {
+            --feature-icon-color: #8940c7;
+            --feature-icon-bg: rgba(137, 64, 199, 0.1);
+        }
+
+        .feature-icon--storage {
+            --feature-icon-color: #087f78;
+            --feature-icon-bg: rgba(8, 127, 120, 0.1);
+        }
+
+        /* Brighter icon colors for dark cards. */
+        @media (prefers-color-scheme: dark) {
+            .feature-icon--trips {
+                --feature-icon-color: #64b5ff;
+                --feature-icon-bg: rgba(100, 181, 255, 0.14);
+            }
+
+            .feature-icon--expenses {
+                --feature-icon-color: #7cde91;
+                --feature-icon-bg: rgba(124, 222, 145, 0.14);
+            }
+
+            .feature-icon--currency {
+                --feature-icon-color: #ffbb70;
+                --feature-icon-bg: rgba(255, 187, 112, 0.14);
+            }
+
+            .feature-icon--budget {
+                --feature-icon-color: #ff969d;
+                --feature-icon-bg: rgba(255, 150, 157, 0.14);
+            }
+
+            .feature-icon--insights {
+                --feature-icon-color: #d19bff;
+                --feature-icon-bg: rgba(209, 155, 255, 0.14);
+            }
+
+            .feature-icon--storage {
+                --feature-icon-color: #6cddd2;
+                --feature-icon-bg: rgba(108, 221, 210, 0.14);
+            }
+        }
+
+        /* ================================================================
+           7. TECHNOLOGY TAGS AND APP DETAILS
+           ================================================================ */
+
+        .technology-card {
+            padding: 1.5rem;
+        }
+
+        .technology-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0 0 1.5rem;
+            padding: 0;
+            list-style: none;
+        }
+
+        .technology-tags li {
+            padding: 0.375rem 0.75rem;
+            border-radius: 999px;
+            background: var(--accent-tint);
+            color: var(--accent);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        /* Two columns on desktop, changed to one column on small screens. */
+        .technology-details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .technology-details dt {
+            margin-block-end: 0.25rem;
+            font-weight: 700;
+        }
+
+        .technology-details dd {
+            color: var(--muted);
+        }
+
+        /* ================================================================
+           8. INLINE PRIVACY POLICY
+           Expands naturally with its content; no modal or nested scrollbar.
+           ================================================================ */
+
+        .privacy-card {
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .privacy-label {
+            display: inline-block;
+            margin-block-end: 1rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: 999px;
+            background: var(--accent-tint);
+            color: var(--accent);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        .privacy-context {
+            margin-block-end: 0.5rem;
+            color: var(--muted);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .privacy-description {
+            margin-block-start: 0.75rem;
+            color: var(--muted);
+            font-size: 0.875rem;
+            line-height: 1.7;
+        }
+
+        .privacy-content {
+            display: grid;
+            gap: 1.25rem;
+            margin-block-start: 1.5rem;
+            color: var(--muted);
+            font-size: 0.9375rem;
+            line-height: 1.8;
+        }
+
+        .privacy-content strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .privacy-content ol {
+            margin: 0;
+            padding-inline-start: 1.5rem;
+        }
+
+        .privacy-content li + li {
+            margin-block-start: 0.375rem;
+        }
+
+        .privacy-note {
+            margin-block-start: 1.75rem;
+            padding-block-start: 1.25rem;
+            border-block-start: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8125rem;
+        }
+
+        /* ================================================================
+           9. FOOTER
+           ================================================================ */
+
+        .site-footer {
+            padding-block: 1.5rem;
+            border-block-start: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8125rem;
+        }
+
+        .footer-content {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        /* ================================================================
+           10. RESPONSIVE LAYOUT
+           ================================================================ */
+
+        @media (max-width: 50rem) {
+            /* Stack hero text above the screenshot on narrower displays. */
+            .hero {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 2.25rem;
+            }
+
+            .hero-copy {
+                justify-items: center;
+                text-align: center;
+            }
+
+            .highlights {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 37.5rem) {
+            main {
+                padding-block: 2rem 3rem;
+            }
+
+            .brand-name {
+                font-size: 1rem;
+            }
+
+            .content-section {
+                margin-block-start: 3rem;
+            }
+
+            .feature,
+            .technology-card {
+                padding: 1.25rem;
+            }
+
+            .feature {
+                gap: 0.75rem;
+            }
+
+            .feature-icon {
+                inline-size: 2.5rem;
+                block-size: 2.5rem;
+                flex-basis: 2.5rem;
+                border-radius: 0.75rem;
+            }
+
+            .feature-icon svg {
+                inline-size: 1.375rem;
+                block-size: 1.375rem;
+            }
+
+            .technology-details {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .footer-content {
+                text-align: center;
+            }
+        }
+
+        /* ================================================================
+           11. ACCESSIBILITY PREFERENCES
+           ================================================================ */
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .home-link {
+                transition: none;
+            }
+        }
+
+        /* Use system colors when a forced-colors theme is enabled. */
+        @media (forced-colors: active) {
+            .feature-icon {
+                color: CanvasText;
+                background: Canvas;
+                border: 1px solid CanvasText;
+            }
+
+            .home-link {
+                border: 1px solid ButtonText;
+            }
+        }
+
+        /* ================================================================
+           12. PRINT PRESENTATION
+           Preserve written information while simplifying decorative UI.
+           ================================================================ */
+
+        @media print {
+            :root {
+                color-scheme: light;
+
+                --page-bg: #ffffff;
+                --card-bg: #ffffff;
+                --text: #000000;
+                --muted: #333333;
+                --border: #cccccc;
+                --accent: #000000;
+                --accent-tint: transparent;
+                --icon-bg: #ffffff;
+            }
+
+            .site-header {
+                position: static;
+                background: #ffffff;
+                -webkit-backdrop-filter: none;
+                backdrop-filter: none;
+            }
+
+            .skip-link,
+            .home-link,
+            .phone-frame {
+                display: none;
+            }
+
+            .hero {
+                display: block;
+            }
+
+            .hero-copy {
+                justify-items: start;
+                text-align: start;
+            }
+
+            .highlights {
+                justify-content: flex-start;
+            }
+
+            .content-section {
+                max-inline-size: none;
+                margin-block-start: 2rem;
+            }
+
+            .card {
+                overflow: visible;
+                box-shadow: none;
+            }
+
+            .feature {
+                break-inside: avoid;
+            }
+
+            .feature-icon {
+                color: #000000;
+                background: transparent;
+                border: 1px solid #cccccc;
+            }
+
+            h2,
+            h3 {
+                break-after: avoid;
+            }
+
+            a {
+                text-decoration: underline;
+            }
         }
     </style>
 </head>
 
-<body class="bg-apple-bgLight dark:bg-apple-bgDark text-apple-textLight dark:text-apple-textDark transition-colors duration-300 font-sans min-h-screen flex flex-col justify-between antialiased selection:bg-apple-blue selection:text-white">
+<body id="top">
+    <!--
+        SKIP LINK
+        Lets keyboard users bypass the header and reach the main content.
+    -->
+    <a href="#main-content" class="skip-link">
+        Skip to main content
+    </a>
 
-    <!-- HEADER -->
-    <header class="sticky top-0 z-40 w-full bg-apple-bgLight/90 dark:bg-apple-bgDark/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 transition-colors duration-300">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
-            <div class="flex items-center space-x-3">
-                <div class="w-11 h-11 sm:w-12 sm:h-12 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-black flex items-center justify-center overflow-hidden shadow-sm">
-                    <!-- Light mode logo: TripMateIcon.png -->
+    <!--
+        HEADER
+        The same logo asset is used in both appearances, as in the original.
+        Its surrounding background follows the device's appearance.
+    -->
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <div class="app-icon">
+                    <!--
+                        Empty alt avoids repeating the adjacent TripMate name.
+                        Dimensions reserve layout space while the image loads.
+                    -->
                     <img
                         src="./TripMateIcon.png"
-                        alt="TripMate logo (light mode)"
-                        class="brand-logo w-full h-full object-contain block dark:hidden"
-                    >
-                    <!-- Dark mode logo: TripMateIcon.png -->
-                    <img
-                        src="./TripMateIcon.png"
-                        alt="TripMate logo (dark mode)"
-                        class="brand-logo w-full h-full object-contain hidden dark:block"
+                        alt=""
+                        width="44"
+                        height="44"
+                        decoding="async"
                     >
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-base sm:text-lg font-bold tracking-tight leading-tight">TripMate</span>
-                    <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">iOS App - under development</span>
+
+                <div>
+                    <p class="brand-name">TripMate</p>
+                    <p class="brand-subtitle">
+                        iOS App &middot; Under Development
+                    </p>
                 </div>
             </div>
 
-            <div class="flex items-center shrink-0">
-                <a href="index.html#tripMateProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all shadow-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
-                    <span>Home</span>
-                </a>
-            </div>
+            <!-- Local anchor: stays within this document. -->
+            <a href="#top" class="home-link">
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                    focusable="false"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m3 12 9-9 9 9M5 10v10h5v-6h4v6h5V10"
+                    />
+                </svg>
+                <span>Home</span>
+            </a>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
+    <!--
+        MAIN CONTENT
+        tabindex="-1" allows the skip link to target this area without adding
+        the main container to the ordinary keyboard tab sequence.
+    -->
+    <main id="main-content" class="container" tabindex="-1">
+        <!-- HERO: Original introduction and storage/account highlights. -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <h1 id="hero-title">Every Trip's Expense Mate</h1>
 
-        <!-- HERO SECTION WITH IPHONE AIR MOCK SCREEN -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div class="flex flex-col items-center justify-center gap-2.5 text-center">
-                <div class="flex flex-col items-start gap-2">
-                    <h3 class="text-3xl sm:text-3xl font-bold tracking-tight leading-tight">Every trips 'Expense' mate</h3>
-                </div>
-   
-                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-apple-blue"></span> 100% On-Device Storage</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-orange-500"></span> No Account Required</span>
-                </div>
+                <p class="hero-description">
+                    Track travel budgets, manage multi-currency expenses live,
+                    and monitor phase spending all in one place.
+                </p>
+
+                <ul class="highlights">
+                    <li>
+                        <span class="dot" aria-hidden="true"></span>
+                        100% On-Device Storage
+                    </li>
+                    <li>
+                        <span
+                            class="dot dot-orange"
+                            aria-hidden="true"
+                        ></span>
+                        No Account Required
+                    </li>
+                </ul>
             </div>
 
-            <!-- iPhone Air Mock Screen: static Home Page screenshot -->
-            <div class="flex justify-center">
-                <div class="iphone-air-frame">
-                    <div class="iphone-screen">
-                        <img
-                            src="./TripMateHomePage.png"
-                            alt="TripMate home page showing the Your Trips list with trip dates, expenses and budgets"
-                            width="1206"
-                            height="2622"
-                            loading="eager"
-                        >
-                    </div>
+            <!-- APP SCREENSHOT: Decorative frame around informative content. -->
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <!--
+                        Original descriptive alt text and image dimensions
+                        are retained. This above-the-fold image loads eagerly.
+                    -->
+                    <img
+                        src="./TripMateHomePage.png"
+                        alt="TripMate home page showing the Your Trips list with trip dates, expenses and budgets"
+                        width="1206"
+                        height="2622"
+                        loading="eager"
+                        fetchpriority="high"
+                        decoding="async"
+                    >
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 2: CORE FEATURES -->
-        <section class="space-y-6">
-            <div class="text-center max-w-xl mx-auto space-y-2">
-                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Core Features</h2>
+        <!--
+            CORE FEATURES
+            All original feature descriptions are retained.
+            Icons are decorative because adjacent headings provide meaning.
+        -->
+        <section
+            class="content-section"
+            aria-labelledby="features-title"
+        >
+            <div class="section-heading">
+                <h2 id="features-title">Core Features</h2>
             </div>
 
-            <div class="max-w-2xl mx-auto rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm divide-y divide-black/5 dark:divide-white/10">
-
-                <!-- Plan Multiple Trips -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-500/15 text-blue-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+            <div class="card">
+                <!-- Plan Multiple Trips: suitcase. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--trips"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <rect
+                                x="3"
+                                y="6"
+                                width="18"
+                                height="14"
+                                rx="2"
+                            />
+                            <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
+                            <path d="M8 6v14"/>
+                            <path d="M16 6v14"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Plan Multiple Trips</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Create trips with dates, locations (with map view), budget (optional), and currencies.</p>
-                    </div>
-                </div>
 
-                <!-- Track Expenses -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-500/15 text-green-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                    <div class="feature-content">
+                        <h3>Plan Multiple Trips</h3>
+                        <p>
+                            Create trips with dates, locations (with map view),
+                            budget (optional), and currencies.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Track Expenses: receipt. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--expenses"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path
+                                d="M5 3l2 1 2-1 3 1 3-1 2 1 2-1v18l-2-1-2 1-3-1-3 1-2-1-2 1V3Z"
+                            />
+                            <path d="M9 8h6"/>
+                            <path d="M9 12h6"/>
+                            <path d="M9 16h3"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Track Expenses</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Log expenses with title, amount, date, and currency. Expense titles auto-format to title case.</p>
-                    </div>
-                </div>
 
-                <!-- Multi-Currency Conversion -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-500/15 text-orange-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                    <div class="feature-content">
+                        <h3>Track Expenses</h3>
+                        <p>
+                            Log expenses with title, amount, date, and currency.
+                            Expense titles auto-format to title case.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Multi-Currency Conversion: opposing exchange arrows. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--currency"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M4 7h16"/>
+                            <path d="m16 3 4 4-4 4"/>
+                            <path d="M20 17H4"/>
+                            <path d="m8 13-4 4 4 4"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Multi-Currency Conversion</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Add/Edit expense screens show a live 4-line exchange panel when entered currency differs from home currency.</p>
-                    </div>
-                </div>
 
-                <!-- Flexible Budget Mode -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-500/15 text-red-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
+                    <div class="feature-content">
+                        <h3>Multi-Currency Conversion</h3>
+                        <p>
+                            Add/Edit expense screens show a live 4-line exchange
+                            panel when entered currency differs from home
+                            currency.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Flexible Budget Mode: wallet. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--budget"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M20 7V4H6a3 3 0 0 0 0 6h14v10H6a3 3 0 0 1-3-3V7"/>
+                            <path d="M20 10V7H6"/>
+                            <path d="M20 13h-5v4h5"/>
+                            <path d="M17 15h.01"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Flexible Budget Mode</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Set budget in home currency, auto-convert for trip analytics, and get live remaining-per-day guidance in Trip Details.</p>
-                    </div>
-                </div>
 
-                <!-- Phase Insights -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-purple-500/15 text-purple-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+                    <div class="feature-content">
+                        <h3>Flexible Budget Mode</h3>
+                        <p>
+                            Set budget in home currency, auto-convert for trip
+                            analytics, and get live remaining-per-day guidance
+                            in Trip Details.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Phase Insights: segmented pie chart. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--insights"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M10 3a9 9 0 1 0 11 11H10V3Z"/>
+                            <path d="M14 2v8h8a9 9 0 0 0-8-8Z"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Phase Insights</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Visualize spending by pre-trip, during-trip, and post-trip phases.</p>
-                    </div>
-                </div>
 
-                <!-- Local Data Storage -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-500/15 text-teal-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008zm-3 0h.008v.008h-.008v-.008z" />
+                    <div class="feature-content">
+                        <h3>Phase Insights</h3>
+                        <p>
+                            Visualize spending by pre-trip, during-trip,
+                            and post-trip phases.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Local Data Storage: storage drive. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--storage"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path
+                                d="m3 14 2-9a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2l2 9"
+                            />
+                            <rect
+                                x="3"
+                                y="13"
+                                width="18"
+                                height="8"
+                                rx="2"
+                            />
+                            <path d="M16 17h.01"/>
+                            <path d="M18 17h.01"/>
+                            <path d="M6 17h5"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Local Data Storage</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Trip and expense records are stored on device using SwiftData.</p>
+
+                    <div class="feature-content">
+                        <h3>Local Data Storage</h3>
+                        <p>
+                            Trip and expense records are stored on device
+                            using SwiftData.
+                        </p>
                     </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- BUILT WITH: Original technology and architecture information. -->
+        <section
+            class="content-section"
+            aria-labelledby="technology-title"
+        >
+            <div class="section-heading">
+                <h2 id="technology-title">Built With</h2>
+
+                <p class="section-description">
+                    A native iOS application using SwiftUI, MapKit,
+                    and SwiftData local persistence.
+                </p>
+            </div>
+
+            <div class="card technology-card">
+                <ul
+                    class="technology-tags"
+                    aria-label="Technologies used"
+                >
+                    <li>Swift 5.7+</li>
+                    <li>SwiftUI</li>
+                    <li>SwiftData</li>
+                    <li>MapKit</li>
+                    <li>Combine</li>
+                </ul>
+
+                <!--
+                    A definition list pairs each technical label with its value.
+                    Values are retained exactly from the supplied page.
+                -->
+                <dl class="technology-details">
+                    <div>
+                        <dt>Platforms</dt>
+                        <dd>iPhone (iOS 16.0+)</dd>
+                    </div>
+
+                    <div>
+                        <dt>Architecture</dt>
+                        <dd>MVVM with @MainActor state stores</dd>
+                    </div>
+
+                    <div>
+                        <dt>Live FX Provider</dt>
+                        <dd>
+                            frankfurter.app (open.er-api.com fallback)
+                        </dd>
+                    </div>
+
+                    <div>
+                        <dt>Local Storage</dt>
+                        <dd>
+                            Sandboxed TripMateData.json / SwiftData
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+
+        <!--
+            INLINE PRIVACY POLICY
+            Replaces the original privacy dialog and its open/close buttons.
+
+            All original policy statements remain visible in the page flow.
+            No JavaScript, popup, separate page, or nested scrollbar is needed.
+        -->
+        <section
+            id="privacy-policy"
+            class="content-section"
+            aria-labelledby="privacy-title"
+        >
+            <div class="card privacy-card">
+                <p class="privacy-label">
+                    Your data, stored on your device
+                </p>
+
+                <!-- Retains the original dialog's TripMate Privacy label. -->
+                <p class="privacy-context">TripMate Privacy</p>
+
+                <h2 id="privacy-title">Privacy Policy</h2>
+
+                <p class="privacy-description">
+                    Learn how TripMate handles your data and protects
+                    your privacy.
+                </p>
+
+                <div class="privacy-content">
+                    <p>
+                        Your privacy is important to us. This Privacy Policy
+                        explains what <strong>TripMate</strong> stores and
+                        when the app may access network services.
+                    </p>
+
+                    <p>
+                        TripMate stores trip and expense records locally
+                        on your device using SwiftData. This can include:
+                    </p>
+
+                    <ol>
+                        <li>
+                            Trip details (name, location, dates, budget,
+                            currency)
+                        </li>
+                        <li>
+                            Expense details (title, amount, date, currency)
+                        </li>
+                        <li>
+                            Optional profile settings (name, country,
+                            default currency) in AppStorage
+                        </li>
+                    </ol>
+
+                    <p>
+                        Location access is optional and used only for map
+                        preview and destination search flows when you
+                        grant permission.
+                    </p>
+
+                    <p>
+                        Currency conversion may use network providers
+                        (currently frankfurter.app with open.er-api.com
+                        fallback) to fetch exchange rates. Requests include
+                        currency codes needed for rates; trip records are
+                        not uploaded as part of conversion requests.
+                    </p>
+
+                    <p>
+                        TripMate does not require account sign-in and does
+                        not run third-party ad tracking.
+                    </p>
+
+                    <p>
+                        You can edit or delete your data at any time.
+                        Using &ldquo;Clear All Data&rdquo; permanently removes
+                        trips and expenses from this device.
+                    </p>
                 </div>
 
+                <!-- Original privacy-dialog summary retained. -->
+                <p class="privacy-note">
+                    Your trips and expenses stay on your device.
+                </p>
             </div>
         </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
-        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-            <p class="text-center text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">&copy; 2026 Varun Patel - Independent iOS Developer</p>
-            <button id="openPrivacyBtn" type="button" aria-haspopup="dialog" aria-controls="privacyModal" class="mt-2 text-xs sm:text-sm text-apple-blue underline hover:text-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded transition-colors">Privacy Policy</button>
+    <!--
+        FOOTER
+        Original attribution and contact details are retained.
+        No separate privacy link is needed because the policy is above.
+    -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p>
+                &copy; 2026 Varun Patel - Independent iOS Developer
+            </p>
+
+            <p>
+                Contact &middot;
+                <a href="mailto:varun1329@icloud.com">
+                    varun1329@icloud.com
+                </a>
+            </p>
         </div>
     </footer>
-
-    <!-- PRIVACY POLICY DIALOG: Styled to match the portfolio's My Journey window. -->
-    <dialog id="privacyModal" aria-labelledby="privacyModalTitle" class="modal-shell w-full sm:w-[700px]">
-        <div class="modal-card privacy-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
-            <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-4 sm:px-5 py-4 text-center">
-                <h2 id="privacyModalTitle" class="text-sm font-semibold tracking-tight">TripMate Privacy</h2>
-            </div>
-            <div class="privacy-scroll min-h-0 px-6 sm:px-10 py-7 sm:py-9">
-                <div class="inline-flex rounded-full bg-apple-blue/10 px-3 py-1 text-[11px] font-medium text-apple-blue mb-4">
-                    Your data, stored on your device
-                </div>
-                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
-                    <span class="text-apple-blue">Privacy Policy</span>
-                </h3>
-                <p class="mt-2 text-xs text-apple-subtextLight dark:text-apple-subtextDark">Learn how TripMate handles your data and protects your privacy.</p>
-                <div class="mt-4 space-y-4 text-sm sm:text-base leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                    <p>Your privacy is important to us. This Privacy Policy explains what <strong class="font-semibold text-apple-textLight dark:text-apple-textDark">TripMate</strong> stores and when the app may access network services.</p>
-                    <p>TripMate stores trip and expense records locally on your device using SwiftData. This can include:</p>
-                    <ol class="list-decimal list-inside space-y-1 ml-4">
-                        <li>Trip details (name, location, dates, budget, currency)</li>
-                        <li>Expense details (title, amount, date, currency)</li>
-                        <li>Optional profile settings (name, country, default currency) in AppStorage</li>
-                    </ol>
-                    <p>Location access is optional and used only for map preview and destination search flows when you grant permission.</p>
-                    <p>Currency conversion may use network providers (currently frankfurter.app with open.er-api.com fallback) to fetch exchange rates. Requests include currency codes needed for rates; trip records are not uploaded as part of conversion requests.</p>
-                    <p>TripMate does not require account sign-in and does not run third-party ad tracking.</p>
-                    <p>You can edit or delete your data at any time. Using &ldquo;Clear All Data&rdquo; permanently removes trips and expenses from this device.</p>
-                </div>
-            </div>
-            <div class="shrink-0 flex items-center justify-between gap-3 border-t border-black/5 dark:border-white/10 px-5 sm:px-6 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
-                <span class="text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">Your trips and expenses stay on your device.</span>
-                <button type="button" id="closePrivacyBtn" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Done</button>
-            </div>
-        </div>
-    </dialog>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const privacyBtn = document.getElementById('openPrivacyBtn');
-            const privacyModal = document.getElementById('privacyModal');
-            const closePrivacyBtn = document.getElementById('closePrivacyBtn');
-            let savedOverflow = '';
-
-            function openDialog(dialog, trigger) {
-                savedOverflow = document.body.style.overflow;
-                dialog.showModal();
-                document.body.style.overflow = 'hidden';
-                if (trigger) trigger.blur();
-            }
-
-            function closeDialog(dialog) {
-                if (dialog.open) dialog.close();
-            }
-
-            privacyBtn.addEventListener('click', () => openDialog(privacyModal, privacyBtn));
-            closePrivacyBtn.addEventListener('click', () => closeDialog(privacyModal));
-            privacyModal.addEventListener('close', () => {
-                document.body.style.overflow = savedOverflow;
-                privacyBtn.focus({ preventScroll: true });
-            });
-
-            // Allow a pointer gesture that begins on the backdrop to close the dialog.
-            let pointerStartedOutside = false;
-            privacyModal.addEventListener('pointerdown', event => {
-                pointerStartedOutside = event.target === privacyModal;
-            });
-            privacyModal.addEventListener('click', event => {
-                if (event.target === privacyModal && pointerStartedOutside) {
-                    closeDialog(privacyModal);
-                }
-                pointerStartedOutside = false;
-            });
-        });
-    </script>
 </body>
 </html>
