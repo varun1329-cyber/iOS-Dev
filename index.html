@@ -14,7 +14,7 @@
     1. Header: Full-width with code logo, name/title, and Get in Touch button (opens email dialog).
     2. Hero/Intro: Portrait image with animated status dot, name & bio, social media icons (non-link placeholders), and My Journey button (opens story dialog).
     3. My Toolbox: Xcode/Swift/SwiftUI under Build; AI & workflow tools ordered by real usage; top three highlighted; all open a shared details dialog; below, personal learning principles.
-    4. My Work: Horizontally scrollable project carousel (EasyList, TripMate) with position indicator dots and keyboard/gesture navigation; theme-aware app icons for EasyList (3.png/4.png) and TripMate (TripMateIcon.png); each card links to its details page.
+    4. My Work: Horizontally scrollable project carousel (EasyList, TripMate, VocaList) with position indicator dots and keyboard/gesture navigation; theme-aware app icons for EasyList and VocaList (3.png/4.png) and TripMate (TripMateIcon.png); each card links to its details page.
     5. Tool Details Dialog: Unified for all tools; dynamic icon support (SVG/img); role and personalized journey reflection.
     6. My Journey Dialog: Story, highlighted existential question, timeline, inspirational quote.
     7. Email Dialog: Confirmation dialog before launching mail client to contact Varun; no backend mail form.
@@ -428,6 +428,11 @@
                 linear-gradient(135deg, #e1f7e9, #bcebdc 55%, #d8f0ff);
         }
 
+        .project-art-voca {
+            background:
+                linear-gradient(135deg, #e6e1ff, #d3d0ff 55%, #cfe6ff);
+        }
+
         .project-icon {
             display: grid;
             place-items: center;
@@ -759,7 +764,7 @@
                             id="easyListProject"
                             role="group"
                             aria-roledescription="slide"
-                            aria-label="1 of 2: EasyList"
+                            aria-label="1 of 3: EasyList"
                             class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm hover:border-apple-blue/50 dark:hover:border-apple-blue/50 transition-colors group"
                         >
                             <a href="EasyList.html" class="flex flex-col flex-grow focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-3xl" aria-label="View EasyList details page">
@@ -785,7 +790,7 @@
                                 <div class="flex flex-col flex-grow p-5 sm:p-6">
                                     <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
                                         <span class="inline-flex items-center gap-2 font-medium"><span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span>
-                                        <span>01 / 02</span>
+                                        <span>01 / 03</span>
                                     </div>
                                     <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight group-hover:text-apple-blue transition-colors flex items-center justify-between">
                                         EasyList
@@ -811,7 +816,7 @@
                             id="tripMateProject"
                             role="group"
                             aria-roledescription="slide"
-                            aria-label="2 of 2: TripMate"
+                            aria-label="2 of 3: TripMate"
                             class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm hover:border-apple-blue/50 dark:hover:border-apple-blue/50 transition-colors group"
                         >
                             <a href="TripMate.html" class="flex flex-col flex-grow focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-3xl" aria-label="View TripMate details page">
@@ -837,7 +842,7 @@
                                 <div class="flex flex-col flex-grow p-5 sm:p-6">
                                     <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
                                         <span class="inline-flex items-center gap-2 font-medium"><span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span>
-                                        <span>02 / 02</span>
+                                        <span>02 / 03</span>
                                     </div>
                                     <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight group-hover:text-apple-blue transition-colors flex items-center justify-between">
                                         TripMate
@@ -858,17 +863,71 @@
                                 </div>
                             </a>
                         </article>
+
+                        <article
+                            id="vocaListProject"
+                            role="group"
+                            aria-roledescription="slide"
+                            aria-label="3 of 3: VocaList"
+                            class="flex flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm hover:border-apple-blue/50 dark:hover:border-apple-blue/50 transition-colors group"
+                        >
+                            <a href="VocaList.html" class="flex flex-col flex-grow focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue rounded-3xl" aria-label="View VocaList details page">
+                                <div class="project-art project-art-voca" aria-hidden="true">
+                                    <div class="project-icon border-[4px] border-[#1d1d1f] bg-[#0785ff] text-[#17212c] group-hover:scale-105 transition-transform duration-300">
+                                        <!-- Light mode image 3.png -->
+                                        <img
+                                            src="./3.png"
+                                            onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=VL';"
+                                            alt="VocaList Light Icon"
+                                            class="w-12 h-12 rounded-xl object-contain shadow-md block dark:hidden"
+                                        >
+                                        <!-- Dark mode image 4.png -->
+                                        <img
+                                            src="./4.png"
+                                            onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=VL';"
+                                            alt="VocaList Dark Icon"
+                                            class="w-12 h-12 rounded-xl object-contain shadow-md hidden dark:block"
+                                        >
+                                    </div>
+                                    <span class="absolute bottom-5 left-5 sm:left-6 right-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5f5b8a]">Speak your list - Share it with iCloud</span>
+                                </div>
+                                <div class="flex flex-col flex-grow p-5 sm:p-6">
+                                    <div class="flex items-center justify-between gap-3 text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
+                                        <span class="inline-flex items-center gap-2 font-medium"><span aria-hidden="true" class="h-1.5 w-1.5 rounded-full bg-apple-green"></span>Personal project</span>
+                                        <span>03 / 03</span>
+                                    </div>
+                                    <h3 class="mt-3 text-xl sm:text-2xl font-bold tracking-tight group-hover:text-apple-blue transition-colors flex items-center justify-between">
+                                        VocaList
+                                        <svg class="w-5 h-5 text-apple-subtextLight dark:text-apple-subtextDark group-hover:text-apple-blue group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                                        </svg>
+                                    </h3>
+                                    <p class="mt-2 text-sm leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">A fast, private list manager for iPhone and iPad with continuous voice entry, smart duplicate protection, and iCloud sharing.</p>
+                                    <ul aria-label="VocaList technologies and category" class="flex flex-wrap gap-2 mt-4 mb-5 text-apple-subtextLight dark:text-apple-subtextDark">
+                                        <li class="project-tag">iOS</li>
+                                        <li class="project-tag">SwiftUI</li>
+                                        <li class="project-tag">CloudKit</li>
+                                        <li class="project-tag">Productivity</li>
+                                    </ul>
+                                    <p class="mt-auto border-t border-black/5 dark:border-white/10 pt-4 text-xs sm:text-sm font-semibold flex items-center justify-between text-apple-textLight dark:text-apple-textDark">
+                                        <span>Voice-first, built for sharing</span>
+                                        <span class="text-xs text-apple-blue font-medium">Explore App &rarr;</span>
+                                    </p>
+                                </div>
+                            </a>
+                        </article>
                     </div>
 
                     <!-- Indicators are navigation controls, not app-exploration links. -->
                     <div class="mt-3 flex items-center justify-center gap-1" role="group" aria-label="Choose a project">
-                        <button type="button" class="project-dot" data-project-index="0" aria-label="Show EasyList, project 1 of 2" aria-controls="projectCarousel" aria-current="true"><span aria-hidden="true"></span></button>
-                        <button type="button" class="project-dot" data-project-index="1" aria-label="Show TripMate, project 2 of 2" aria-controls="projectCarousel"><span aria-hidden="true"></span></button>
+                        <button type="button" class="project-dot" data-project-index="0" aria-label="Show EasyList, project 1 of 3" aria-controls="projectCarousel" aria-current="true"><span aria-hidden="true"></span></button>
+                        <button type="button" class="project-dot" data-project-index="1" aria-label="Show TripMate, project 2 of 3" aria-controls="projectCarousel"><span aria-hidden="true"></span></button>
+                        <button type="button" class="project-dot" data-project-index="2" aria-label="Show VocaList, project 3 of 3" aria-controls="projectCarousel"><span aria-hidden="true"></span></button>
                     </div>
                     <p id="projectScrollHint" class="text-center text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">
                         Swipe or scroll sideways to explore · Click a dot to switch projects
                     </p>
-                    <p id="projectPosition" class="sr-only" aria-live="polite" aria-atomic="true">Project 1 of 2: EasyList</p>
+                    <p id="projectPosition" class="sr-only" aria-live="polite" aria-atomic="true">Project 1 of 3: EasyList</p>
                 </div>
             </div>
         </section>
@@ -1236,7 +1295,7 @@
             );
             const positionText =
                 document.getElementById('projectPosition');
-            const projectNames = ['EasyList', 'TripMate'];
+            const projectNames = ['EasyList', 'TripMate', 'VocaList'];
             const reducedMotion =
                 window.matchMedia('(prefers-reduced-motion: reduce)');
 
