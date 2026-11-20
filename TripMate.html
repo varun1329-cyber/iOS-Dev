@@ -29,13 +29,13 @@ WHAT VISITORS SEE
        - TripMate logo.
        - App name.
        - Original "iOS App · Under Development" status.
-       - Home link that returns to the top of this document.
+       -  link that returns to the top of this document.
 
     2. Hero section
        - "Every Trip's Expense Mate" headline.
        - Original app description.
        - On-device storage and no-account highlights.
-       - TripMate home-screen screenshot inside an iPhone-style frame.
+       - TripMate -screen screenshot inside an iPhone-style frame.
 
     3. Core Features
        Each feature includes a decorative inline SVG icon:
@@ -91,7 +91,7 @@ REQUIRED LOCAL ASSETS
     ./TripMateIcon.png
         Header logo used in both light and dark appearance.
 
-    ./TripMateHomePage.png
+    ./TripMatePage.png
         Main app screenshot.
         Supplied image dimensions: 1206 × 2622 pixels.
 
@@ -102,7 +102,7 @@ REQUIRED LOCAL ASSETS
     actual image assets as data URLs.
 
 NAVIGATION AND EXTERNAL DESTINATIONS
-    Home:
+    :
         #top
         Scrolls to the top of this document.
 
@@ -429,7 +429,7 @@ PRE-PUBLISH CHECKS
             font-size: 0.75rem;
         }
 
-        .home-link {
+        .-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -445,11 +445,11 @@ PRE-PUBLISH CHECKS
             transition: background-color 160ms ease;
         }
 
-        .home-link:hover {
+        .-link:hover {
             background: var(--button-hover);
         }
 
-        .home-link svg {
+        .-link svg {
             inline-size: 1rem;
             block-size: 1rem;
             flex-shrink: 0;
@@ -896,7 +896,7 @@ PRE-PUBLISH CHECKS
                 scroll-behavior: auto;
             }
 
-            .home-link {
+            .-link {
                 transition: none;
             }
         }
@@ -909,7 +909,7 @@ PRE-PUBLISH CHECKS
                 border: 1px solid CanvasText;
             }
 
-            .home-link {
+            .-link {
                 border: 1px solid ButtonText;
             }
         }
@@ -941,7 +941,7 @@ PRE-PUBLISH CHECKS
             }
 
             .skip-link,
-            .home-link,
+            .-link,
             .phone-frame {
                 display: none;
             }
@@ -1032,7 +1032,7 @@ PRE-PUBLISH CHECKS
 
             <!-- Home button: blue pill with house icon; returns to index.html. -->
             <a
-                href="./index.html#tripmateProject"
+                href="./index.html#tripMateProject"
                 class="home-link"
                 style="
                     display: inline-flex;
