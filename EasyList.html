@@ -1,453 +1,1457 @@
 <!DOCTYPE html>
+<!--
+===============================================================================
+PROJECT
+    EasyList — Independent iOS Developer App Showcase
+
+FILE
+    EasyList.html
+
+AUTHOR / OWNER
+    Varun Patel
+    Independent iOS Developer
+    Contact: varun1329@icloud.com
+
+DOCUMENT PURPOSE
+    This document is a single-page showcase for the EasyList iPhone app.
+
+    It introduces the app, displays an app demonstration video, explains the
+    core features, describes the implementation technologies, provides an
+    App Store download link, and shows the complete privacy policy.
+
+    All showcase information and privacy content appear in one continuous page.
+    There is no separate privacy page, privacy popup, or modal dialog.
+
+WHAT VISITORS SEE
+    1. Sticky header
+       - EasyList app icon that follows light/dark appearance.
+       - App name and "iOS App Showcase" subtitle.
+       - Home link that scrolls to the top of this document.
+
+    2. Hero section
+       - "One Focused List – Zero Clutter" headline.
+       - Original app description.
+       - On-device storage and no-account highlights.
+       - App demonstration video inside an iPhone-style frame.
+
+    3. App Store download area
+       - Original availability message.
+       - Appearance-aware App Store badge.
+       - Supplied App Store destination without requesting a new tab.
+
+    4. Core Features
+       - Smart Item Entry: checklist and add icon.
+       - Use Your Voice: microphone icon.
+       - Live Progress Tracking: bar-chart icon.
+       - Easy Clean Up: broom icon.
+
+    5. Built With
+       - Original technology tags.
+       - Platform, architecture, voice-pipeline, and storage information.
+
+    6. Inline Privacy Policy
+       - Original privacy-policy wording.
+       - Original list of stored information.
+       - Local storage, data-sharing, and user-control statements.
+       - Original privacy summary.
+
+    7. Footer
+       - Original copyright attribution.
+       - Email contact.
+       - No separate privacy-policy button or link.
+
+DESIGN SYSTEM
+    - Matches the accompanying VocaList single-page showcase.
+    - Apple-inspired minimal presentation.
+    - System fonts with no external font downloads.
+    - Responsive hero and readable, centered content cards.
+    - Automatic light/dark appearance through CSS media queries.
+    - Consistent spacing, rounded cards, subtle borders, and blue accents.
+    - Decorative inline SVG icons with light/dark color palettes.
+
+IMPLEMENTATION
+    - One HTML document containing all page markup and CSS.
+    - No JavaScript required.
+    - No Tailwind, Bootstrap, icon libraries, or third-party scripts.
+    - Feature icons are embedded SVG and need no separate asset files.
+    - App images, badges, and video remain separate local assets.
+
+REQUIRED LOCAL ASSETS
+    Place the following files beside this HTML document:
+
+    ./3.png                  Light-appearance EasyList icon.
+    ./4.png                  Dark-appearance EasyList icon.
+    ./white.svg              App Store badge for light appearance.
+    ./black.svg              App Store badge for dark appearance.
+    ./App Usage Video.mov    Existing app demonstration video.
+
+    The video URL uses %20 to represent the spaces in its filename.
+
+    This is a single-page implementation, not a fully asset-embedded file.
+    Keep these assets available when publishing or moving the HTML file.
+
+VIDEO PRESENTATION
+    - Preserves the original demonstration-video asset.
+    - Displays native browser playback controls.
+    - Does not automatically play or loop.
+    - Starts muted and allows inline playback.
+    - Uses preload="metadata" rather than requesting the entire video upfront.
+    - Includes a fallback message and a direct video link below the player.
+    - Uses one QuickTime source for the supplied MOV file.
+    - Does not incorrectly label the MOV file as an MP4 alternative.
+
+    Video playback support depends on the actual container, codec, and browser.
+    If you later create a real MP4 version, add it as a separate video source
+    with its own filename and the appropriate media type.
+
+HTML / ACCESSIBILITY APPROACH
+    - Native header, main, section, article, and footer elements.
+    - One h1 followed by logical h2 and h3 headings.
+    - Keyboard-accessible skip link.
+    - Visible keyboard focus indicators.
+    - Browser zoom is not restricted.
+    - Decorative icons are hidden from assistive technology.
+    - Redundant app-icon alternative text is empty.
+    - App Store badge has descriptive link text through its image alternative.
+    - Reduced-motion preference disables smooth scrolling and transitions.
+    - Forced-colors treatment is included for feature icons.
+    - All written content remains available without JavaScript.
+    - Print styling preserves the app information and privacy policy.
+
+    These implementation choices support accessibility, but this document
+    has not been presented as a completed accessibility audit.
+
+    The demonstration video has not been reviewed for audio or visual content.
+    Add accurate captions if it contains meaningful speech, and provide a
+    suitable transcript or description if needed for its actual content.
+    No caption file is referenced because none was supplied.
+
+CONTENT PRESERVATION
+    The supplied app descriptions, feature descriptions, technology values,
+    and privacy-policy paragraphs are retained.
+
+    In particular, the following supplied values are intentionally unchanged:
+
+    App Store URL:
+        https://apple.co/4sMzuw9
+
+    Local storage description:
+        Sandboxed VocaListData.json file
+
+    Confirm these values against the EasyList app before publishing.
+    The filename is not silently renamed to EasyListData.json.
+
+PRIVACY MAINTENANCE
+    - Privacy wording is retained from the supplied document.
+    - This HTML conversion does not verify the app's actual data practices.
+    - Recheck the policy when app behavior or integrations change.
+    - Do not infer or add an unverified privacy-policy effective date.
+
+EDITING GUIDE
+    - Section 1 of the CSS contains shared design tokens.
+    - Feature icon colors are defined in the feature-icon palette rules.
+    - Core Features articles contain each icon and its matching description.
+    - Built With contains the original technology tags and definition list.
+    - The privacy-policy section contains the complete inline privacy text.
+    - Keep asset filenames and letter casing consistent with deployed files.
+
+PRE-PUBLISH CHECKS
+    - Verify all local assets load.
+    - Verify the App Store destination belongs to the intended app.
+    - Test video playback in the browsers you intend to support.
+    - Review captions and descriptive alternatives for the actual video.
+    - Test light and dark appearance.
+    - Test narrow screens, browser zoom, and keyboard navigation.
+    - Validate HTML and review accessibility.
+===============================================================================
+-->
 <html lang="en">
 <head>
-    <!--
-    ============================================================================
-    PROJECT: Varun Patel - Independent iOS Developer Portfolio
-    FILE: EasyList.html
-    AUTHOR: Varun Patel
-    ROLE: Independent iOS Developer
-    DESIGN SYSTEM: Apple-inspired minimalism with automatic light/dark themes
-    TECH STACK: HTML5, Tailwind CSS (CDN), custom CSS, vanilla JavaScript, SVG
-
-    PAGE ARCHITECTURE:
-    ------------------
-    1. Header: Light/Dark theme-aware app logos (3.png / 4.png), bold App Title (EasyList),
-       and top-right Home button targeting index.html#easyListProject.
-    2. Hero Section: Overview and iPhone Air mock screen framing App Usage Video.mov.
-    3. Core Features: Smart Item Entry, Hands-free Voice Input, Progress Tracking, Clean Up.
-    4. Footer: Developer copyright and Privacy Policy
-    ============================================================================
-    -->
+    <!-- Use UTF-8 so punctuation and other text render consistently. -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
-    <!-- Automatically follow the device's light/dark appearance. -->
-    <script>
-        (() => {
-            const preference = window.matchMedia('(prefers-color-scheme: dark)');
+    <!-- Match the viewport width without restricting browser zoom. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-            function applyTheme() {
-                const isDark = preference.matches;
-                document.documentElement.classList.toggle('dark', isDark);
-                document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
-            }
+    <!-- Inform the browser that both light and dark appearances are supported. -->
+    <meta name="color-scheme" content="light dark">
 
-            applyTheme();
-            preference.addEventListener('change', applyTheme);
-        })();
-    </script>
+    <!-- Original page description retained. -->
+    <meta
+        name="description"
+        content="EasyList: a fast, minimal single-list manager for iOS built with SwiftUI and on-device storage."
+    >
+    <meta name="author" content="Varun Patel">
 
     <title>EasyList - iOS App Showcase &amp; Architecture</title>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        apple: {
-                            bgDark: '#000000',
-                            cardDark: '#1c1c1e',
-                            textDark: '#f5f5f7',
-                            subtextDark: '#86868b',
-                            bgLight: '#f5f5f7',
-                            cardLight: '#ffffff',
-                            textLight: '#1d1d1f',
-                            subtextLight: '#6e6e73',
-                            blue: '#0071e3',
-                            green: '#34c759'
-                        }
-                    },
-                    fontFamily: {
-                        sans: [
-                            '-apple-system',
-                            'BlinkMacSystemFont',
-                            '"SF Pro Display"',
-                            '"SF Pro Text"',
-                            '"Helvetica Neue"',
-                            'Helvetica',
-                            'Arial',
-                            'sans-serif'
-                        ]
-                    }
-                }
-            }
-        };
-    </script>
-
     <style>
+        /* ================================================================
+           1. DESIGN TOKENS
+           Reusable values shared across the whole page.
+           Change these to adjust the overall visual design.
+           ================================================================ */
+
+        :root {
+            color-scheme: light dark;
+
+            --page-bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --text: #1d1d1f;
+            --muted: #626268;
+
+            --accent: #0066cc;
+            --accent-tint: rgba(0, 102, 204, 0.09);
+
+            --button-bg: #0071e3;
+            --button-hover: #005fbe;
+            --button-text: #ffffff;
+
+            --border: rgba(0, 0, 0, 0.1);
+            --header-bg: rgba(245, 245, 247, 0.94);
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
+
+            --page-width: 64rem;
+            --reading-width: 43rem;
+            --card-radius: 1.25rem;
+            --page-gutter: clamp(1rem, 4vw, 1.5rem);
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Text",
+                "Helvetica Neue",
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        /* Override shared colors when the device requests dark appearance. */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --page-bg: #000000;
+                --card-bg: #1c1c1e;
+                --text: #f5f5f7;
+                --muted: #a8a8af;
+
+                --accent: #64b5ff;
+                --accent-tint: rgba(100, 181, 255, 0.12);
+
+                --border: rgba(255, 255, 255, 0.14);
+                --header-bg: rgba(0, 0, 0, 0.94);
+            }
+        }
+
+        /* ================================================================
+           2. DOCUMENT BASE AND KEYBOARD ACCESS
+           ================================================================ */
+
+        /* Include padding and borders within each element's declared size. */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
         html {
             scroll-behavior: smooth;
-            -webkit-tap-highlight-color: transparent;
+
+            /* Leave room for the sticky header when following page anchors. */
+            scroll-padding-block-start: 7rem;
+
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
             margin: 0;
-            overflow-x: hidden;
-            touch-action: manipulation;
+
+            /* The second value uses the small viewport where supported. */
+            min-block-size: 100vh;
+            min-block-size: 100svh;
+
+            /* Keep the footer below the content on short pages. */
+            display: flex;
+            flex-direction: column;
+
+            background: var(--page-bg);
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Match the portfolio's shared dialog entrance and blurred backdrop. */
-        @keyframes modal-pop {
-            from {
-                opacity: 0;
-                transform: scale(0.95) translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+        /* Remove default margins so component spacing is predictable. */
+        h1,
+        h2,
+        h3,
+        p,
+        dl,
+        dd {
+            margin: 0;
         }
 
-        dialog.modal-shell {
-            border: 0;
-            padding: 1rem;
-            margin: auto;
-            max-width: 100%;
-            max-height: 100%;
-            background: transparent;
-            color: inherit;
-            overflow: visible;
+        img,
+        svg,
+        video {
+            max-inline-size: 100%;
         }
 
-        dialog.modal-shell::backdrop {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+        img,
+        video {
+            display: block;
         }
 
-        .dark dialog.modal-shell::backdrop {
-            background: rgba(0, 0, 0, 0.7);
+        a {
+            color: var(--accent);
+            text-underline-offset: 0.2em;
+            text-decoration-thickness: 0.08em;
         }
 
-        dialog.modal-shell[open] > .modal-card {
-            animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+        a:hover {
+            text-decoration-thickness: 0.14em;
         }
 
-        .privacy-window {
-            max-height: calc(100vh - 2rem);
-            max-height: calc(100dvh - 2rem);
+        /* Visible keyboard focus without suppressing native focus behavior. */
+        :focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 5px;
         }
 
-        .privacy-scroll {
-            overflow-y: auto;
-            overscroll-behavior: contain;
-            scrollbar-width: thin;
+        ::selection {
+            background: var(--button-bg);
+            color: #ffffff;
         }
 
-        /* iPhone Air Mock Screen Frame */
-        .iphone-air-frame {
-            position: relative;
-            max-width: 320px;
-            width: 100%;
-            margin: 0 auto;
-            background: #111;
-            border-radius: 44px;
-            padding: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
+        /* Reusable centered page wrapper. */
+        .container {
+            inline-size: min(100%, var(--page-width));
+            margin-inline: auto;
+            padding-inline: var(--page-gutter);
         }
 
-        .iphone-screen {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 9 / 19.5;
-            background: #000;
-            border-radius: 36px;
-            overflow: hidden;
+        /* Hidden above the viewport until reached with keyboard focus. */
+        .skip-link {
+            position: fixed;
+            inset-block-start: 0.75rem;
+            inset-inline-start: 1rem;
+            z-index: 100;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            background: var(--card-bg);
+            color: var(--text);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            transform: translateY(-200%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        /* ================================================================
+           3. STICKY HEADER
+           ================================================================ */
+
+        .site-header {
+            position: sticky;
+            inset-block-start: 0;
+            z-index: 40;
+            border-block-end: 1px solid var(--border);
+            background: var(--header-bg);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+        }
+
+        .header-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem 1rem;
+            padding-block: 0.875rem;
+        }
+
+        .brand {
             display: flex;
             align-items: center;
+            gap: 0.75rem;
+            min-inline-size: 0;
+        }
+
+        .app-icon {
+            display: block;
+            inline-size: 2.75rem;
+            block-size: 2.75rem;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            background: #0785ff;
+            box-shadow: var(--shadow);
+        }
+
+        .app-icon img {
+            inline-size: 100%;
+            block-size: 100%;
+
+            /* Preserve the original icon's contain behavior. */
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.3;
+        }
+
+        .brand-subtitle {
+            margin-block-start: 0.125rem;
+            color: var(--muted);
+            font-size: 0.75rem;
+        }
+
+        .home-link {
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
+            gap: 0.5rem;
+            min-block-size: 2.75rem;
+            padding: 0.625rem 1.125rem;
+            border-radius: 999px;
+            background: var(--button-bg);
+            color: var(--button-text);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 160ms ease;
         }
 
-        .iphone-screen video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .home-link:hover {
+            background: var(--button-hover);
         }
 
-        .iphone-notch {
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90px;
-            height: 24px;
-            background: #111;
-            border-radius: 12px;
-            z-index: 10;
+        .home-link svg {
+            inline-size: 1rem;
+            block-size: 1rem;
+            flex-shrink: 0;
         }
 
-        :focus-visible {
-            outline: 2px solid #0071e3;
-            outline-offset: 4px;
+        /* ================================================================
+           4. HERO AND VIDEO
+           Two columns on wide screens, one column on smaller screens.
+           ================================================================ */
+
+        main {
+            flex: 1;
+            padding-block: 3rem 4rem;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .hero-copy {
+            display: grid;
+            justify-items: start;
+            gap: 1.25rem;
+        }
+
+        h1 {
+            max-inline-size: 16ch;
+            font-size: clamp(2rem, 4vw, 2.875rem);
+            line-height: 1.12;
+            letter-spacing: -0.045em;
+        }
+
+        .hero-description {
+            max-inline-size: 44ch;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            color: var(--muted);
+            font-size: 0.8125rem;
+        }
+
+        .highlights li {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            inline-size: 0.5rem;
+            block-size: 0.5rem;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .dot-orange {
+            background: #ff9500;
+        }
+
+        .demo {
+            min-inline-size: 0;
+        }
+
+        /* Decorative outer device frame. */
+        .phone-frame {
+            inline-size: min(100%, 20rem);
+            margin-inline: auto;
+            padding: 0.75rem;
+            border-radius: 2.75rem;
+            background: #111111;
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.4),
+                0 0 0 2px rgba(150, 150, 150, 0.2);
+        }
+
+        /* Reserves the device shape before the video metadata loads. */
+        .phone-screen {
+            aspect-ratio: 9 / 19.5;
+            overflow: hidden;
+            border-radius: 2.25rem;
+            background: #000000;
+        }
+
+        .phone-screen video {
+            inline-size: 100%;
+            block-size: 100%;
+
+            /* Preserve the whole demo rather than cropping app content. */
+            object-fit: contain;
+        }
+
+        /* Keep a usable media link outside the video fallback content. */
+        .video-help {
+            max-inline-size: 34ch;
+            margin: 1rem auto 0;
+            color: var(--muted);
+            font-size: 0.8125rem;
+            text-align: center;
+        }
+
+        /* ================================================================
+           5. APP STORE CALL TO ACTION
+           ================================================================ */
+
+        .app-store {
+            display: grid;
+            justify-items: center;
+            gap: 0.75rem;
+            margin-block-start: 2.25rem;
+            text-align: center;
+        }
+
+        .app-store p {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        .store-link {
+            display: inline-flex;
+            align-items: center;
+            min-block-size: 3.25rem;
+            border-radius: 0.625rem;
+        }
+
+        .store-link picture {
+            display: block;
+        }
+
+        .store-link img {
+            inline-size: auto;
+            block-size: 3.25rem;
+            max-inline-size: 100%;
+        }
+
+        /* ================================================================
+           6. SHARED CONTENT SECTIONS AND FEATURE CARDS
+           ================================================================ */
+
+        .content-section {
+            max-inline-size: var(--reading-width);
+            margin: 4rem auto 0;
+        }
+
+        .section-heading {
+            margin-block-end: 1.5rem;
+        }
+
+        h2 {
+            font-size: clamp(1.625rem, 3vw, 2rem);
+            line-height: 1.2;
+            letter-spacing: -0.035em;
+        }
+
+        .section-description {
+            margin-block-start: 0.75rem;
+            color: var(--muted);
+            font-size: 0.9375rem;
+        }
+
+        .card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        /* Add separators only between adjacent feature articles. */
+        .feature + .feature {
+            border-block-start: 1px solid var(--border);
+        }
+
+        .feature-content {
+            flex: 1;
+            min-inline-size: 0;
+        }
+
+        h3 {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .feature p {
+            margin-block-start: 0.375rem;
+            color: var(--muted);
+            font-size: 0.9375rem;
+            line-height: 1.75;
+        }
+
+        /* ================================================================
+           7. INLINE SVG FEATURE ICONS
+           Shared sizing with a separate color palette for each feature.
+           ================================================================ */
+
+        .feature-icon {
+            display: grid;
+            place-items: center;
+            inline-size: 2.75rem;
+            block-size: 2.75rem;
+            flex: 0 0 2.75rem;
+            border-radius: 0.8125rem;
+            color: var(--feature-icon-color, var(--accent));
+            background: var(--feature-icon-bg, var(--accent-tint));
+        }
+
+        .feature-icon svg {
+            display: block;
+            inline-size: 1.5rem;
+            block-size: 1.5rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Light-appearance palettes. */
+        .feature-icon--entry {
+            --feature-icon-color: #0066cc;
+            --feature-icon-bg: rgba(0, 102, 204, 0.1);
+        }
+
+        .feature-icon--voice {
+            --feature-icon-color: #8940c7;
+            --feature-icon-bg: rgba(137, 64, 199, 0.1);
+        }
+
+        .feature-icon--progress {
+            --feature-icon-color: #24833b;
+            --feature-icon-bg: rgba(36, 131, 59, 0.1);
+        }
+
+        .feature-icon--cleanup {
+            --feature-icon-color: #b85b00;
+            --feature-icon-bg: rgba(184, 91, 0, 0.1);
+        }
+
+        /* Brighter icon colors for dark cards. */
+        @media (prefers-color-scheme: dark) {
+            .feature-icon--entry {
+                --feature-icon-color: #64b5ff;
+                --feature-icon-bg: rgba(100, 181, 255, 0.14);
+            }
+
+            .feature-icon--voice {
+                --feature-icon-color: #d19bff;
+                --feature-icon-bg: rgba(209, 155, 255, 0.14);
+            }
+
+            .feature-icon--progress {
+                --feature-icon-color: #7cde91;
+                --feature-icon-bg: rgba(124, 222, 145, 0.14);
+            }
+
+            .feature-icon--cleanup {
+                --feature-icon-color: #ffbb70;
+                --feature-icon-bg: rgba(255, 187, 112, 0.14);
+            }
+        }
+
+        /* ================================================================
+           8. TECHNOLOGY TAGS AND APP DETAILS
+           ================================================================ */
+
+        .technology-card {
+            padding: 1.5rem;
+        }
+
+        .technology-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0 0 1.5rem;
+            padding: 0;
+            list-style: none;
+        }
+
+        .technology-tags li {
+            padding: 0.375rem 0.75rem;
+            border-radius: 999px;
+            background: var(--accent-tint);
+            color: var(--accent);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        /* Definition-list labels and values become two columns on desktop. */
+        .technology-details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .technology-details dt {
+            margin-block-end: 0.25rem;
+            font-weight: 700;
+        }
+
+        .technology-details dd {
+            color: var(--muted);
+        }
+
+        /* ================================================================
+           9. INLINE PRIVACY POLICY
+           No fixed height or nested scrolling: it expands with its content.
+           ================================================================ */
+
+        .privacy-card {
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .privacy-label {
+            display: inline-block;
+            margin-block-end: 1rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: 999px;
+            background: var(--accent-tint);
+            color: var(--accent);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        .privacy-context {
+            margin-block-end: 0.5rem;
+            color: var(--muted);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .privacy-content {
+            display: grid;
+            gap: 1.25rem;
+            margin-block-start: 1.5rem;
+            color: var(--muted);
+            font-size: 0.9375rem;
+            line-height: 1.8;
+        }
+
+        .privacy-content strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .privacy-content ol {
+            margin: 0;
+            padding-inline-start: 1.5rem;
+        }
+
+        .privacy-content li + li {
+            margin-block-start: 0.375rem;
+        }
+
+        .privacy-note {
+            margin-block-start: 1.75rem;
+            padding-block-start: 1.25rem;
+            border-block-start: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8125rem;
+        }
+
+        /* ================================================================
+           10. FOOTER
+           ================================================================ */
+
+        .site-footer {
+            padding-block: 1.5rem;
+            border-block-start: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8125rem;
+        }
+
+        .footer-content {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        /* ================================================================
+           11. RESPONSIVE LAYOUT
+           ================================================================ */
+
+        @media (max-width: 50rem) {
+            /* Stack the hero text above the demonstration on smaller screens. */
+            .hero {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 2.25rem;
+            }
+
+            .hero-copy {
+                justify-items: center;
+                text-align: center;
+            }
+
+            .highlights {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 37.5rem) {
+            main {
+                padding-block: 2rem 3rem;
+            }
+
+            .brand-name {
+                font-size: 1rem;
+            }
+
+            .content-section {
+                margin-block-start: 3rem;
+            }
+
+            .feature,
+            .technology-card {
+                padding: 1.25rem;
+            }
+
+            .feature {
+                gap: 0.75rem;
+            }
+
+            .feature-icon {
+                inline-size: 2.5rem;
+                block-size: 2.5rem;
+                flex-basis: 2.5rem;
+                border-radius: 0.75rem;
+            }
+
+            .feature-icon svg {
+                inline-size: 1.375rem;
+                block-size: 1.375rem;
+            }
+
+            .technology-details {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .footer-content {
+                text-align: center;
+            }
+        }
+
+        /* ================================================================
+           12. ACCESSIBILITY PREFERENCES
+           ================================================================ */
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .home-link {
+                transition: none;
+            }
+        }
+
+        /* Use system colors when a forced-colors theme is active. */
+        @media (forced-colors: active) {
+            .feature-icon {
+                color: CanvasText;
+                background: Canvas;
+                border: 1px solid CanvasText;
+            }
+
+            .home-link {
+                border: 1px solid ButtonText;
+            }
+        }
+
+        /* ================================================================
+           13. PRINT PRESENTATION
+           Retain written information while removing interactive media UI.
+           ================================================================ */
+
+        @media print {
+            :root {
+                color-scheme: light;
+
+                --page-bg: #ffffff;
+                --card-bg: #ffffff;
+                --text: #000000;
+                --muted: #333333;
+                --border: #cccccc;
+                --accent: #000000;
+                --accent-tint: transparent;
+            }
+
+            .site-header {
+                position: static;
+                background: #ffffff;
+                -webkit-backdrop-filter: none;
+                backdrop-filter: none;
+            }
+
+            .skip-link,
+            .home-link,
+            .demo,
+            .store-link {
+                display: none;
+            }
+
+            .hero {
+                display: block;
+            }
+
+            .hero-copy {
+                justify-items: start;
+                text-align: start;
+            }
+
+            .highlights {
+                justify-content: flex-start;
+            }
+
+            .content-section {
+                max-inline-size: none;
+                margin-block-start: 2rem;
+            }
+
+            .card {
+                overflow: visible;
+                box-shadow: none;
+            }
+
+            .feature {
+                break-inside: avoid;
+            }
+
+            .feature-icon {
+                color: #000000;
+                background: transparent;
+                border: 1px solid #cccccc;
+            }
+
+            h2,
+            h3 {
+                break-after: avoid;
+            }
+
+            a {
+                text-decoration: underline;
+            }
         }
     </style>
 </head>
 
-<body class="bg-apple-bgLight dark:bg-apple-bgDark text-apple-textLight dark:text-apple-textDark transition-colors duration-300 font-sans min-h-screen flex flex-col justify-between antialiased select-none">
+<body id="top">
+    <!--
+        SKIP LINK
+        Keyboard users can jump directly to the main content.
+    -->
+    <a href="#main-content" class="skip-link">
+        Skip to main content
+    </a>
 
-    <!-- HEADER -->
-    <header class="sticky top-0 z-40 w-full bg-apple-bgLight/90 dark:bg-apple-bgDark/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 transition-colors duration-300">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
-            <div class="flex items-center space-x-3">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-[#0785ff] flex items-center justify-center overflow-hidden shadow-sm">
+    <!--
+        HEADER
+        The picture element chooses the app icon matching device appearance.
+        Home uses a local anchor instead of opening the portfolio page.
+    -->
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <picture class="app-icon">
+                    <source
+                        srcset="./4.png"
+                        media="(prefers-color-scheme: dark)"
+                    >
+                    <!--
+                        Empty alt avoids repeating the adjacent EasyList name.
+                        Width and height reserve space while the image loads.
+                    -->
                     <img
                         src="./3.png"
-                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/0785ff/ffffff?text=EL+Light';"
-                        alt="EasyList Light Icon"
-                        class="w-full h-full object-contain block dark:hidden"
+                        alt=""
+                        width="44"
+                        height="44"
+                        decoding="async"
                     >
-                    <img
-                        src="./4.png"
-                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/1c1c1e/0785ff?text=EL+Dark';"
-                        alt="EasyList Dark Icon"
-                        class="w-full h-full object-contain hidden dark:block"
-                    >
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-base sm:text-lg font-bold tracking-tight leading-tight">EasyList</span>
-                    <span class="text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">iOS App Showcase</span>
+                </picture>
+
+                <div>
+                    <p class="brand-name">EasyList</p>
+                    <p class="brand-subtitle">iOS App Showcase</p>
                 </div>
             </div>
 
-            <div class="flex items-center shrink-0">
-                <a href="index.html#easyListProject" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-apple-blue text-white hover:bg-blue-600 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-apple-blue/60">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
-                    <span>Home</span>
-                </a>
-            </div>
+            <a href="#top" class="home-link">
+                <!-- Decorative home icon; visible text names the link. -->
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                    focusable="false"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m3 12 9-9 9 9M5 10v10h5v-6h4v6h5V10"
+                    />
+                </svg>
+                <span>Home</span>
+            </a>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-16">
+    <!--
+        MAIN CONTENT
+        tabindex="-1" makes this a programmatic focus target for the skip link
+        without adding it to the normal keyboard tab sequence.
+    -->
+    <main id="main-content" class="container" tabindex="-1">
+        <!-- HERO: Original introduction and on-device-storage highlights. -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <h1 id="hero-title">
+                    One Focused List &ndash; Zero Clutter
+                </h1>
 
-        <!-- HERO SECTION WITH IPHONE AIR MOCK SCREEN -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div class="flex flex-col items-center justify-center gap-2.5 text-center">
-                <div class="flex flex-col items-start gap-2">
-                    <h3 class="text-3xl sm:text-3xl font-bold tracking-tight leading-tight">One focused list - Zero clutter</h3>
-                </div>
-                
-                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-apple-subtextLight dark:text-apple-subtextDark">
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-apple-blue"></span> 100% On-Device Storage</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-orange-500"></span> No Account Required</span>
-                </div>
+                <p class="hero-description">
+                    A streamlined, zero-friction task and shopping list
+                    manager built for fast entry, voice input, and complete
+                    local privacy.
+                </p>
+
+                <ul class="highlights">
+                    <li>
+                        <span class="dot" aria-hidden="true"></span>
+                        100% On-Device Storage
+                    </li>
+                    <li>
+                        <span
+                            class="dot dot-orange"
+                            aria-hidden="true"
+                        ></span>
+                        No Account Required
+                    </li>
+                </ul>
             </div>
 
-<h3 class="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
-            
-            <!-- iPhone Air Mock Screen Video Container -->
-            <div class="flex justify-center">
-                <div class="iphone-air-frame">
-                    <div class="iphone-screen">
+            <!-- DEMONSTRATION: Original video inside a device-style frame. -->
+            <div class="demo">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <!--
+                            controls: expose native play, pause, and seek UI.
+                            muted: begin with sound off.
+                            playsinline: allow playback within the page.
+                            preload: request metadata rather than full preload.
+
+                            Autoplay and loop are intentionally omitted.
+                            Add a real caption track if the video needs one.
+                        -->
                         <video
-                            autoplay
+                            controls
                             muted
-                            loop
                             playsinline
-                            preload="auto"
+                            preload="metadata"
                             aria-label="EasyList app usage demonstration"
+                            aria-describedby="video-help"
                         >
-                            <source src="./App%20Usage%20Video.mov" type="video/quicktime">
-                            <source src="./App%20Usage%20Video.mov" type="video/mp4">
+                            <source
+                                src="./App%20Usage%20Video.mov"
+                                type="video/quicktime"
+                            >
+
+                            <!-- Shown by browsers without video support. -->
                             Your browser does not support video playback.
+                            <a href="./App%20Usage%20Video.mov">
+                                Open the EasyList app usage demonstration.
+                            </a>
                         </video>
                     </div>
                 </div>
+
+                <!--
+                    This link remains visible even if the browser supports
+                    video elements but cannot decode the supplied MOV file.
+                -->
+                <p id="video-help" class="video-help">
+                    Use the video controls to play the demonstration.
+                    If it does not play,
+                    <a href="./App%20Usage%20Video.mov">
+                        open the video file
+                    </a>.
+                </p>
             </div>
         </section>
 
-        <!-- App Store call to action -->
-        <div class="w-full max-w-md mx-auto -mt-10 sm:-mt-12">
-            <div class="flex flex-col items-center justify-center gap-2.5 text-center">
-                <p class="text-sm font-medium text-apple-subtextLight dark:text-apple-subtextDark">
-                    App is live and available on the App Store
-                </p>
+        <!--
+            APP STORE
+            Original URL retained.
+            No target="_blank", so the link does not request a new tab.
+        -->
+        <div class="app-store">
+            <p>App is live and available on the App Store</p>
 
-                <a
-                    href="https://apple.co/4sMzuw9"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Download EasyList from the App Store"
-                    class="inline-flex items-center justify-center rounded-xl transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-apple-blue"
-                >
+            <a
+                href="https://apple.co/4sMzuw9"
+                class="store-link"
+            >
+                <picture>
+                    <source
+                        srcset="./black.svg"
+                        media="(prefers-color-scheme: dark)"
+                    >
                     <img
                         src="./white.svg"
                         alt="Download EasyList on the App Store"
-                        class="block h-[52px] w-auto object-contain dark:hidden"
+                        decoding="async"
                     >
-                    <img
-                        src="./black.svg"
-                        alt="Download EasyList on the App Store"
-                        class="hidden h-[52px] w-auto object-contain dark:block"
-                    >
-                </a>
-            </div>
+                </picture>
+            </a>
         </div>
 
-        <!-- SECTION 2: CORE FEATURES -->
-        <section class="space-y-6">
-            <div class="text-center max-w-xl mx-auto space-y-2">
-                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Core Features</h2>
+        <!--
+            CORE FEATURES
+            All original feature descriptions are retained.
+            Icons are decorative because adjacent headings explain each feature.
+        -->
+        <section
+            class="content-section"
+            aria-labelledby="features-title"
+        >
+            <div class="section-heading">
+                <h2 id="features-title">Core Features</h2>
             </div>
 
-            <div class="max-w-2xl mx-auto rounded-2xl border border-black/5 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-sm divide-y divide-black/5 dark:divide-white/10">
-
-                <!-- Smart Item Entry -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-500/15 text-blue-500">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.8"
-                             stroke="currentColor"
-                             class="h-6 w-6"
-                             aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M8 6.5h9M8 11.5h6M8 16.5h3"/>
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M5 6.5h.01M5 11.5h.01M5 16.5h.01"/>
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M18 15v6m-3-3h6"/>
+            <div class="card">
+                <!-- Smart Item Entry: checklist with an add symbol. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--entry"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="m3 5 1 1 2-2"/>
+                            <path d="M9 5h11"/>
+                            <path d="m3 11 1 1 2-2"/>
+                            <path d="M9 11h7"/>
+                            <path d="m3 17 1 1 2-2"/>
+                            <path d="M9 17h3"/>
+                            <path d="M18 15v6"/>
+                            <path d="M15 18h6"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Smart Item Entry</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Type and press return to add items. The app smartly auto-capitalizes, sorts alphabetically, and keeps your list clean and focused.</p>
-                    </div>
-                </div>
 
-                <!-- Voice -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-purple-500/15 text-purple-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/>
+                    <div class="feature-content">
+                        <h3>Smart Item Entry</h3>
+                        <p>
+                            Type and press return to add items. The app
+                            smartly auto-capitalizes, sorts alphabetically,
+                            and keeps your list clean and focused.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Use Your Voice: microphone. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--voice"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <rect
+                                x="9"
+                                y="2"
+                                width="6"
+                                height="12"
+                                rx="3"
+                            />
+                            <path d="M5 10v2a7 7 0 0 0 14 0v-2"/>
+                            <path d="M12 19v3"/>
+                            <path d="M8 22h8"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Use Your Voice [Hands-Free]</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Use the microphone to add items hands-free using integrated Apple speech recognition.</p>
-                    </div>
-                </div>
 
-                <!-- Progress -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-500/15 text-green-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zm7.5-4.5c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0110.5 19.875V8.625zm7.5-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v14.625c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0118 22.25V5.25z"/>
+                    <div class="feature-content">
+                        <h3>Use Your Voice [Hands-Free]</h3>
+                        <p>
+                            Use the microphone to add items hands-free
+                            using integrated Apple speech recognition.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Live Progress Tracking: ascending bar chart. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--progress"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <rect
+                                x="3"
+                                y="13"
+                                width="4"
+                                height="8"
+                                rx="1"
+                            />
+                            <rect
+                                x="10"
+                                y="8"
+                                width="4"
+                                height="13"
+                                rx="1"
+                            />
+                            <rect
+                                x="17"
+                                y="3"
+                                width="4"
+                                height="18"
+                                rx="1"
+                            />
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Live Progress Tracking</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Tap any item to toggle its completed status, and watch the progress bar update in real time as you go.</p>
-                    </div>
-                </div>
 
-                <!-- Clean Up -->
-                <div class="flex items-start gap-4 p-6">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-500/15 text-orange-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
+                    <div class="feature-content">
+                        <h3>Live Progress Tracking</h3>
+                        <p>
+                            Tap any item to toggle its completed status,
+                            and watch the progress bar update in real time
+                            as you go.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Easy Clean Up: broom. -->
+                <article class="feature">
+                    <div
+                        class="feature-icon feature-icon--cleanup"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="m20 3-8 8"/>
+                            <path d="m10 9 5 5"/>
+                            <path d="m10 9-5 3-3 8h10l3-6"/>
+                            <path d="m7 15-2 5"/>
+                            <path d="m10 16-1 4"/>
+                            <path d="M16 20h5"/>
                         </svg>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base">Easy Clean Up</h3>
-                        <p class="text-sm text-apple-subtextLight dark:text-apple-subtextDark leading-relaxed">Clear completed items or reset the entire checklist instantly with one-tap confirmation and zero friction.</p>
-                    </div>
-                </div>
 
+                    <div class="feature-content">
+                        <h3>Easy Clean Up</h3>
+                        <p>
+                            Clear completed items or reset the entire
+                            checklist instantly with one-tap confirmation
+                            and zero friction.
+                        </p>
+                    </div>
+                </article>
             </div>
         </section>
-    </main>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-black/5 dark:border-white/10 py-6 transition-colors duration-300">
-        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-            <p class="text-center text-xs sm:text-sm text-apple-subtextLight dark:text-apple-subtextDark tracking-wide">&copy; 2026 Varun Patel - Independent iOS Developer</p>
-            <button id="openPrivacyBtn" type="button" aria-haspopup="dialog" aria-controls="privacyModal" class="mt-2 text-xs sm:text-sm text-apple-blue underline hover:text-blue-600 focus:outline-none">Privacy Policy</button>
-        </div>
-    </footer>
-
-    <!-- PRIVACY POLICY DIALOG: Styled to match the portfolio's My Journey window. -->
-    <dialog id="privacyModal" aria-labelledby="privacyModalTitle" class="modal-shell w-full sm:w-[700px]">
-        <div class="modal-card privacy-window flex flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-apple-cardLight dark:bg-apple-cardDark shadow-2xl">
-            <div class="shrink-0 border-b border-black/5 dark:border-white/10 bg-black/[0.025] dark:bg-white/5 px-4 sm:px-5 py-4 text-center">
-                <h2 id="privacyModalTitle" class="text-sm font-semibold tracking-tight">EasyList Privacy</h2>
+        <!-- BUILT WITH: Original technology and architecture information. -->
+        <section
+            class="content-section"
+            aria-labelledby="technology-title"
+        >
+            <div class="section-heading">
+                <h2 id="technology-title">Built With</h2>
+                <p class="section-description">
+                    A native iOS application using Swift, SwiftUI,
+                    and local JSON document persistence.
+                </p>
             </div>
-            <div class="privacy-scroll min-h-0 px-6 sm:px-10 py-7 sm:py-9">
-                <div class="inline-flex rounded-full bg-apple-blue/10 px-3 py-1 text-[11px] font-medium text-apple-blue mb-4">
-                    Your data, your choice
-                </div>
-                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
-                    <span class="text-apple-blue">Privacy Policy</span>
-                </h3>
-                <div class="mt-4 space-y-4 text-sm sm:text-base leading-relaxed text-apple-subtextLight dark:text-apple-subtextDark">
-                    <p>Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our app.</p>
-                    <p><strong class="font-semibold text-apple-textLight dark:text-apple-textDark">EasyList</strong> collects and stores only basic shopping list items locally on your device.</p>
+
+            <div class="card technology-card">
+                <ul
+                    class="technology-tags"
+                    aria-label="Technologies used"
+                >
+                    <li>Swift 5.7+</li>
+                    <li>SwiftUI</li>
+                    <li>Speech</li>
+                    <li>AVFoundation</li>
+                    <li>Combine</li>
+                    <li>UIKit</li>
+                </ul>
+
+                <!-- Each dt is a label; its dd contains the corresponding value. -->
+                <dl class="technology-details">
+                    <div>
+                        <dt>Platforms</dt>
+                        <dd>iPhone (iOS 16.0+)</dd>
+                    </div>
+
+                    <div>
+                        <dt>Architecture</dt>
+                        <dd>MVVM with @MainActor state stores</dd>
+                    </div>
+
+                    <div>
+                        <dt>Voice Pipeline</dt>
+                        <dd>
+                            AVFoundation &amp; Apple Speech Recognition
+                        </dd>
+                    </div>
+
+                    <div>
+                        <dt>Local Storage</dt>
+                        <!-- Original filename intentionally preserved. -->
+                        <dd>Sandboxed VocaListData.json file</dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+
+        <!--
+            INLINE PRIVACY POLICY
+            Original policy wording is preserved below.
+
+            This section replaces the old privacy dialog and its buttons.
+            It is always visible and scrolls with the rest of the document.
+        -->
+        <section
+            id="privacy-policy"
+            class="content-section"
+            aria-labelledby="privacy-title"
+        >
+            <div class="card privacy-card">
+                <p class="privacy-label">Your data, your choice</p>
+
+                <!-- Retains the original dialog's EasyList Privacy label. -->
+                <p class="privacy-context">EasyList Privacy</p>
+
+                <h2 id="privacy-title">Privacy Policy</h2>
+
+                <div class="privacy-content">
+                    <p>
+                        Your privacy is important to us. This Privacy
+                        Policy explains how we collect, use, and protect
+                        your personal information when you use our app.
+                    </p>
+
+                    <p>
+                        <strong>EasyList</strong> collects and stores
+                        only basic shopping list items locally on
+                        your device.
+                    </p>
+
                     <p>This includes:</p>
-                    <ul class="list-decimal list-inside space-y-1 ml-4">
+
+                    <!--
+                        An ordered list matches the numbered presentation
+                        in the original policy.
+                    -->
+                    <ol>
                         <li>Item names</li>
                         <li>Item creation timestamp</li>
                         <li>Item completion status</li>
                         <li>Total Count of items</li>
                         <li>Total Count of completed items</li>
-                    </ul>
-                    <p>No personal information, contacts, location data, or usage tracking is collected or shared.</p>
-                    <p>All of the above item data are saved locally on your device in a JSON file within the app's documents directory. Your data is not transmitted to any external servers or third parties.</p>
-                    <p>You have full control over your data: you can add or delete items at any time, and the app updates the stored data accordingly.</p>
+                    </ol>
+
+                    <p>
+                        No personal information, contacts, location data,
+                        or usage tracking is collected or shared.
+                    </p>
+
+                    <p>
+                        All of the above item data are saved locally on
+                        your device in a JSON file within the app's
+                        documents directory. Your data is not transmitted
+                        to any external servers or third parties.
+                    </p>
+
+                    <p>
+                        You have full control over your data: you can add
+                        or delete items at any time, and the app updates
+                        the stored data accordingly.
+                    </p>
                 </div>
+
+                <!-- Original privacy-dialog summary retained. -->
+                <p class="privacy-note">
+                    Your list stays on your device.
+                </p>
             </div>
-            <div class="shrink-0 flex items-center justify-between gap-3 border-t border-black/5 dark:border-white/10 px-5 sm:px-6 py-3 bg-black/[0.015] dark:bg-white/[0.025]">
-                <span class="text-[11px] text-apple-subtextLight dark:text-apple-subtextDark">Your list stays on your device.</span>
-                <button type="button" id="closePrivacyBtn" class="rounded-full bg-apple-blue px-5 py-2 text-xs font-medium text-white hover:bg-blue-600 active:scale-95 transition-all">Done</button>
-            </div>
+        </section>
+    </main>
+
+    <!--
+        FOOTER
+        Attribution and contact information are retained.
+        No privacy button is needed because the policy is already on the page.
+    -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p>
+                &copy; 2026 Varun Patel - Independent iOS Developer
+            </p>
+
+            <p>
+                Contact &middot;
+                <a href="mailto:varun1329@icloud.com">
+                    varun1329@icloud.com
+                </a>
+            </p>
         </div>
-    </dialog>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const privacyBtn = document.getElementById('openPrivacyBtn');
-            const privacyModal = document.getElementById('privacyModal');
-            const closePrivacyBtn = document.getElementById('closePrivacyBtn');
-            let savedOverflow = '';
-
-            function openDialog(dialog, trigger) {
-                savedOverflow = document.body.style.overflow;
-                dialog.showModal();
-                document.body.style.overflow = 'hidden';
-                if (trigger) trigger.blur();
-            }
-
-            function closeDialog(dialog) {
-                if (dialog.open) dialog.close();
-            }
-
-            privacyBtn.addEventListener('click', () => openDialog(privacyModal, privacyBtn));
-            closePrivacyBtn.addEventListener('click', () => closeDialog(privacyModal));
-            privacyModal.addEventListener('close', () => {
-                document.body.style.overflow = savedOverflow;
-                privacyBtn.focus({ preventScroll: true });
-            });
-
-            // Allow a pointer gesture that begins on the backdrop to close the dialog.
-            let pointerStartedOutside = false;
-            privacyModal.addEventListener('pointerdown', event => {
-                pointerStartedOutside = event.target === privacyModal;
-            });
-            privacyModal.addEventListener('click', event => {
-                if (event.target === privacyModal && pointerStartedOutside) {
-                    closeDialog(privacyModal);
-                }
-                pointerStartedOutside = false;
-            });
-        });
-    </script>
+    </footer>
 </body>
 </html>
