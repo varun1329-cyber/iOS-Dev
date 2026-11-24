@@ -1388,76 +1388,105 @@ PRE-PUBLISH CHECKS
             </div>
         </section>
 
-        <!--
-            INLINE PRIVACY POLICY
-            Original policy wording is preserved below.
-
-            This section replaces the old privacy dialog and its buttons.
-            It is always visible and scrolls with the rest of the document.
-        -->
-        <section
-            id="privacy-policy"
-            class="content-section"
-            aria-labelledby="privacy-title"
-        >
+        <!-- INLINE PRIVACY POLICY: Matched to PrivacyPolicyView in AppSettingPage.swift. -->
+        <section id="privacy-policy" class="content-section" aria-labelledby="privacy-title">
             <div class="card privacy-card">
                 <p class="privacy-label">Your data, your choice</p>
-
-                <!-- Retains the original dialog's EasyList Privacy label. -->
                 <p class="privacy-context">EasyList Privacy</p>
-
                 <h2 id="privacy-title">Privacy Policy</h2>
-
+                <p class="section-description">Learn how EasyList handles your data and protects your privacy.</p>
+                <p class="section-description">Last Updated: <time datetime="2026-11-24">November 24, 2026</time><br>Effective: <time datetime="2026-11-24">November 24, 2026</time></p>
                 <div class="privacy-content">
-                    <p>
-                        Your privacy is important to us. This Privacy
-                        Policy explains how we collect, use, and protect
-                        your personal information when you use our app.
-                    </p>
-
-                    <p>
-                        <strong>EasyList</strong> collects and stores
-                        only basic shopping list items locally on
-                        your device.
-                    </p>
-
-                    <p>This includes:</p>
-
-                    <!--
-                        An ordered list matches the numbered presentation
-                        in the original policy.
-                    -->
-                    <ol>
-                        <li>Item names</li>
-                        <li>Item creation timestamp</li>
-                        <li>Item completion status</li>
-                        <li>Total Count of items</li>
-                        <li>Total Count of completed items</li>
-                    </ol>
-
-                    <p>
-                        No personal information, contacts, location data,
-                        or usage tracking is collected or shared.
-                    </p>
-
-                    <p>
-                        All of the above item data are saved locally on
-                        your device in a JSON file within the app's
-                        documents directory. Your data is not transmitted
-                        to any external servers or third parties.
-                    </p>
-
-                    <p>
-                        You have full control over your data: you can add
-                        or delete items at any time, and the app updates
-                        the stored data accordingly.
-                    </p>
+                    <p>In short: EasyList keeps your lists on your device. There are no accounts, no advertising, no tracking, and no analytics. We do not sell or share your personal information. This policy explains what the app stores, how the optional voice feature works, and the choices you have.</p>
+                    <section aria-labelledby="privacy-clause-1">
+                        <h3 id="privacy-clause-1">1. Who We Are</h3>
+                        <p>EasyList is developed and maintained by Varun Patel ('we', 'us', 'our'). This Privacy Policy describes how information is handled when you use the EasyList app on your Apple device.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-2">
+                        <h3 id="privacy-clause-2">2. Information the App Stores</h3>
+                        <p>To work, EasyList stores the following information on your device:</p>
+                        <ul>
+                            <li>List content: your list name and the names of the items you add.</li>
+                            <li>Item details: the date and time each item was added, whether it is marked as purchased, when it was marked as purchased, and any priority date (and optional time) you set.</li>
+                            <li>Progress counts: totals of items and completed items, calculated on your device.</li>
+                            <li>App preferences: simple settings such as whether voice input is active and which items were added by voice.</li>
+                        </ul>
+                        <p>This information stays on your device. We do not receive, access, or store it on any server.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-3">
+                        <h3 id="privacy-clause-3">3. Voice Input and Speech Recognition</h3>
+                        <p>Voice entry is optional and is off until you turn it on. When you tap the microphone button, iOS asks for permission to use the microphone and speech recognition.</p>
+                        <p>While voice input is on, the app listens for item names and for stop commands such as 'Done', 'Stop', or 'Finish'. EasyList does not record or save audio. Only the text of items you choose to add is saved in your list.</p>
+                        <p>Speech is converted to text by Apple's speech recognition technology. Depending on your device, language, and settings, audio may be processed on your device or sent to Apple to be transcribed. That processing is handled by Apple under Apple's own privacy practices, and we do not receive the audio or the transcript from Apple.</p>
+                        <p>You can stop voice input at any time by tapping the microphone button or saying a stop command, and you can withdraw permission in iOS Settings &gt; Privacy &amp; Security.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-4">
+                        <h3 id="privacy-clause-4">4. Information We Do Not Collect</h3>
+                        <p>EasyList does not collect, request, or have access to:</p>
+                        <ul>
+                            <li>Your name, email address, phone number, or any account information (EasyList has no accounts).</li>
+                            <li>Your contacts, photos, files, or location.</li>
+                            <li>Advertising identifiers or device identifiers for tracking.</li>
+                            <li>Usage analytics, behavioral data, or profiles built by us.</li>
+                            <li>Payment information.</li>
+                        </ul>
+                    </section>
+                    <section aria-labelledby="privacy-clause-5">
+                        <h3 id="privacy-clause-5">5. How We Use Information</h3>
+                        <p>Information on your device is used only to run the features you see in the app: displaying and sorting your items, preventing duplicate entries, tracking your progress, and processing voice input when you turn it on. It is never used for advertising, profiling, or sold to anyone.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-6">
+                        <h3 id="privacy-clause-6">6. Storage and Security</h3>
+                        <p>Your lists are saved in a file inside the app's private storage on your device. They are protected by the security features of iOS, including your device passcode, Face ID or Touch ID, and device encryption.</p>
+                        <p>If you back up your device (for example with iCloud Backup or a computer backup), app data may be included in that backup. Backups are managed by Apple under your Apple Account settings, not by us.</p>
+                        <p>No method of storage is perfectly secure. To protect your data, keep your device updated and protected with a passcode.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-7">
+                        <h3 id="privacy-clause-7">7. Sharing and Disclosure</h3>
+                        <p>We do not sell, rent, trade, or share your personal information. Because your lists never leave your device through the app, we have no list data to disclose to advertisers, data brokers, or other third parties.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-8">
+                        <h3 id="privacy-clause-8">8. Third-Party Services</h3>
+                        <p>EasyList does not include third-party advertising, analytics, or tracking tools. It relies on services built into Apple's platform: speech recognition (described above), device backups, and the App Store. Apple's handling of data is described in Apple's Privacy Policy.</p>
+                        <p>If you choose to share app analytics or crash reports with developers in your iOS settings, Apple may provide us with aggregated, anonymous reports. We cannot identify you from them.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-9">
+                        <h3 id="privacy-clause-9">9. Contacting Us by Email</h3>
+                        <p>The Send Feedback option opens your email app with a message addressed to us. The message is pre-filled with a subject and some technical details (app version, iOS version, and device model) that you can edit or delete before sending. Nothing is sent unless you press send. If you send it, we receive your email address, the technical details, and whatever you write. We use that information only to respond to you and to improve the app, and we do not share it. You can ask us to delete your messages at any time.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-10">
+                        <h3 id="privacy-clause-10">10. Data Retention and Deletion</h3>
+                        <p>Your data is kept on your device until you delete it. You can delete it in several ways:</p>
+                        <ul>
+                            <li>Delete an individual item using the delete icon on its row.</li>
+                            <li>Use Clear All Completed or Clear Everything from the menu on the list screen.</li>
+                            <li>Use Clear All Data in Settings to permanently remove all lists and items.</li>
+                            <li>Delete the app, which removes its data from your device.</li>
+                        </ul>
+                        <p>Deleted data cannot be recovered by us. Copies stored in your own device backups may remain until those backups expire or are deleted.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-11">
+                        <h3 id="privacy-clause-11">11. Your Privacy Rights</h3>
+                        <p>Because your information is stored on your device and not held by us, you can view, correct, export by screen, and delete it directly in the app at any time.</p>
+                        <p>Depending on where you live, such as the European Economic Area, the United Kingdom, or California, you may have additional rights over your personal information, including the right to access, correct, delete, or object to its use. We do not sell or share personal information as those terms are defined by privacy laws, and we do not track you across other companies' apps or websites. To make a request about any email you have sent us, contact us using the details below.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-12">
+                        <h3 id="privacy-clause-12">12. Children's Privacy</h3>
+                        <p>EasyList is not directed to children under 13 (or under the minimum age required in your country), and we do not knowingly collect personal information from children. Because the app does not collect personal information, no child's data is sent to us through it. If you believe a child has sent us personal information by email, please contact us and we will delete it.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-13">
+                        <h3 id="privacy-clause-13">13. International Use</h3>
+                        <p>We do not transfer your list data across borders because we never receive it. If Apple processes speech recognition or backups in other countries, Apple's policies and safeguards apply.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-14">
+                        <h3 id="privacy-clause-14">14. Changes to This Policy</h3>
+                        <p>We may update this Privacy Policy from time to time, for example if the app adds new features. When we do, we will change the 'Last Updated' date above, and for material changes we will make the update visible in the app or its release notes. Continued use of EasyList after an update means you accept the revised policy.</p>
+                    </section>
+                    <section aria-labelledby="privacy-clause-15">
+                        <h3 id="privacy-clause-15">15. Contact Us</h3>
+                        <p>If you have questions about this Privacy Policy or your data, email us at varun1329@icloud.com.</p>
+                    </section>
                 </div>
-
-                <!-- Original privacy-dialog summary retained. -->
-                <p class="privacy-note">
-                    Your list stays on your device.
-                </p>
             </div>
         </section>
     </main>
