@@ -11,8 +11,10 @@ DESIGN  : Apple-inspired minimalism. Fluid, mobile-first layout that adapts from
           automatically through CSS (prefers-color-scheme) – no toggle, no JS.
 
 WHAT THIS FILE IS
-  The landing page of the portfolio. It introduces Varun, lists the tools he learns and builds with, and showcases three apps (EasyList, TripMate,
-  VocaList) in a swipeable carousel. Each project card links to its own details page (EasyList.html, TripMate.html, VocaList.html).
+  The landing page of the portfolio. It introduces Varun, lists the tools he
+  learns and builds with, and showcases three apps (EasyList, TripMate,
+  VocaList) in a swipeable carousel. Each project card links to its own
+  details page (EasyList.html, TripMate.html, VocaList.html).
 
 MAIN CODE STRUCTURE (top to bottom)
   1. <head>        meta tags, title, then ONE <style> block, organised as:
@@ -24,7 +26,7 @@ MAIN CODE STRUCTURE (top to bottom)
   3. <main>
        #hero       portrait + status dot, name, bio, social icons, My Journey
        #toolbox    Build tools, AI/workflow tools (top three ranked), principles
-       #work       project carousel – one card plus a peek of the next card
+       #work       project carousel – centered card with a peek of its neighbours
   4. <dialog>s     toolModal (shared by all tools), journeyModal, emailModal
   5. <footer>      identity line + technology credit
   6. <script>      a) dialog open/close  b) tool-details content
@@ -32,8 +34,10 @@ MAIN CODE STRUCTURE (top to bottom)
                       and "return to the project I came from" (URL fragments)
 
 PROJECT-RETURN BEHAVIOUR
-  Detail pages should link Home with a fragment (index.html#easyListProject,#tripMateProject or #vocaListProject). The page restores that slide, the dot
-  indicator and the vertical scroll position. Clicking a project also stores the fragment in this page's history entry so the browser Back button works too.
+  Detail pages should link Home with a fragment (index.html#easyListProject,
+  #tripMateProject or #vocaListProject). The page restores that slide, the dot
+  indicator and the vertical scroll position. Clicking a project also stores the
+  fragment in this page's history entry so the browser Back button works too.
 ==============================================================================
 -->
 <meta charset="UTF-8">
@@ -185,9 +189,9 @@ a { color: inherit; text-decoration: none; }
 
 /* --card-w controls how wide a card is. Anything under 100% leaves room for
    the next card to peek in, signalling that there is more to scroll to. */
-.carousel-shell { --card-w: 82%; --gap: 1rem; }
-@media (min-width: 640px)  { .carousel-shell { --card-w: 68%; --gap: 1.25rem; } }
-@media (min-width: 1024px) { .carousel-shell { --card-w: 58%; --gap: 1.5rem; } }
+.carousel-shell { --card-w: 78%; --gap: 1rem; }
+@media (min-width: 640px)  { .carousel-shell { --card-w: 66%; --gap: 1.25rem; } }
+@media (min-width: 1024px) { .carousel-shell { --card-w: 56%; --gap: 1.5rem; } }
 .carousel {
   position: relative;               /* makes slide.offsetLeft relative to the track */
   display: flex; gap: var(--gap);
@@ -196,26 +200,28 @@ a { color: inherit; text-decoration: none; }
   padding-block: .5rem 1rem; border-radius: var(--radius);
 }
 .carousel::-webkit-scrollbar { display: none; }
-.carousel > article { flex: 0 0 var(--card-w); min-width: 0; scroll-snap-align: start; }
-/* Trailing spacer lets the LAST card snap to the left edge like the others. */
-.carousel::after { content: ""; flex: 0 0 calc(100% - var(--card-w) - var(--gap)); }
-.carousel > article { transition: opacity .3s; }
+/* Middle cards snap to the CENTER so both neighbours peek in. The first card
+   snaps to the left edge and the last to the right edge (nothing beyond them). */
+.carousel > article { flex: 0 0 var(--card-w); min-width: 0; scroll-snap-align: center; scroll-snap-stop: always; transition: opacity .3s, transform .3s; }
+.carousel > article:first-child { scroll-snap-align: start; }
+.carousel > article:last-child  { scroll-snap-align: end; }
+.carousel > article:not(.is-active) { opacity: .6; transform: scale(.96); }
 
 .project { height: 100%; display: flex; flex-direction: column; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--line); background: var(--card); box-shadow: var(--shadow); transition: border-color .2s; }
 .project:hover { border-color: rgba(0,113,227,.5); }
 .project > a { display: flex; flex-direction: column; flex: 1; border-radius: var(--radius); }
-.art { position: relative; isolation: isolate; overflow: hidden; min-height: clamp(220px, 30vw, 280px); display: grid; place-items: center; }
-.art::before { content: ""; position: absolute; z-index: -1; width: 240px; height: 240px; border-radius: 50%; background: rgba(255,255,255,.25); }
+.art { position: relative; isolation: isolate; overflow: hidden; min-height: clamp(260px, 38vw, 330px); padding: 1.5rem 1rem 2.75rem; display: grid; place-items: center; }
+.art::before { content: ""; position: absolute; z-index: -1; width: 280px; height: 280px; border-radius: 50%; background: rgba(255,255,255,.25); }
 .art-easy { background: linear-gradient(135deg, #e1f1ff, #c8e1ff 55%, #ddd5ff); }
 .art-trip { background: linear-gradient(135deg, #e1f7e9, #bcebdc 55%, #d8f0ff); }
 .art-voca { background: linear-gradient(135deg, #e6e1ff, #d3d0ff 55%, #cfe6ff); }
 .art-caption { position: absolute; left: 1.25rem; right: 1rem; bottom: 1rem; font-size: .625rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
-.app-icon { width: clamp(104px, 18vw, 132px); height: clamp(104px, 18vw, 132px); border-radius: 23%; overflow: hidden; display: grid; place-items: center; box-shadow: 0 16px 34px rgba(0,0,0,.18); transition: transform .3s; }
+/* Bigger icon, shown in full: no clipping, no rounded mask, no zoom. The image keeps
+   its own aspect ratio and corners; a drop-shadow follows its real outline. */
+.app-icon { width: clamp(150px, 34vw, 190px); display: block; transition: transform .3s; }
 .project:hover .app-icon { transform: scale(1.05); }
-.app-icon img { width: 100%; height: 100%; object-fit: cover; }
-.app-icon.trip { background: #fff; }
-.app-icon.trip img { object-fit: contain; transform: scale(1.6); }   /* crops the image's own padding */
-@media (prefers-color-scheme: dark) { .app-icon.trip { background: #000; } }
+.app-icon picture { display: block; }
+.app-icon img { width: 100%; height: auto; max-height: 190px; object-fit: contain; filter: drop-shadow(0 14px 24px rgba(0,0,0,.22)); }
 
 .project-body { flex: 1; display: flex; flex-direction: column; padding: clamp(1.1rem, 3vw, 1.5rem); }
 .meta { display: flex; justify-content: space-between; gap: .75rem; font-size: .6875rem; color: var(--sub); }
@@ -460,7 +466,7 @@ blockquote { margin: 2rem 0 0; padding: 1.25rem; border-radius: 16px; background
           <article id="tripMateProject" role="group" aria-roledescription="slide" aria-label="2 of 3: TripMate">
             <div class="project"><a href="TripMate.html" aria-label="View TripMate details page">
               <div class="art art-trip" aria-hidden="true">
-                <div class="app-icon trip"><img src="./TripMateIcon.png" alt="TripMate Icon"></div>
+                <div class="app-icon"><img src="./TripMateIcon.png" alt="TripMate Icon"></div>
                 <span class="art-caption" style="color:#506f6e">Your expense mate for the trips</span>
               </div>
               <div class="project-body">
@@ -700,25 +706,34 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateIndicators(index) {
     dots.forEach((dot, i) => i === index ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current'));
     positionText.textContent = `Project ${index + 1} of ${slides.length}: ${projectNames[index]}`;
+    slides.forEach((sl, i) => sl.classList.toggle('is-active', i === index));
     activeIndex = index;
   }
 
-  // Which slide's left edge is closest to the current scroll position?
+  // Scroll position that puts slide i in the middle of the track, clamped so the
+  // first/last card rest against the edges (no empty space beyond them).
+  function targetLeft(i) {
+    const s = slides[i];
+    const centered = s.offsetLeft - (track.clientWidth - s.offsetWidth) / 2;
+    return Math.max(0, Math.min(centered, track.scrollWidth - track.clientWidth));
+  }
+
+  // Which slide is closest to its snap position right now?
   function nearestSlide() {
     let nearest = 0, best = Infinity;
     slides.forEach((s, i) => {
-      const d = Math.abs(track.scrollLeft - s.offsetLeft);
+      const d = Math.abs(track.scrollLeft - targetLeft(i));
       if (d < best) { best = d; nearest = i; }
     });
     return nearest;
   }
 
-  // Scroll the track so slide `index` sits at the left edge (next card peeks in on the right).
+  // Scroll so slide `index` is centered (neighbours peek in on both sides when they exist).
   function goToProject(index, immediate = false) {
     const target = Math.max(0, Math.min(index, slides.length - 1));
     const instant = immediate || reducedMotion.matches;
     if (instant) updateIndicators(target);   // set state first so resize callbacks can't undo it
-    track.scrollTo({ left: slides[target].offsetLeft, behavior: instant ? 'instant' : 'smooth' });
+    track.scrollTo({ left: targetLeft(target), behavior: instant ? 'instant' : 'smooth' });
   }
 
   // Bring the carousel into view vertically, below the sticky header.
@@ -776,8 +791,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Before leaving for a project page, store its fragment in THIS history entry
   // so the browser Back button returns to the same slide (replaceState adds no entry).
-  slides.forEach(slide => {
+  slides.forEach((slide, i) => {
     slide.querySelector('a[href]')?.addEventListener('click', e => {
+      // Tapping a peeking neighbour brings it to the middle instead of opening it.
+      if (i !== activeIndex) { e.preventDefault(); goToProject(i); return; }
       if (e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
       try {
         const url = new URL(location.href);
