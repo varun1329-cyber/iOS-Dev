@@ -211,17 +211,15 @@ a { color: inherit; text-decoration: none; }
 .project:hover { border-color: rgba(0,113,227,.5); }
 .project > a { display: flex; flex-direction: column; flex: 1; border-radius: var(--radius); }
 .art { position: relative; isolation: isolate; overflow: hidden; min-height: clamp(260px, 38vw, 330px); padding: 1.5rem 1rem 2.75rem; display: grid; place-items: center; }
-.art::before { content: ""; position: absolute; z-index: -1; width: 280px; height: 280px; border-radius: 50%; background: rgba(255,255,255,.25); }
 .art-easy { background: linear-gradient(135deg, #e1f1ff, #c8e1ff 55%, #ddd5ff); }
 .art-trip { background: linear-gradient(135deg, #e1f7e9, #bcebdc 55%, #d8f0ff); }
 .art-voca { background: linear-gradient(135deg, #e6e1ff, #d3d0ff 55%, #cfe6ff); }
 .art-caption { position: absolute; left: 1.25rem; right: 1rem; bottom: 1rem; font-size: .625rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
-/* Bigger icon, shown in full: no clipping, no rounded mask, no zoom. The image keeps
-   its own aspect ratio and corners; a drop-shadow follows its real outline. */
+/* Large icon shown in full (no crop, no zoom, no circle behind it) with 22% rounded corners. */
 .app-icon { width: clamp(150px, 34vw, 190px); display: block; transition: transform .3s; }
 .project:hover .app-icon { transform: scale(1.05); }
 .app-icon picture { display: block; }
-.app-icon img { width: 100%; height: auto; max-height: 190px; object-fit: contain; filter: drop-shadow(0 14px 24px rgba(0,0,0,.22)); }
+.app-icon img { width: 100%; height: auto; max-height: 190px; object-fit: contain; border-radius: 22%; filter: drop-shadow(0 14px 24px rgba(0,0,0,.22)); }
 
 .project-body { flex: 1; display: flex; flex-direction: column; padding: clamp(1.1rem, 3vw, 1.5rem); }
 .meta { display: flex; justify-content: space-between; gap: .75rem; font-size: .6875rem; color: var(--sub); }
@@ -710,8 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
     activeIndex = index;
   }
 
-  // Scroll position that puts slide i in the middle of the track, clamped so the
-  // first/last card rest against the edges (no empty space beyond them).
+  // Scroll position that centers slide i, clamped so first/last cards rest at the edges.
   function targetLeft(i) {
     const s = slides[i];
     const centered = s.offsetLeft - (track.clientWidth - s.offsetWidth) / 2;
